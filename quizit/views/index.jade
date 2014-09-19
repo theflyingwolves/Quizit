@@ -3,3 +3,11 @@ extends layout
 block content
   h1= title
   p Welcome to #{title}
+  .item.add-task
+    div.action
+      form(action='/contribute', method='post')
+        input(type='hidden', value=locals._csrf, name='_csrf')
+        div.name
+          input(type='text', name='name', placeholder='Add a new quiz')
+        div.delete
+          input.btn.btn-primary.btn-sm(type="submit", value='add')  
