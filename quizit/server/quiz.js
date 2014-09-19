@@ -1,6 +1,3 @@
-
-
-
 exports.list = function(req, res, next){
   req.db.questionbase.find({}).toArray(function(error, questionbase){
     if (error) return next(error);
@@ -18,4 +15,4 @@ exports.contributeQuestion = function(req, res, next){
     console.info('Added %s with id=%s', quiz.question, quiz._id);
     res.redirect('/');
   })
-}
+};
