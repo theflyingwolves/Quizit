@@ -43,6 +43,7 @@ app.use('/userbaseinit',userbase.userbaseinit);
 app.use('/bonusbaseinit',bonusbase.init);
 app.get('/quiz',quiz.list);
 app.post('/contribute',quiz.contributeQuestion);
+app.post('/bonusbasequery/getbonusforchallenger',bonusbase.getbonusForChallenger);
 
 app.get('/render', function(req,res,next){
     req.db.userbase.find({}).toArray(function(error,userbase ){

@@ -53,23 +53,26 @@ bonusbasequery.getbonus = function(req,res,next){
 	var challenger_id = req.body.challenger_id;
 	var challengee_id = req.body.challengee_id;
 
-	var result = db.find({
-		"challenger_id":challenger_id,
-		"challengee_id":challengee_id
-	});
+	db.find({
+		challenger_id:challenger_id,
+		challengee_id:challengee_id
+	}).toArray(function(error, bonusbase){
+    if (error) return next(error);
+		res.send(bonusbase);
+  });
 
-	res.send(result);
 };
 
 bonusbasequery.getbonusForChallenger = function(req,res,next){
 	var db = req.db.bonusbase;
 	var challenger_id = req.body.challenger_id;
 
-	var result = db.find({
+	db.find({
 		"challenger_id":challenger_id
+	}).toArray(function(error,data){
+		if (error) return next(error);
+		res.send(data);
 	});
-
-	res.send(result);
 };
 
 
@@ -77,38 +80,39 @@ bonusbasequery.getbonusForChallengee = function(req,res,next){
 	var db = req.db.bonusbase;
 	var challengee_id = req.body.challengee_id;
 
-	var result = db.find({
+	db.find({
 		"challengee_id":challengee_id
+	}).toArray(function(error,data){
+		if (error) return next(error);
+		res.send(data);
 	});
-
-	res.send(result);
 };
 
 bonusbasequery.addbonus = function(req,res,next){
 	var db = req.db.bonusbase;
-	var bonusToAdd = req.body.bonusToAdd
+	var bonusToAdd = req.body.bonusToAdd;
 	var challenger_id = bonusToAdd.challenger_id;
 	var challengee_id = bonusToAdd.challengee_id;
 
-	var entry = db.find({
+	db.find({
 		"challenger_id":challenger_id,
 		"challengee_id":challengee_id
+	}).toArray(function(error,entry){
+		if(entry.length == 0){
+			db.insert(bonusToAdd);
+		}else{
+			var bonusArray = bonusToAdd.bonus;
+			db.update({
+				"challenger_id":challenger_id,
+				"challengee_id":challengee_id
+			},
+			{
+				"$push":{
+					"bonus":{"$each":bonusArray}
+				}
+			});
+		}
 	});
-
-	if(entry.length == 0){
-		db.insert(bonusToAdd);
-	}else{
-		var bonusArray = bonusToAdd.bonus;
-		db.update({
-			"challenger_id":challenger_id,
-			"challengee_id":challengee_id
-		},
-		{
-			"$push":{
-				"bonus":{"$each",bonusArray}
-			}
-		});
-	}
 };
 
 module.exports = bonusbasequery;

@@ -10,4 +10,13 @@ block content
         div.name
           input(type='text', name='name', placeholder='Add a new quiz')
         div.delete
-          input.btn.btn-primary.btn-sm(type="submit", value='add')  
+          input.btn.btn-primary.btn-sm(type="submit", value='add')
+
+    div.bonusbase
+      form(action='/bonusbasequery/getbonusforchallenger',method='post')
+        input(type='hidden', value=locals._csrf, name='_csrf')
+        div.challengerid
+          input(type='text', name='challenger_id', placeholder='challenger_id')
+          input(type='text', name='challengee_id', placeholder='challenger_id')
+        div.submit
+          input.btn.btn-primary.btn-sm(type="submit", value='Get Bonus')
