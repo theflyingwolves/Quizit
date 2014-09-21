@@ -1,6 +1,6 @@
 var express = require('express');
 var path = require('path');
-var favicon = require('serve-favicon');
+var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
@@ -10,7 +10,7 @@ var db = mongoskin.db('mongodb://localhost:27017/quizit?auto_reconnect', {safe:t
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var quiz = require('./routes/quiz');
+var quiz = require('./server/quiz');
 
 var app = express();
 
@@ -18,11 +18,12 @@ app.use(function(req, res, next) {
   req.db = {};
   req.db.userbase = db.collection('userbase');
   req.db.questionbase = db.collection('questionbase');
+  req.db.challengebase = db.collection('challengebase');
   next();
 })
 
 // view engine setup
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 8001);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -36,8 +37,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.get('/quiz',quiz.list);
+app.get('/quiz',quiz.listQuestions);
 app.post('/contribute',quiz.contributeQuestion);
+app.post('/challenges', quiz.recordChallenge);
+app.get('/challengeOut', quiz.getYouKnowBest);
+app.get('/challengeIn', quiz.getKnowYouBest);
 
 app.get('/render', function(req,res,next){
     req.db.userbase.find({}).toArray(function(error,userbase ){
