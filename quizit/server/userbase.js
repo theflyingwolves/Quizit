@@ -80,13 +80,13 @@ userbasequery.init = function(req,res,next){
 		if (error) return next(error);
 		if (!users) return next(new Error('Failed to save.'));
 		console.log("All Users Successfully Saved");
-		res.redirect("/");
 	});
 };
 
 userbasequery.login = function(req,res,next){
 	var facebook_account = req.body.facebook_account;
-	req.db.userbase.find({"facebook_account":facebook_account}).toArray(function(error,data){
+	var password = req.body.password;
+	req.db.userbase.find({"facebook_account":facebook_account,"password":password}).toArray(function(error,data){
 		if(data.length == 0){
 			res.cookie('user',{'status':'failed','facebook_account':facebook_account});
 		}else{

@@ -12,6 +12,7 @@ var routes = require('./routes/index');
 var users = require('./routes/users');
 var quiz = require('./server/quiz');
 var userbase = require('./server/userbase');
+var dbinit = require('./server/databaseInit');
 var bonusbase = require('./server/bonusbase.js');
 
 var app = express();
@@ -42,6 +43,7 @@ app.use('/users', users);
 app.use('/userbaseinit',userbase.init);
 app.use('/userLoginRedirect',userbase.userLoginRedirect);
 app.use('/bonusbaseinit',bonusbase.init);
+app.use('/databaseinit',dbinit.init);
 app.get('/quiz',quiz.list);
 app.post('/userlogin',userbase.login);
 app.post('/contribute',quiz.contributeQuestion);
