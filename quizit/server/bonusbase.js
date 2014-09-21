@@ -39,12 +39,11 @@ var dummybonusdata = [
 ];
 
 bonusbasequery.init = function(req,res,next){
-	var db = req.db.bonusbase;
-	db.insert(dummybonusdata,function(error,bonus){
+	req.db.bonusbase.drop();
+	req.db.bonusbase.insert(dummybonusdata,function(error,bonus){
 		if (error) return next(error);
 		if (!bonus) return next(new Error('Failed to save.'));
-		console.log("All Users Successfully Saved");
-		res.redirect("/");
+		console.log("All bonus challenges Successfully Saved");
 	})
 };
 

@@ -10,10 +10,14 @@ var db = mongoskin.db('mongodb://localhost:27017/quizit?auto_reconnect', {safe:t
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
-var quiz = require('./server/quiz');
+var quiz = require('./routes/quiz');
+var challenges = require('./routes/challenges');
+var bonusquery = require('./routes/bonusquery');
+
 var userbase = require('./server/userbase');
 var dbinit = require('./server/databaseInit');
-var bonusbase = require('./server/bonusbase.js');
+var bonusbase = require('./server/bonusbase');
+var questionbase = require('./server/questionbase');
 
 var app = express();
 
@@ -41,28 +45,19 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.get('/quiz',quiz.listQuestions);
-app.post('/contribute',quiz.contributeQuestion);
-app.post('/challenges', quiz.recordChallenge);
-app.get('/challengeOut', quiz.getYouKnowBest);
-app.get('/challengeIn', quiz.getKnowYouBest);
-app.use('/userbaseinit',userbase.init);
-app.use('/userLoginRedirect',userbase.userLoginRedirect);
-app.use('/bonusbaseinit',bonusbase.init);
-app.use('/databaseinit',dbinit.init);
-app.get('/quiz',quiz.list);
-app.post('/userlogin',userbase.login);
-app.post('/contribute',quiz.contributeQuestion);
-app.post('/bonusbasequery/getbonusforchallenger',bonusbase.getbonusForChallenger);
+app.use('/quiz',quiz);
+app.use('/challenges', challenges);
+app.use('/bonus', bonusquery);
 
-app.get('/render', function(req,res,next){
-    req.db.userbase.find({}).toArray(function(error,userbase ){
-    if (error) return next(error);
-    res.send(
-        userbase
-    );
-  });
-});
+//user login
+app.use('/userLoginRedirect',userbase.userLoginRedirect);
+app.post('/userlogin',userbase.login);
+
+//database initialization: just call databaseinit router will init the whole db
+app.use('/databaseinit',dbinit.init);
+app.use('/userbaseinit',userbase.init);
+app.use('/bonusbaseinit',bonusbase.init);
+app.use('/questionbaseinit',questionbase.init);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

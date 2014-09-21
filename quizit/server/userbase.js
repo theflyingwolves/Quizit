@@ -76,6 +76,7 @@ var dummyusers = [{
 }];
 
 userbasequery.init = function(req,res,next){
+	req.db.userbase.drop();
 	req.db.userbase.insert(dummyusers,function(error,users){
 		if (error) return next(error);
 		if (!users) return next(new Error('Failed to save.'));
