@@ -1,24 +1,100 @@
 body{
-background-image: url('../img/bg1.jpg');
-font-family: 'Reenie Beanie', cursive;
+background-image: url('../img/bg2.jpg');
+font-family: 'Shadows Into Light', cursive;
 }
-h1, h2, h3, h4, h5, h6
+h1, h2, h3, h4, h5, h6, a
 {
 	font-family: 'Amatic SC', cursive;
 }
 h1{
-	font-size: 24px;
+	font-size: 1.5em;
+	text-align: center;
 }
 a{
 	font-weight: bold;
 }
-.bar-header h1{
-	font-family: 'Oswald', sans-serif;
+
+/*Sidemenu indicator*/
+.sideindicate{
+	width: 0;
+	height: 0;
+	border-style: solid;
+	border-width: 10px 0 10px 17.32px;
+	border-color: transparent transparent transparent yellow;
+	position: fixed;
+	top: 10px;
+	left: 5px;
+}
+
+/*For the title area*/
+.header{
+	width: 0;
+	height: 0;
+	margin:auto;
+	margin-bottom: 5%;
+	border-style: solid;
+	border-width: 100px 100px 0 100px;
+	border-color: #111 transparent transparent transparent;
+}
+
+.header h1 {
+/*	font-family: 'Oswald', sans-serif;*/	
 	font-weight: bold;
+	top: -100%;
+	left: -17px;
+	position: relative;
+	color: #fff;
 }
-.bar-subheader, .bar-footer{
+
+
+/*For the login, intro and other windows*/
+.window-float{
+	margin-top: 90%;
+	margin: auto;
+	width: 70%;
+	max-width: 300px;
+	padding: 3%;
+	background-color: white;
+	opacity: 0.95;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.content{
+	width: 90%;
+	margin: auto;
+	margin-top: 15%;
+	margin-bottom: 30%;
+}
+
+#Facebook, #Google,#Cancel,#Verify{
+	padding-top: 10%;
+	color: #00BFAA;
+	font-size: 2em;
+	width: 40%;
+	text-decoration: none;
+}
+#Facebook:active, #Google:active,#Cancel:active, #Verify:active{
+	color: yellow;
+}
+#Facebook, #Cancel{
+	text-align: right;
+	float: left;
+}
+
+#Google, #Verify{
+	float: right;
+	text-align: left;
+}
+
+/*For Footer*/
+.footer{
 	opacity: 0.7;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	font-size: 0.8em;
 }
+
 /*Verify+login*/
 .main{
 	font-family: 'Waiting for the Sunrise', cursive;
@@ -73,5 +149,5 @@ a{
 	color: white;
 	height: 140px;
 	font-size: 20px;
-	opacity: 0.7;
+	opacity: 0.8;
 }
