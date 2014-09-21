@@ -20,3 +20,10 @@ block content
           input(type='text', name='challengee_id', placeholder='challenger_id')
         div.submit
           input.btn.btn-primary.btn-sm(type="submit", value='Get Bonus')
+
+    div
+      form(action='/userlogin',method='post')
+        div
+          input(type='text', name='facebook_account', placebolder='facebook_account')
+        div
+          input(type="submit",value="Log In")

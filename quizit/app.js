@@ -11,7 +11,7 @@ var db = mongoskin.db('mongodb://localhost:27017/quizit?auto_reconnect', {safe:t
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var quiz = require('./server/quiz');
-var userbase = require('./server/userbaseinit');
+var userbase = require('./server/userbase');
 var bonusbase = require('./server/bonusbase.js');
 
 var app = express();
@@ -39,9 +39,11 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
 app.use('/users', users);
-app.use('/userbaseinit',userbase.userbaseinit);
+app.use('/userbaseinit',userbase.init);
+app.use('/userLoginRedirect',userbase.userLoginRedirect);
 app.use('/bonusbaseinit',bonusbase.init);
 app.get('/quiz',quiz.list);
+app.post('/userlogin',userbase.login);
 app.post('/contribute',quiz.contributeQuestion);
 app.post('/bonusbasequery/getbonusforchallenger',bonusbase.getbonusForChallenger);
 

@@ -10,7 +10,7 @@ var dummybonusdata = [
 			"result":"positive",
 			"status":"verified"
 		},
-
+		
 		{
 			"question_id":"541c19e639e965a74f53ebe4",
 			"choice":"Y",
@@ -74,7 +74,6 @@ bonusbasequery.getbonusForChallenger = function(req,res,next){
 		res.send(data);
 	});
 };
-
 
 bonusbasequery.getbonusForChallengee = function(req,res,next){
 	var db = req.db.bonusbase;
