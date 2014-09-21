@@ -40,3 +40,20 @@ block content
           input(type='text', name='challengeeID', placeholder='Enter challengeeID')
         div.delete
           input.btn.btn-primary.btn-sm(type="submit", value='search')
+
+    div.bonusbase
+      form(action='/bonusbasequery/getbonusforchallenger',method='post')
+        input(type='hidden', value=locals._csrf, name='_csrf')
+        div.challengerid
+          input(type='text', name='challenger_id', placeholder='challenger_id')
+          input(type='text', name='challengee_id', placeholder='challenger_id')
+        div.submit
+          input.btn.btn-primary.btn-sm(type="submit", value='Get Bonus')
+
+    div
+      form(action='/userlogin',method='post')
+        div
+          input(type='text', name='facebook_account', placebolder='facebook_account')
+          input(type='password', name='password', placebolder='password')
+        div
+          input(type="submit",value="Log In")

@@ -11,6 +11,9 @@ var db = mongoskin.db('mongodb://localhost:27017/quizit?auto_reconnect', {safe:t
 var routes = require('./routes/index');
 var users = require('./routes/users');
 var quiz = require('./server/quiz');
+var userbase = require('./server/userbase');
+var dbinit = require('./server/databaseInit');
+var bonusbase = require('./server/bonusbase.js');
 
 var app = express();
 
@@ -19,11 +22,12 @@ app.use(function(req, res, next) {
   req.db.userbase = db.collection('userbase');
   req.db.questionbase = db.collection('questionbase');
   req.db.challengebase = db.collection('challengebase');
+  req.db.bonusbase = db.collection('bonusbase');
   next();
 })
 
 // view engine setup
-app.set('port', process.env.PORT || 8001);
+app.set('port', process.env.PORT || 8000);
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
@@ -42,6 +46,14 @@ app.post('/contribute',quiz.contributeQuestion);
 app.post('/challenges', quiz.recordChallenge);
 app.get('/challengeOut', quiz.getYouKnowBest);
 app.get('/challengeIn', quiz.getKnowYouBest);
+app.use('/userbaseinit',userbase.init);
+app.use('/userLoginRedirect',userbase.userLoginRedirect);
+app.use('/bonusbaseinit',bonusbase.init);
+app.use('/databaseinit',dbinit.init);
+app.get('/quiz',quiz.list);
+app.post('/userlogin',userbase.login);
+app.post('/contribute',quiz.contributeQuestion);
+app.post('/bonusbasequery/getbonusforchallenger',bonusbase.getbonusForChallenger);
 
 app.get('/render', function(req,res,next){
     req.db.userbase.find({}).toArray(function(error,userbase ){

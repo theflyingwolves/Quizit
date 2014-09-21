@@ -1,8 +1,5 @@
-
-
-
-exports.listQuestions = function(req, res, next){
-  req.db.questionbase.find().toArray(function(error, questionbase){
+exports.list = function(req, res, next){
+  req.db.questionbase.find({}).toArray(function(error, questionbase){
     if (error) return next(error);
     res.send(questionbase);
   });
@@ -18,7 +15,7 @@ exports.contributeQuestion = function(req, res, next){
     console.info('Added %s with id=%s', quiz.question, quiz._id);
     res.redirect('/');
   })
-}
+};
 
 exports.recordChallenge = function(req, res, next){
   if(!req.body || !req.body.challengerID || !req.body.challengeeID || !req.body.result) 
@@ -54,4 +51,3 @@ exports.getKnowYouBest = function(req, res, next) {
     res.send(challengebase);
   })
 }
-
