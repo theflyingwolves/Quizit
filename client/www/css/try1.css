@@ -1,5 +1,6 @@
+
 body{
-background-image: url('../img/bg2.jpg');
+/*background-image: url('../img/bg2.jpg');*/
 font-family: 'Shadows Into Light', cursive;
 }
 h1, h2, h3, h4, h5, h6, a
@@ -38,12 +39,15 @@ a{
 }
 
 .header h1 {
-/*	font-family: 'Oswald', sans-serif;*/	
+	/*font-family: 'Oswald', sans-serif;*/
 	font-weight: bold;
-	top: -100%;
-	left: -17px;
+	top: -80%;
+	left: -50px;
+	width: 100%;
 	position: relative;
 	color: #fff;
+	line-height: 1;
+	width: 100px;
 }
 
 
@@ -122,15 +126,18 @@ a{
 #Verify-Question{
 	margin-top: 50px;
 }
+
 .yes-button{
 	background-color: #96C48C;
 	height: 70px;
 	padding: 20px;
 	margin-top: 15px;
 }
+
 .yes-button:hover{
 	background-color: #75AC65;
 }
+
 .no-button{
 	background-color: #CC9E91;
 	padding-top: 20px;
@@ -138,9 +145,11 @@ a{
 	padding: 20px;
 	margin-bottom: 5px;
 }
+
 .no-button:hover{
 	background-color: #C96E85;
 }
+
 .question{
 	background-color: #444444;
 	padding: 20px;
