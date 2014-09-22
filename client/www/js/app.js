@@ -20,50 +20,102 @@ angular.module('quizit', ['ionic'])
 })
 
 .config(function($stateProvider, $urlRouterProvider){
-  $urlRouterProvider.otherwise('/')
+  $urlRouterProvider.otherwise('/app/home')
 
-  $stateProvider.state('home', {
-    url: '/',
-    templateUrl: 'home.html'
+  $stateProvider.state('app',{
+      url: "/app",
+      abstract: true,
+      templateUrl: "menu.html",
+      controller: 'sidebarCtrl'
   })
 
-  $stateProvider.state('questions',{
-    url: '/questions',
-    templateUrl: 'questions.html'
-  })
-})
-
-.factory('Projects', function() {
-  return {
-    all: function() {
-      var projectString = window.localStorage['projects'];
-      if(projectString) {
-        return angular.fromJson(projectString);
+  .state('app.home',{
+    url: '/home',
+    views:{
+      home:{
+        templateUrl:'home.html'
       }
-      return [];
-    },
-    save: function(projects) {
-      window.localStorage['projects'] = angular.toJson(projects);
-    },
-    newProject: function(projectTitle) {
-      // Add a new project
-      return {
-        title: projectTitle,
-        tasks: []
-      };
-    },
-    getLastActiveIndex: function() {
-      return parseInt(window.localStorage['lastActiveProject']) || 0;
-    },
-    setLastActiveIndex: function(index) {
-      window.localStorage['lastActiveProject'] = index;
     }
-  }
+  })
+
+  .state('app.questions',{
+    url: '/questions',
+    views:{
+      questions:{
+        templateUrl:"questions.html"
+      }
+    }
+  })
+
+  // $stateProvider.state('home', {
+  //   url: '/home',
+  //   views:{
+  //     home:{
+  //       templateUrl:'home.html',
+  //       controller:'sidebarCtrl'
+  //     }
+  //   }
+  // })
+
+  // $stateProvider.state('questions',{
+  //   url: '/questions',
+  //   views:{
+  //     questions:{
+  //       templateUrl:"questions.html",
+  //       controller:'sidebarCtrl'
+  //     }
+  //   }
+  // })
 })
 
 .controller('bodyCtrl',function($scope){
-  console.log("logging");
   $scope.bodyBackground = {
     background:'url(../img/bg2.jpg)'
   };
+})
+
+.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
+  $scope.sidebarData = [{
+    linkId:"menu-item-1",
+    imgSrc:"img/lightbulb-outline.png",
+    title:"Take a Challenge",
+    linkAddress:"#/app/home"
+  },
+  {
+    linkId:"menu-item-2",
+    imgSrc:"img/star-outline.png",
+    title:"Leadership Board",
+    linkAddress:"#/app/home"
+  },
+  {
+    linkId:"menu-item-3",
+    imgSrc:"img/glasses-outline.png",
+    title:"History",
+    linkAddress:"#/app/questions"
+  },
+  
+  {
+    linkId:"menu-item-5",
+    imgSrc:"img/chatbubble-outline.png",
+    title:"Notifice",
+    linkAddress:"#/app/questions"
+  },
+
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"My Profile",
+    linkAddress:"#/app/questions"
+  }];
+
+  $scope.toggleSidebar = function(){
+    $ionicSideMenuDelegate.toggleLeft();
+  };
+
+  $scope.selectSideItem = function(item, index){
+    $scope.activeItem = item;
+    $ionicSideMenuDelegate.toggleLeft(false);
+  };
+
+  $scope.activeItem = undefined;
 })
