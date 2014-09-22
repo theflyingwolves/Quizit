@@ -35,10 +35,13 @@
 			</div>
 		</div>
 		</ion-content>
-	  <ion-footer-bar class="bar-stable">
-        <div class="button-bar">
-			<a class="button button-positive" ng-click="addAnswer('Yes')">Yes</a>
-			<a class="button button-assertive" ng-click="addAnswer('No')">No</a>
+		<div class="bar bar-footer idle" ng-hide="isIdleHidden">
+			{{friend.name}} is typing<span class="one">.</span><span class="two">.</span><span class="three">.</span>
+		​</div>
+	  <ion-footer-bar class="tall-footer">
+        <div class="button-bar button-bottom">
+			<button class="button button-positive" ng-click="addAnswer('Yes')" ng-disabled="isButtonDisabled">Yes</button>
+			<button class="button button-assertive" ng-click="addAnswer('No')" ng-disabled="isButtonDisabled">No</button>
 		</div>
 	  </ion-footer-bar>
     </ion-pane>
