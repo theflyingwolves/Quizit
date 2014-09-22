@@ -19,6 +19,20 @@ angular.module('quizit', ['ionic'])
   });
 })
 
+.config(function($stateProvider, $urlRouterProvider){
+  $urlRouterProvider.otherwise('/')
+
+  $stateProvider.state('home', {
+    url: '/',
+    templateUrl: 'home.html'
+  })
+
+  $stateProvider.state('questions',{
+    url: '/questions',
+    templateUrl: 'questions.html'
+  })
+})
+
 .factory('Projects', function() {
   return {
     all: function() {
