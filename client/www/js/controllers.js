@@ -5,37 +5,39 @@ angular.module('quizit.controllers', [])
 		background : 'url(../img/bg2.jpg)'
 	};
 })
+.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
+  $scope.sidebarData = [{
+    linkId:"menu-item-1",
+    imgSrc:"img/lightbulb-outline.png",
+    title:"Take a Challenge",
+    linkAddress:"#/app/challenge"
+  },
+  {
+    linkId:"menu-item-2",
+    imgSrc:"img/star-outline.png",
+    title:"Leadership Board",
+    linkAddress:"#/app/friends"
+  },
+  {
+    linkId:"menu-item-3",
+    imgSrc:"img/glasses-outline.png",
+    title:"History",
+    linkAddress:"#/app/questions"
+  },
+  
+  {
+    linkId:"menu-item-5",
+    imgSrc:"img/chatbubble-outline.png",
+    title:"Notifice",
+    linkAddress:"#/app/questions"
+  },
 
-.controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
-	$scope.sidebarData = [{
-			linkId : "menu-item-1",
-			imgSrc : "img/lightbulb-outline.png",
-			title : "Take a Challenge",
-			linkAddress : "#/app/challenge"
-		}, {
-			linkId : "menu-item-2",
-			imgSrc : "img/star-outline.png",
-			title : "Leadership Board",
-			linkAddress : "#/app/home"
-		}, {
-			linkId : "menu-item-3",
-			imgSrc : "img/glasses-outline.png",
-			title : "History",
-			linkAddress : "#/app/questions"
-		},
-		{
-			linkId : "menu-item-5",
-			imgSrc : "img/chatbubble-outline.png",
-			title : "Notifice",
-			linkAddress : "#/app/questions"
-		},
-		{
-			linkId : "menu-item-4",
-			imgSrc : "img/contact-outline.png",
-			title : "My Profile",
-			linkAddress : "#/app/questions"
-		}
-	];
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"My Profile",
+    linkAddress:"#/app/questions"
+  }];
 
 	$scope.toggleSidebar = function () {
 		$ionicSideMenuDelegate.toggleLeft();
@@ -47,6 +49,29 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.activeItem = undefined;
+})
+
+.controller('FriendListCtrl',function($scope){
+  $scope.friends = [{
+    name:"Wang Kunzhen",
+    image:"img/chatbubble-outline.png"
+  },
+  {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  }];
+
+  $scope.selectFriend = function(friend){
+
+  };
 })
 
 .controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate) {
@@ -131,6 +156,7 @@ angular.module('quizit.controllers', [])
 			console.log('Tapped!', res);
 		});
 	};
+
 	$scope.isButtonDisabled = false;
 	$scope.isIdleHidden = true;
 	$scope.addAnswer = function (userAns) {

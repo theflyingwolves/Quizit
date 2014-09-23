@@ -57,4 +57,14 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
       }
     }
   })
+
+  .state('app.friendlist',{
+    url:'/friends',
+    views:{
+      content:{
+        templateUrl:"templates/friendList.html",
+        controller:'FriendListCtrl'
+      }
+    }
+  })
 })

@@ -1,0 +1,10 @@
+<ion-view ng-style="bodyBackground">
+	<div class="window-float">
+		<div class="row responsive-sm" ng-repeat="friend in friends">
+			<div class="col" style="border:5px solid">
+				<img src="{{friend.image}}" />
+				<p>{{friend.name}}</p>
+			</div>
+		</div>
+	</div>
+</ion-view>
