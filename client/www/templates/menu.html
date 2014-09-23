@@ -4,12 +4,12 @@
     <ion-nav-view name="content" animation="slide-left-right"></ion-nav-view>
   </ion-pane>
 
-  <ion-side-menu side="left" width="100">
+  <ion-side-menu side="left" width="140">
     <ion-content scroll="false">
-        <ion-list>
+        <ion-list class="menu">
             <ion-item ng-repeat="data in sidebarData" ng-click="selectSideItem(data,$index)" ng-class="{active: activeItem == undefined? $index == 0 : activeItem == data}" href="{{data.linkAddress}}">
                     <img src="{{data.imgSrc}}" />
-                    <div>{{data.title}}</div>
+                    <div class="menuwhole"><div class="menulist">{{data.title}}</div></div>
             </ion-item>
         </ion-list>
     </ion-content>
