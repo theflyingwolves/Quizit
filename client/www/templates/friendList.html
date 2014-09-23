@@ -3,7 +3,7 @@
       <h1>Your Friends</h1>
   </div>
   <div class="main">
-		<ion-content scroll="true">
+		<ion-content scroll="true" style="top: 11%">
 		<div class="friend-list-container">
 		<div class="row responsive-sm" ng-repeat="friend in friends track by $index" ng-if="$index%2==0">
 			<div class="col friend-item" ng-repeat="i in [$index,$index+1]" ng-if="friends[i]!=null" style="border:2px solid;margin:2px;">
