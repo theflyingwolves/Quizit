@@ -177,13 +177,13 @@ height: 100%;
     width: 40%;
 }
 
-
 #menu-item-1, #menu-item-2,#menu-item-3, #menu-item-4, #menu-item-5{
 opacity: 1;
 text-align: center;
 position: relative;
 margin-bottom: -10%;
 }
+
 #menu-item-1 .menulist, #menu-item-2 .menulist, #menu-item-3 .menulist, #menu-item-4 .menulist, #menu-item-5 .menulist{
 	position: absolute;
 	text-align: center;
@@ -192,6 +192,7 @@ margin-bottom: -10%;
 	width: 70%;
 	margin-left: 10%;
 }
+
 #menu-item-1{
 /*background-color: #EBAD49;
 */}

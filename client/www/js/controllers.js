@@ -17,7 +17,7 @@ angular.module('quizit.controllers', [])
     linkId:"menu-item-2",
     imgSrc:"img/star-outline.png",
     title:"Leadership Board",
-    linkAddress:"#/app/home"
+    linkAddress:"#/app/friends"
   },
   {
     linkId:"menu-item-3",
@@ -50,6 +50,29 @@ angular.module('quizit.controllers', [])
   };
 
   $scope.activeItem = undefined;
+})
+
+.controller('FriendListCtrl',function($scope){
+  $scope.friends = [{
+    name:"Wang Kunzhen",
+    image:"img/chatbubble-outline.png"
+  },
+  {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  }];
+
+  $scope.selectFriend = function(friend){
+
+  };
 })
 
 .controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate) {
@@ -128,6 +151,7 @@ angular.module('quizit.controllers', [])
 			console.log('Tapped!', res);
 		});
 	};
+
 	$scope.isButtonDisabled = false;
 	$scope.isIdleHidden = true;
 	$scope.addAnswer = function (userAns) {
