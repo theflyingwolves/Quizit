@@ -95,8 +95,8 @@ angular.module('quizit.controllers', [])
   ];
 
   $scope.selectFriend = function(friend){
-
-	$scope.selectFriend = function (friend) {};
+  };
+  
 })
 
 .controller('HistoryCtrl',function($scope){
