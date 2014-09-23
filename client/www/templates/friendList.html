@@ -1,4 +1,8 @@
 <ion-view ng-style="bodyBackground" scroll="true">
+  <div class="header">
+      <h1>Your Friends</h1>
+  </div>
+  <div class="main">
 		<ion-content scroll="true">
 		<div class="friend-list-container">
 		<div class="row responsive-sm" ng-repeat="friend in friends track by $index" ng-if="$index%2==0">
@@ -9,4 +13,5 @@
 		</div>
 		</div>
 	</ion-content>
+	</div>
 </ion-view>

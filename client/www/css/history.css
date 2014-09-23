@@ -1,8 +1,8 @@
 /*For the login, intro and other windows*/
-.friend-list-container{
+.history-list-container{
 	margin-top: 90%;
 	margin: auto;
-	width: 70%;
+	width: 85%;
 	/* max-width: 300px; */
 	padding: 3%;
 	padding-left: 15%;
