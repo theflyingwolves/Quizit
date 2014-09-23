@@ -98,4 +98,9 @@
 	font-size: 1.5rem;
 	color: red;
 }
+
+.sub{
+	width: 100%;
+	height: 10%;
+}
 /* END_OF Style for chat template */
