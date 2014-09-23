@@ -82,10 +82,11 @@ angular.module('quizit.controllers', [])
 			ans : "No"
 		}
 	];
-	var wrongAns = ["Hmm wrong. ", "Ok try again with this one. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake, let's try the next one. ",
-		"Oh well...", "I can't believe you can't get this correct :( Ok next. ", "I'm sad :( ", "This one you should be able to get correct. ", "Life is hard, right? Let's move on: "];
-	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ", "Good. Now next question: ",
+	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
+		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
+	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
 		"You seem to be good with this. "];
+	var preQns = ["Ok here is the next question: ", "Next question: ", "Next: ", "Ok here is the next one: ", "Let's move on: ", "This is the next question: "]
 	var lastQns = ["Ok this is the last question. ", "This is the last one: ", "Good work. Here is the last question: "];
 	$scope.texts = [];
 	$scope.QAindex = 0;
@@ -163,7 +164,7 @@ angular.module('quizit.controllers', [])
 					} else {
 						nextQnsContent = (answer.correct) ? correctAns[Math.floor(Math.random() * correctAns.length)] : wrongAns[Math.floor(Math.random() * wrongAns.length)];
 					}
-					nextQnsContent = nextQnsContent + (10-newDeduct) + ' points. ' + $scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + 'You got ' + (10 - newDeduct) + ((newDeduct>=9)?' point. ':' points. ') + preQns[Math.floor(Math.random() * preQns.length)] + $scope.data[$scope.QAindex]['qns'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
