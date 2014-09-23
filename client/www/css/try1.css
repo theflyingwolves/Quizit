@@ -183,7 +183,6 @@ height: 100%;
 =======*/
 
 .menuwhole{
->>>>>>> 3ee0c7fdf9f65724609622a9c81745a28edb56cd
 opacity: 1;
 text-align: center;
 position: relative;
@@ -197,27 +196,22 @@ left: 0%;
 =======*/
 
 .menuwhole .menulist{
->>>>>>> 3ee0c7fdf9f65724609622a9c81745a28edb56cd
 	position: absolute;
 	text-align: center;
 	/*left: 5%; */
 	top: 80%;
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 	width: 70%;
 	margin-left: 10%;
 }
 
 #menu-item-1{
-/*background-color: #EBAD49;
-*/}
+
+}
 
 #menu-item-2{
-/*top: 20%;*/
-/*background-color: #E86036;
-*/
-=======
+=======*/
 	width: 50%;
->>>>>>> 3ee0c7fdf9f65724609622a9c81745a28edb56cd
 }
 
 
