@@ -89,7 +89,7 @@ angular.module('quizit.controllers', [])
 	var lastQns = ["Ok this is the last question. ", "This is the last one: ", "Good work. Here is the last question: "];
 	$scope.texts = [];
 	$scope.QAindex = 0;
-	$scope.correct = 0;
+	$scope.deduct = 0;
 	var question = {
 		index : $scope.QAindex,
 		type : 'question',
@@ -97,23 +97,26 @@ angular.module('quizit.controllers', [])
 		answer : $scope.data[$scope.QAindex]['ans']
 	};
 	$scope.texts.push(question);
+	$scope.timestamp = Date.now();
 	$scope.showPopup = function () {
 		$scope.data = {}
 		var report;
-		if ($scope.correct<=3){
+		if ($scope.deduct>=75){
 			report = 'Are you really my friend?';
-		} else if ($scope.correct<=6){
+		} else if ($scope.deduct>=50){
 			report = 'We should see each other more often';
-		} else if ($scope.correct<=9){
-			report = 'You really know a lot about me';
+		} else if ($scope.deduct>=25){
+			report = 'You seem to know a number of things about me';
+		} else if ($scope.deduct>=10){
+			report = 'You know a lot about me!';
 		} else {
-			report = 'Perfect!';
+			report = 'I think we are good friends :)';
 		}
 		// An elaborate, custom popup
 		var myPopup = $ionicPopup.show({
 				template : '',
 				title : report,
-				subTitle : '<p class="highlight">You got ' + $scope.correct + '/10</p>',
+				subTitle : '<p class="highlight">You got ' + (100-$scope.deduct) + '/100</p>',
 				scope : $scope,
 				buttons : [{
 						text : '<b>Leaderboard</b>',
@@ -131,6 +134,12 @@ angular.module('quizit.controllers', [])
 	$scope.isButtonDisabled = false;
 	$scope.isIdleHidden = true;
 	$scope.addAnswer = function (userAns) {
+		var newDeduct = Math.floor((Date.now()-$scope.timestamp)/1000)-4;
+		if (newDeduct<0){
+			newDeduct = 0;
+		} else if (newDeduct>10){
+			newDeduct = 10;
+		}
 		$scope.isButtonDisabled = true;
 		$scope.isIdleHidden = false;
 		if ($scope.QAindex < $scope.data.length) {
@@ -141,8 +150,8 @@ angular.module('quizit.controllers', [])
 				correct : (userAns === question.answer)
 			};
 			$scope.texts.push(answer);
-			if (answer.correct){
-				$scope.correct++;
+			if (!answer.correct){
+				newDeduct = 10;
 			}
 			var delay = 1000;
 			$timeout(function () {
@@ -154,7 +163,7 @@ angular.module('quizit.controllers', [])
 					} else {
 						nextQnsContent = (answer.correct) ? correctAns[Math.floor(Math.random() * correctAns.length)] : wrongAns[Math.floor(Math.random() * wrongAns.length)];
 					}
-					nextQnsContent = nextQnsContent + $scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + (10-newDeduct) + ' points. ' + $scope.data[$scope.QAindex]['qns'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
@@ -174,6 +183,8 @@ angular.module('quizit.controllers', [])
 		$timeout(function () {
 			$scope.isButtonDisabled = false;
 			$scope.isIdleHidden = true;
+			$scope.deduct += newDeduct;
+			$scope.timestamp = Date.now();
 		}, delay + 200);
 	};
 });
