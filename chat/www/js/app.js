@@ -88,7 +88,7 @@ angular.module('starter', ['ionic'])
 		var myPopup = $ionicPopup.show({
 				template : '',
 				title : report,
-				subTitle : 'You got ' + $scope.correct + '/10',
+				subTitle : '<p class="highlight">You got ' + $scope.correct + '/10</p>',
 				scope : $scope,
 				buttons : [{
 						text : '<b>Leaderboard</b>',

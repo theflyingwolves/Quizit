@@ -1,25 +1,26 @@
 /* Empty. Add your own CSS if you like */
+/* Style for chat template */
 .text-right{
 	text-align: right;
 }
 
-.card{
+.chat-card{
 	border: none;
 	box-shadow: none;
 }
 
-.item{
-	margin: 7px 0px 7px 0px;
+.chat-item{
+	margin: 1% 0% 1% 0%;
 }
 
 .answer{
-	max-width: 100px;
+	max-width: 60%;
 	float: right;
 	clear: both;
 }
 
 .question{
-	max-width: 300px;
+	max-width: 60%;
 	float: left;
 	clear: both;
 }
@@ -32,12 +33,17 @@
 	min-height: 15%;
 	max-height: 17%;
 }
+
+.chat-button-font{
+	font-size: 1.5rem;
+}
+
 .idle{
 	font-style: italic;
 	font-family: sans-serif;
-	text-align: center;
+	font-size: 1rem;
 	bottom: 15%;
-    left: 45%;
+	margin: auto;
 }
 
 .one {
@@ -87,3 +93,9 @@
         opacity: 1;
     }
 }
+
+.highlight{
+	font-size: 1.5rem;
+	color: red;
+}
+/* END_OF Style for chat template */
