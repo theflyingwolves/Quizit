@@ -1,0 +1,24 @@
+<ion-view>
+    <ion-pane>
+		<ion-header-bar class="bar-stable">
+			<h1 class="title">Chat with a Friend</h1>
+		</ion-header-bar>
+		<ion-content class="has-footer">
+			<div class="card chat-card" ng-repeat="text in texts">
+				<div ng-attr-class="item item-text-wrap chat-item {{text.content=='Yes'&&'positive'}} {{text.content=='No'&&'assertive'}} 
+					{{text.type=='answer'&&'answer'}} {{text.type=='question'&&'question'}}">
+					{{text.content}}
+				</div>
+			</div>
+			</ion-content>
+			<div class="bar bar-footer idle" ng-hide="isIdleHidden">
+				<span class="idle">{{friend.name}} is typing<span class="one">.</span><span class="two">.</span><span class="three">.</span></span>
+		​	</div>
+		<ion-footer-bar class="tall-footer">
+			<div class="button-bar button-bottom">
+				<button class="button button-positive" ng-click="addAnswer('Yes')" ng-disabled="isButtonDisabled"><span class="chat-button-font">Yes</span></button>
+				<button class="button button-assertive chat-button-font" ng-click="addAnswer('No')" ng-disabled="isButtonDisabled"><span class="chat-button-font">No</span></button>
+			</div>
+		</ion-footer-bar>
+    </ion-pane>
+</ion-view>

@@ -47,4 +47,14 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
       }
     }
   })
+  
+  .state('app.challenge',{
+    url: '/challenge',
+    views:{
+      content:{
+        templateUrl:"templates/chat.html",
+		controller: 'ChatCtrl'
+      }
+    }
+  })
 })
