@@ -21,7 +21,7 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
 })
 
 .config(function($stateProvider, $urlRouterProvider){
-  $urlRouterProvider.otherwise('/app/home')
+  $urlRouterProvider.otherwise('/app/friends')
 
   $stateProvider.state('app',{
       url: "/app",
@@ -53,7 +53,7 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
     views:{
       content:{
         templateUrl:"templates/chat.html",
-		controller: 'ChatCtrl'
+		    controller: 'ChatCtrl'
       }
     }
   })
@@ -64,6 +64,26 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
       content:{
         templateUrl:"templates/friendList.html",
         controller:'FriendListCtrl'
+      }
+    }
+  })
+
+  .state('app.leaderboard',{
+    url:'/leaderboard',
+    views:{
+      content:{
+        templateUrl:"templates/leaderboard.html",
+        controller:"LeaderboardCtrl"
+      }
+    }
+  })
+
+  .state('app.history',{
+    url:'/history',
+    views:{
+      content:{
+        templateUrl:"templates/history.html",
+        controller:'HistoryCtrl'
       }
     }
   })

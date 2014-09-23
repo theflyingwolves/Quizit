@@ -5,37 +5,40 @@ angular.module('quizit.controllers', [])
 		background : 'url(../img/bg2.jpg)'
 	};
 })
-.controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
-	$scope.sidebarData = [{
-			linkId : "menu-item-1",
-			imgSrc : "img/lightbulb-outline.png",
-			title : "Take a Challenge",
-			linkAddress : "#/app/challenge"
-		}, {
-			linkId : "menu-item-2",
-			imgSrc : "img/star-outline.png",
-			title : "Leadership Board",
-			linkAddress : "#/app/friends"
-		}, {
-			linkId : "menu-item-3",
-			imgSrc : "img/glasses-outline.png",
-			title : "History",
-			linkAddress : "#/app/questions"
-		},
-		{
-			linkId : "menu-item-5",
-			imgSrc : "img/chatbubble-outline.png",
-			title : "Notifice",
-			linkAddress : "#/app/questions"
-		},
-		{
-			linkId : "menu-item-4",
-			imgSrc : "img/contact-outline.png",
-			title : "My Profile",
-			linkAddress : "#/app/questions"
-		}
-	];
 
+.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
+  $scope.sidebarData = [{
+    linkId:"menu-item-1",
+    imgSrc:"img/lightbulb-outline.png",
+    title:"Quiz!t",
+    linkAddress:"#/app/friends"
+  },
+  {
+    linkId:"menu-item-2",
+    imgSrc:"img/star-outline.png",
+    title:"Top Quizer",
+    linkAddress:"#/app/leaderboard"
+  },
+  {
+    linkId:"menu-item-3",
+    imgSrc:"img/glasses-outline.png",
+    title:"History",
+    linkAddress:"#/app/history"
+  },
+  
+  {
+    linkId:"menu-item-5",
+    imgSrc:"img/chatbubble-outline.png",
+    title:"Notification",
+    linkAddress:"#/app/notifications"
+  },
+
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"Log Out",
+    linkAddress:"#/app/challenge"
+  }];
 	$scope.toggleSidebar = function () {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
@@ -48,41 +51,102 @@ angular.module('quizit.controllers', [])
 	$scope.activeItem = undefined;
 })
 
-.controller('FriendListCtrl', function ($scope) {
-	$scope.friends = [{
-			name : "Wang Kunzhen",
-			image : "img/chatbubble-outline.png"
-		}, {
-			name : "Viet Trung Truong",
-			image : "img/contact-outline.png"
-		}, {
-			name : "Xia Yiping",
-			image : "img/glasses-outline.png"
-		}, {
-			name : "Wang Yichao",
-			image : "img/lightbulb-outline.png"
-		}, {
-			name : "Viet Trung Truong",
-			image : "img/contact-outline.png"
-		}, {
-			name : "Xia Yiping",
-			image : "img/glasses-outline.png"
-		}, {
-			name : "Wang Yichao",
-			image : "img/lightbulb-outline.png"
-		}, {
-			name : "Viet Trung Truong",
-			image : "img/contact-outline.png"
-		}, {
-			name : "Xia Yiping",
-			image : "img/glasses-outline.png"
-		}, {
-			name : "Wang Yichao",
-			image : "img/lightbulb-outline.png"
-		}
-	];
+.controller('FriendListCtrl',function($scope){
+  $scope.friends = [{
+    name:"Wang Kunzhen",
+    image:"img/chatbubble-outline.png"
+  },
+  {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  },
+  {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  },
+   {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  }
+  ];
+
+  $scope.selectFriend = function(friend){
 
 	$scope.selectFriend = function (friend) {};
+})
+
+.controller('HistoryCtrl',function($scope){
+	$scope.historyData = [
+	{
+		name:"Wang Kunzhen",
+		profile_image:"img/glasses-outline.png",
+		score:65
+	},
+	{
+		name:"Wang Yichao",
+		profile_image:"img/lightbulb-outline.png",
+		score:80
+	},
+	{
+		name:"Xia Yiping",
+		profile_image:"img/contact-outline.png",
+		score:70
+	},
+	{
+		name:"Viet Trung Truong",
+		profile_image:"img/chatbubble-outline.png",
+		score:65
+	}
+	];
+})
+
+.controller('LeaderboardCtrl',function($scope){
+	$scope.leaderboardData = [
+	{
+		name:"Wang Kunzhen",
+		profile_image:"img/glasses-outline.png",
+		score:1001
+	},
+	{
+		name:"Wang Yichao",
+		profile_image:"img/lightbulb-outline.png",
+		score:800
+	},
+	{
+		name:"Xia Yiping",
+		profile_image:"img/contact-outline.png",
+		score:799
+	},
+	{
+		name:"Viet Trung Truong",
+		profile_image:"img/chatbubble-outline.png",
+		score:653
+	}
+	];
 })
 
 .controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate) {
