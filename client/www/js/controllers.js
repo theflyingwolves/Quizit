@@ -1,55 +1,52 @@
 angular.module('quizit.controllers', [])
 
-.controller('bodyCtrl',function($scope){
-  $scope.bodyBackground = {
-    background:'url(../img/bg2.jpg)'
-  };
+.controller('bodyCtrl', function ($scope) {
+	$scope.bodyBackground = {
+		background : 'url(../img/bg2.jpg)'
+	};
 })
 
-.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
-  $scope.sidebarData = [{
-    linkId:"menu-item-1",
-    imgSrc:"img/lightbulb-outline.png",
-    title:"Take a Challenge",
-    linkAddress:"#/app/challenge"
-  },
-  {
-    linkId:"menu-item-2",
-    imgSrc:"img/star-outline.png",
-    title:"Leadership Board",
-    linkAddress:"#/app/home"
-  },
-  {
-    linkId:"menu-item-3",
-    imgSrc:"img/glasses-outline.png",
-    title:"History",
-    linkAddress:"#/app/questions"
-  },
-  
-  {
-    linkId:"menu-item-5",
-    imgSrc:"img/chatbubble-outline.png",
-    title:"Notifice",
-    linkAddress:"#/app/questions"
-  },
+.controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
+	$scope.sidebarData = [{
+			linkId : "menu-item-1",
+			imgSrc : "img/lightbulb-outline.png",
+			title : "Take a Challenge",
+			linkAddress : "#/app/challenge"
+		}, {
+			linkId : "menu-item-2",
+			imgSrc : "img/star-outline.png",
+			title : "Leadership Board",
+			linkAddress : "#/app/home"
+		}, {
+			linkId : "menu-item-3",
+			imgSrc : "img/glasses-outline.png",
+			title : "History",
+			linkAddress : "#/app/questions"
+		},
+		{
+			linkId : "menu-item-5",
+			imgSrc : "img/chatbubble-outline.png",
+			title : "Notifice",
+			linkAddress : "#/app/questions"
+		},
+		{
+			linkId : "menu-item-4",
+			imgSrc : "img/contact-outline.png",
+			title : "My Profile",
+			linkAddress : "#/app/questions"
+		}
+	];
 
-  {
-    linkId:"menu-item-4",
-    imgSrc:"img/contact-outline.png",
-    title:"My Profile",
-    linkAddress:"#/app/questions"
-  }];
+	$scope.toggleSidebar = function () {
+		$ionicSideMenuDelegate.toggleLeft();
+	};
 
-  $scope.toggleSidebar = function(){
-    $ionicSideMenuDelegate.toggleLeft();
-  };
+	$scope.selectSideItem = function (item, index) {
+		$scope.activeItem = item;
+		$ionicSideMenuDelegate.toggleLeft(false);
+	};
 
-  $scope.selectSideItem = function(item, index){
-    $scope.activeItem = item;
-    $ionicSideMenuDelegate.toggleLeft(false);
-  };
-
-  $scope.activeItem = undefined;
+	$scope.activeItem = undefined;
 })
 
 .controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate) {
@@ -86,6 +83,7 @@ angular.module('quizit.controllers', [])
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
 	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
 		"You seem to be good with this. "];
+	var slowAns = ["You should answer faster. ", "Correct, but too slow. ", "You could've got some points if you answered faster. ", "Slow! "];
 	var preQns = ["Ok here is the next question: ", "Next question: ", "Next: ", "Ok here is the next one: ", "Let's move on: ", "This is the next question: "]
 	var lastQns = ["Ok this is the last question. ", "This is the last one: ", "Good work. Here is the last question: "];
 	$scope.texts = [];
@@ -98,17 +96,18 @@ angular.module('quizit.controllers', [])
 		answer : $scope.data[$scope.QAindex]['ans']
 	};
 	$scope.texts.push(question);
+	$scope.imgSrc = 'img/loading.gif'+'#'+Date.now();
 	$scope.timestamp = Date.now();
 	$scope.showPopup = function () {
 		$scope.data = {}
 		var report;
-		if ($scope.deduct>=75){
+		if ($scope.deduct >= 75) {
 			report = 'Are you really my friend?';
-		} else if ($scope.deduct>=50){
+		} else if ($scope.deduct >= 50) {
 			report = 'We should see each other more often';
-		} else if ($scope.deduct>=25){
+		} else if ($scope.deduct >= 25) {
 			report = 'You seem to know a number of things about me';
-		} else if ($scope.deduct>=10){
+		} else if ($scope.deduct >= 10) {
 			report = 'You know a lot about me!';
 		} else {
 			report = 'I think we are good friends :)';
@@ -117,7 +116,7 @@ angular.module('quizit.controllers', [])
 		var myPopup = $ionicPopup.show({
 				template : '',
 				title : report,
-				subTitle : '<p class="highlight">You got ' + (100-$scope.deduct) + '/100</p>',
+				subTitle : '<p class="highlight">You got ' + (100 - $scope.deduct) + '/100</p>',
 				scope : $scope,
 				buttons : [{
 						text : '<b>Leaderboard</b>',
@@ -135,10 +134,10 @@ angular.module('quizit.controllers', [])
 	$scope.isButtonDisabled = false;
 	$scope.isIdleHidden = true;
 	$scope.addAnswer = function (userAns) {
-		var newDeduct = Math.floor((Date.now()-$scope.timestamp)/1000)-4;
-		if (newDeduct<0){
+		var newDeduct = Math.floor((Date.now() - $scope.timestamp) / 1000) * 2 - 3;
+		if (newDeduct < 0) {
 			newDeduct = 0;
-		} else if (newDeduct>10){
+		} else if (newDeduct > 10) {
 			newDeduct = 10;
 		}
 		$scope.isButtonDisabled = true;
@@ -151,7 +150,7 @@ angular.module('quizit.controllers', [])
 				correct : (userAns === question.answer)
 			};
 			$scope.texts.push(answer);
-			if (!answer.correct){
+			if (!answer.correct) {
 				newDeduct = 10;
 			}
 			var delay = 1000;
@@ -162,9 +161,15 @@ angular.module('quizit.controllers', [])
 					if ($scope.QAindex === $scope.data.length - 1) {
 						nextQnsContent = lastQns[Math.floor(Math.random() * lastQns.length)]
 					} else {
-						nextQnsContent = (answer.correct) ? correctAns[Math.floor(Math.random() * correctAns.length)] : wrongAns[Math.floor(Math.random() * wrongAns.length)];
+						if (newDeduct<10){
+							nextQnsContent = correctAns[Math.floor(Math.random() * correctAns.length)];
+						} else if (newDeduct === 10 && answer.correct){
+							nextQnsContent = slowAns[Math.floor(Math.random() * slowAns.length)];
+						} else {
+							nextQnsContent = wrongAns[Math.floor(Math.random() * wrongAns.length)];
+						}						
 					}
-					nextQnsContent = nextQnsContent + 'You got ' + (10 - newDeduct) + ((newDeduct>=9)?' point. ':' points. ') + preQns[Math.floor(Math.random() * preQns.length)] + $scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + 'You got ' + (10 - newDeduct) + ((newDeduct >= 9) ? ' point. ' : ' points. ') + preQns[Math.floor(Math.random() * preQns.length)] + $scope.data[$scope.QAindex]['qns'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
@@ -172,6 +177,7 @@ angular.module('quizit.controllers', [])
 						answer : $scope.data[$scope.QAindex]['ans']
 					};
 					$scope.texts.push(question);
+					$scope.imgSrc = 'img/loading.gif'+'#'+Date.now();
 				}
 				if ($scope.QAindex === $scope.data.length) {
 					$scope.showPopup();
