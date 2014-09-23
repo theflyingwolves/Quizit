@@ -1,10 +1,16 @@
-<ion-view ng-style="bodyBackground">
-	<div class="window-float">
-		<div class="row responsive-sm" ng-repeat="friend in friends">
-			<div class="col" style="border:5px solid">
+<ion-view ng-style="bodyBackground" scroll="true">
+		<ion-content scroll="true">
+		<div class="friend-list-container">
+		<div class="row responsive-sm" ng-repeat="friend in friends" >
+			<div class="col friend-item" style="border:2px solid;margin:2px;">
+				<img src="{{friend.image}}" />
+				<p>{{friend.name}}</p>
+			</div>
+			<div class="col friend-item" style="border:2px solid; margin:2px;">
 				<img src="{{friend.image}}" />
 				<p>{{friend.name}}</p>
 			</div>
 		</div>
-	</div>
+		</div>
+	</ion-content>
 </ion-view>

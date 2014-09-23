@@ -68,7 +68,32 @@ angular.module('quizit.controllers', [])
   {
     name:"Wang Yichao",
     image:"img/lightbulb-outline.png"
-  }];
+  },
+   {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  },
+   {
+    name:"Viet Trung Truong",
+    image:"img/contact-outline.png"
+  },
+  {
+    name:"Xia Yiping",
+    image:"img/glasses-outline.png"
+  },
+  {
+    name:"Wang Yichao",
+    image:"img/lightbulb-outline.png"
+  }
+  ];
 
   $scope.selectFriend = function(friend){
 

@@ -1,0 +1,16 @@
+/*For the login, intro and other windows*/
+.friend-list-container{
+	margin-top: 90%;
+	margin: auto;
+	width: 70%;
+	/* max-width: 300px; */
+	padding: 3%;
+	padding-left: 15%;
+	padding-right: 15%;
+	background-color: white;
+	opacity: 0.95;
+	box-shadow: 0 1px 4px rgba(0, 0, 0, 0.25);
+}
+
+.friend-item img{
+}
