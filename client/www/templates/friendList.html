@@ -1,14 +1,10 @@
 <ion-view ng-style="bodyBackground" scroll="true">
 		<ion-content scroll="true">
 		<div class="friend-list-container">
-		<div class="row responsive-sm" ng-repeat="friend in friends" >
-			<div class="col friend-item" style="border:2px solid;margin:2px;">
-				<img src="{{friend.image}}" />
-				<p>{{friend.name}}</p>
-			</div>
-			<div class="col friend-item" style="border:2px solid; margin:2px;">
-				<img src="{{friend.image}}" />
-				<p>{{friend.name}}</p>
+		<div class="row responsive-sm" ng-repeat="friend in friends track by $index" ng-if="$index%2==0">
+			<div class="col friend-item" ng-repeat="i in [$index,$index+1]" ng-if="friends[i]!=null" style="border:2px solid;margin:2px;">
+				<img src="{{friends[i]['image']}}" />
+				<p>{{friends[i]['name']}}</p>
 			</div>
 		</div>
 		</div>
