@@ -282,18 +282,20 @@ angular.module('quizit.controllers', [])
 				$scope.QAindex++;
 				if ($scope.QAindex < $scope.data.length) {
 					var nextQnsContent;
-					if ($scope.QAindex === $scope.data.length - 1) {
-						nextQnsContent = lastQns[Math.floor(Math.random() * lastQns.length)]
+					if (newDeduct < 10) {
+						nextQnsContent = correctAns[Math.floor(Math.random() * correctAns.length)];
+					} else if (newDeduct === 10 && answer.correct) {
+						nextQnsContent = slowAns[Math.floor(Math.random() * slowAns.length)];
 					} else {
-						if (newDeduct < 10) {
-							nextQnsContent = correctAns[Math.floor(Math.random() * correctAns.length)];
-						} else if (newDeduct === 10 && answer.correct) {
-							nextQnsContent = slowAns[Math.floor(Math.random() * slowAns.length)];
-						} else {
-							nextQnsContent = wrongAns[Math.floor(Math.random() * wrongAns.length)];
-						}
+						nextQnsContent = wrongAns[Math.floor(Math.random() * wrongAns.length)];
 					}
-					nextQnsContent = nextQnsContent + 'You got ' + (10 - newDeduct) + ((newDeduct >= 9) ? ' point. ' : ' points. ') + preQns[Math.floor(Math.random() * preQns.length)] + $scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + 'You got ' + (10 - newDeduct) + ((newDeduct >= 9) ? ' point. ' : ' points. ');
+					if ($scope.QAindex === $scope.data.length - 1) {
+						nextQnsContent = nextQnsContent + lastQns[Math.floor(Math.random() * lastQns.length)];
+					} else {
+						nextQnsContent = nextQnsContent + preQns[Math.floor(Math.random() * preQns.length)];
+					}
+					nextQnsContent = nextQnsContent +$scope.data[$scope.QAindex]['qns'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
