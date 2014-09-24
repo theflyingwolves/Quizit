@@ -30,7 +30,6 @@ angular.module('quizit.controllers', [])
     title:"History",
     linkAddress:"#/app/history"
   },
-  
   {
     linkId:"menu-item-5",
     imgSrc:"img/chatbubble-outline.png",
@@ -95,10 +94,31 @@ angular.module('quizit.controllers', [])
 
 .controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
 	$scope.fb_login_callback = function(response){
-		$scope.user = response;
 		// console.log("User Logged in: "+$scope.user.name);
+		var userdata = $scope.generateUserData(response);
+		$http.post("http://"+$scope.serverURL+"/users/init",userdata);
 		$location.path('/app/friends');
 	};
+
+	$scope.generateUserData = function(token){
+		var user = {};
+		var access_token = token.authResponse.accessToken;
+		var user_id = token.authResponse.userID;
+
+		FB.api('/me', function(response) {
+			user.birthday = response.birthday;
+		});
+
+		FB.api('/me/movies', function(response) {
+			user.liked_movies = response.data;
+		});
+
+		FB.api('/me/friends', function(response) {
+			user.friends = response.data;
+		});
+
+		return user;
+	}
 
 	$scope.fblogin = function(){
 		fb_login($scope.fb_login_callback);
