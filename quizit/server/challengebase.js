@@ -22,7 +22,7 @@ var challengeDummyData = [
 
 challengebase.init = function(req,res,next){
 	req.db.challengebase.drop();
-	res.db.challengebase.insert(challengeDummyData, function(error,bonus){
+	req.db.challengebase.insert(challengeDummyData, function(error,bonus){
 		if (error) return next(error);
 		if (!bonus) return next(new Error('Failed to save.'));
 		console.log("All challenge data Successfully Saved");

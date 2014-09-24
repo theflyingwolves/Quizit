@@ -13,18 +13,18 @@
 			<div class="row responsive-sm">
 				<div class="col">
 						<div class="row friend-item" ng-repeat="friend in friends | filter:friendSearch" ng-if="$index%2==0">
-							<div class="friend-photo">
+							<a class="friend-photo button item-avatar" ng-click="selectFriend(friend.name)" href="#/app/challenge">
 								<img src="{{friend.image}}" />
-								<a>{{friend.name}}</a>
-							</div>
+								<h2>{{friend.name}}</h2>
+							</a>
 						</div>
 				</div>
 				<div class="col">
 						<div class="row friend-item" ng-repeat="friend in friends | filter:friendSearch" ng-if="$index%2==1">
-							<div class="friend-photo">
+							<a class="friend-photo button item-avatar" ng-click="selectFriend(friend.name)" href="#/app/challenge">
 								<img src="{{friend.image}}" />
-								<a>{{friend.name}}</a>
-							</div>
+								<h2>{{friend.name}}</h2>
+							</a>
 						</div>
 				</div>
 			</div>
