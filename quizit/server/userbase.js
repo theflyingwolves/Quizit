@@ -11,15 +11,15 @@ var dummyusers = [{
 		"interest":["badminton","programming","singing"]
 	},
 	"questions":[{
-		"questionID":"541c1a946837a40a13114846",
+		"questionID":1,
 		"answer":"Y"
 	},
 	{
-		"questionID":"541c1a036837a40a13114845",
+		"questionID":3,
 		"answer":"N"
 	},
 	{
-		"questionID":"541c19e639e965a74f53ebe4",
+		"questionID":5,
 		"answer":"Y"
 	}],
 	"notification":[]
@@ -36,15 +36,15 @@ var dummyusers = [{
 		"interest":["programming","singing","reading"]
 	},
 	"questions":[{
-		"questionID":"541c1a946837a40a13114846",
+		"questionID":2,
 		"answer":"N"
 	},
 	{
-		"questionID":"541c1a036837a40a13114845",
+		"questionID":4,
 		"answer":"N"
 	},
 	{
-		"questionID":"541c19e639e965a74f53ebe4",
+		"questionID":7,
 		"answer":"Y"
 	}],
 	"notification":[]
@@ -61,15 +61,15 @@ var dummyusers = [{
 		"interest":["badminton","drawing","running"]
 	},
 	"questions":[{
-		"questionID":"541c1a946837a40a13114846",
+		"questionID":2,
 		"answer":"Y"
 	},
 	{
-		"questionID":"541c1a036837a40a13114845",
+		"questionID":3,
 		"answer":"Y"
 	},
 	{
-		"questionID":"541c19e639e965a74f53ebe4",
+		"questionID":6,
 		"answer":"Y"
 	}],
 	"notification":[]
@@ -105,6 +105,67 @@ userbasequery.userLoginRedirect = function(req,res,next){
 	}else{
 		res.send("User "+loginStatus.facebook_account+" does not exists, Please try again.");
 	}
+}
+
+userbasequery.getQuestions = function(req,res, next){
+  var url = require('url');
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  req.db.userbase.find({facebook_account: query.fb_account}).toArray(function(error, userInfo){
+    if (error) return next(error);
+    if(userInfo.length == 0) {
+    	return next(error);
+	}
+    var generatedQuestions = generateQuestions(userInfo[0].profile);
+
+    var questionIDs = [];
+    var answers = [];
+    for(var i = 0; i < userInfo[0].questions.length; i++) {
+    	var ques_ans = userInfo[0].questions[i];
+    	questionIDs[questionIDs.length] = {
+    		qid: ques_ans.questionID
+    	};
+    	answers[answers.length] = ques_ans.answer;
+    }
+    retrieveQuestions(req, res, generatedQuestions, questionIDs, answers );
+  })
+}
+
+var retrieveQuestions = function(req, res, generatedQuestions, questionIDs, answers){
+	console.log(questionIDs);
+	console.log(answers);
+	req.db.questionbase.find({$or: questionIDs}).toArray(function(error, questionData){
+    	if (error) return next(error);
+
+    	var ques_ans = [];
+    	for (var i = 0; i < questionData.length; i++){
+    		ques_ans[ques_ans.length]={
+    			question: questionData[i].question,
+    			answer: answers[i]
+    		};
+    	};
+    	ques_ans.push.apply(ques_ans, generatedQuestions);
+    	res.send(ques_ans);
+	})
+}
+
+
+var generateQuestions = function(user_profile) {
+	var questions = [];
+	var user_interests = user_profile.interest;
+	var numInterests = user_interests.length>5?5:user_interests.length
+	questions[0] = {
+		question: "Is my birthday "+user_profile.birthday+"?",
+		answer: "Y"
+	};
+	for(var i=0;i<numInterests;i++){
+		var question = {
+			question: "Do I like "+user_interests[i]+"?",
+			answer: "Y"
+		}
+		questions[questions.length] = question;
+	}
+	return questions;
 }
 
 module.exports = userbasequery;
