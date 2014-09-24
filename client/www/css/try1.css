@@ -1,5 +1,6 @@
+
 body{
-background-image: url('../img/bg2.jpg');
+/*background-image: url('../img/bg2.jpg');*/
 font-family: 'Shadows Into Light', cursive;
 }
 h1, h2, h3, h4, h5, h6, a
@@ -31,6 +32,7 @@ a{
 	width: 0;
 	height: 0;
 	margin:auto;
+	/*top: 0;*/
 	margin-bottom: 5%;
 	border-style: solid;
 	border-width: 100px 100px 0 100px;
@@ -38,12 +40,15 @@ a{
 }
 
 .header h1 {
-/*	font-family: 'Oswald', sans-serif;*/	
+	/*font-family: 'Oswald', sans-serif;*/
 	font-weight: bold;
-	top: -100%;
-	left: -17px;
+	top: -80%;
+	left: -50px;
+	width: 100%;
 	position: relative;
 	color: #fff;
+	line-height: 1;
+	width: 100px;
 }
 
 
@@ -122,15 +127,18 @@ a{
 #Verify-Question{
 	margin-top: 50px;
 }
+
 .yes-button{
 	background-color: #96C48C;
 	height: 70px;
 	padding: 20px;
 	margin-top: 15px;
 }
+
 .yes-button:hover{
 	background-color: #75AC65;
 }
+
 .no-button{
 	background-color: #CC9E91;
 	padding-top: 20px;
@@ -138,16 +146,65 @@ a{
 	padding: 20px;
 	margin-bottom: 5px;
 }
+
 .no-button:hover{
 	background-color: #C96E85;
 }
-.question{
-	background-color: #444444;
-	padding: 20px;
-	text-align: center;
-	vertical-align: middle;
-	color: white;
-	height: 140px;
-	font-size: 20px;
-	opacity: 0.8;
+
+/*Sidemenu page*/
+.menu{
+height: 100%;
+
 }
+.menu img{
+	margin-left: 10%;
+	display: -webkit-flex; /* Safari */
+    -webkit-align-items: center; /* Safari 7.0+ */
+    display: flex;
+    align-items: center;
+    position: relative;
+    width: 30%;
+}
+
+/*<<<<<<< HEAD
+#menu-item-1, #menu-item-2,#menu-item-3, #menu-item-4, #menu-item-5{
+=======*/
+
+.menuwhole{
+opacity: 1;
+text-align: center;
+position: relative;
+margin-bottom: 5%;
+/*width: 30%;*/
+left: 0%;
+}
+
+/*<<<<<<< HEAD
+#menu-item-1 .menulist, #menu-item-2 .menulist, #menu-item-3 .menulist, #menu-item-4 .menulist, #menu-item-5 .menulist{
+=======*/
+
+.menuwhole .menulist{
+	position: absolute;
+	text-align: center;
+	/*left: 5%; */
+	top: 80%;
+/*<<<<<<< HEAD
+	width: 70%;
+	margin-left: 10%;
+}
+
+#menu-item-1{
+
+}
+
+#menu-item-2{
+=======*/
+	width: 50%;
+}
+
+
+
+/*#menu-item-1:active, #menu-item-2:active,#menu-item-3:active,#menu-item-4:active,#menu-item-5:active{
+box-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+opacity: 1；
+}*/

@@ -1,0 +1,49 @@
+/*For the login, intro and other windows*/
+.friend-list-container{
+	margin-top: 90%;
+	/*height: 50%;*/
+	margin: auto;
+	width: 100%;
+	 /*max-width: 600px; */
+	padding: 3%;
+	padding-left: 15%;
+	padding-right: 15%;
+	/*background-color: white;*/
+	opacity: 0.90;
+}
+
+.friend-photo{
+	width: 100%;
+}
+.friend-photo img{
+	width: 20%;
+	margin: auto;
+	float: left;
+	border-radius: 50%;
+	border:2px solid #00BFAA;
+}
+.friend-photo a{
+	text-align: left;
+	color: white;
+	float: right;
+	width: 70%;
+	margin-right: 10%;
+	font-size: 1.5em;
+	/*background-color: white;*/
+	padding: 5%;
+	/*border-top-left-radius: 70%;
+	border-bottom-right-radius: 70%;*/
+	border-right: 5px dotted yellow;
+}
+.friend-photo a:active{
+	color: yellow;
+}
+.search-bar{
+	opacity: 0.7;
+	/*border-radius: 10px;*/
+	height: 5%;
+	/*background-color: white;*/
+	width: 80%;
+	margin: auto;
+	/*text-align: center;*/
+}
