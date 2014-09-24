@@ -1,6 +1,7 @@
 var userbase = require("./userbase");
 var bonusbase = require("./bonusbase");
 var questionbase = require("./questionbase");
+var challengebase = require("./challengebase");
 
 var dummyDB = {};
 
