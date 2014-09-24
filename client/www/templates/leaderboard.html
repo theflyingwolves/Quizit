@@ -4,22 +4,26 @@
   </div>
 
 	<div class="main">
-		<ion-content scroll="true" style="top: 11%">
+		<ion-content scroll="true" style="top: 18%; bottom:5%;">
 		<div class="leaderboard-list-container">
+			<h1>Leaderboard</h1>
+		
 		<div class="row responsive-sm" ng-repeat="item in leaderboardData">
-			<div class="col leaderboard-item" style="border:2px solid;margin:2px;">
+			<div class="leaderboard-list">
+				
+					
 				<div class="row">
-					<div class="col col-80">
-						<div class="row">
-							<img src="{{item.profile_image}}" />
-						</div>
-						<div class="row"><p>{{item.name}}</p></div>
-					</div>
-					<div class="col col-20">
-						<p>{{item.score}}</p>
-					</div>
-				</div>	
-			</div>
+					<img src="{{item.profile_image}}" />
+				</div>
+				<div class="name">
+					{{item.name}}
+				</div>
+				
+				<div class="score">
+					<p>{{item.score}}</p>
+				</div>
+			</div>	
+		</div>
 		</div>
 		</div>
 		</ion-content>
