@@ -54,43 +54,43 @@ angular.module('quizit.controllers', [])
 .controller('FriendListCtrl',function($scope){
   $scope.friends = [{
     name:"Wang Kunzhen",
-    image:"img/chatbubble-outline.png"
+    image:"img/profile_images/user_0.jpeg"
   },
   {
     name:"Viet Trung Truong",
-    image:"img/contact-outline.png"
+    image:"img/profile_images/user_2.jpeg"
   },
   {
     name:"Xia Yiping",
-    image:"img/glasses-outline.png"
+    image:"img/profile_images/user_2.jpeg"
   },
   {
     name:"Wang Yichao",
-    image:"img/lightbulb-outline.png"
+    image:"img/profile_images/user_3.jpeg"
   },
   {
     name:"Viet Trung Truong",
-    image:"img/contact-outline.png"
+    image:"img/profile_images/user_4.jpeg"
   },
   {
     name:"Xia Yiping",
-    image:"img/glasses-outline.png"
+    image:"img/profile_images/user_0.jpeg"
   },
   {
     name:"Wang Yichao",
-    image:"img/lightbulb-outline.png"
+    image:"img/profile_images/user_1.jpeg"
   },
    {
     name:"Viet Trung Truong",
-    image:"img/contact-outline.png"
+    image:"img/profile_images/user_2.jpeg"
   },
   {
     name:"Xia Yiping",
-    image:"img/glasses-outline.png"
+    image:"img/profile_images/user_3.jpeg"
   },
   {
     name:"Wang Yichao",
-    image:"img/lightbulb-outline.png"
+    image:"img/profile_images/user_4.jpeg"
   }
   ];
 
