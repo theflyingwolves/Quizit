@@ -3,12 +3,17 @@
       <h1>Your Friends</h1>
   </div>
   <div class="main">
-		<ion-content scroll="true" style="top: 11%">
+		<ion-content scroll="true" style="top: 15%">
+		<!-- <div class="list list-inset"> -->
+ <label class="item-input search-bar">
+    <i class="ion ion-search placeholder-icon"></i>
+    <input type="text" placeholder="Search">
+  </label>
+
 		<div class="friend-list-container">
 		<div class="row responsive-sm" ng-repeat="friend in friends track by $index" ng-if="$index%2==0">
-			<div class="col friend-item" ng-repeat="i in [$index,$index+1]" ng-if="friends[i]!=null" style="border:2px solid;margin:2px;">
-				<img src="{{friends[i]['image']}}" />
-				<p>{{friends[i]['name']}}</p>
+			<div class="col friend-item" ng-repeat="i in [$index,$index+1]" ng-if="friends[i]!=null">
+				<div class="friend-photo"><img src="{{friends[i]['image']}}" /><a>{{friends[i]['name']}}</a></div>
 			</div>
 		</div>
 		</div>
