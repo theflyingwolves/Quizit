@@ -151,18 +151,6 @@ a{
 	background-color: #C96E85;
 }
 
-.question{
-	background-color: #444444;
-	padding: 20px;
-	text-align: center;
-	vertical-align: middle;
-	color: white;
-	height: 140px;
-	font-size: 20px;
-	opacity: 0.8;
-}
-
-
 /*Sidemenu page*/
 .menu{
 height: 100%;
