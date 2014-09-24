@@ -4,6 +4,7 @@ angular.module('quizit.controllers', [])
 	$scope.bodyBackground = {
 		background : 'url(../img/bg2.jpg)'
 	};
+	$scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
 .controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
@@ -128,37 +129,47 @@ angular.module('quizit.controllers', [])
 	];
 })
 
-.controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate, $location) {
+.controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location) {
 	$scope.friend = {
 		name : "Trung"
 	};
-	$scope.data = [{
-			qns : "Are you happy?",
-			ans : "Yes"
-		}/*
-		, {
-		qns : "Are you sad?",
-		ans : "No"
-		}, {
-		qns : "Are you bored?",
-		ans : "Yes"
-		}, {
-		qns : "Are you enjoying?",
-		ans : "No"
-		}, {
-		qns : "Are you sleepy?",
-		ans : "Yes"
-		}, {
-		qns : "Are you awake?",
-		ans : "No"
-		}, {
-		qns : "Are you hungry?",
-		ans : "Yes"
-		}, {
-		qns : "Are you thirsty?",
-		ans : "No"
-		}*/
+	$http.get('http://' + $scope.serverURL + '/quiz').
+	success(function (data, status, headers, config) {
+		console.log(data);
+		$scope.data = data;
+		console.log($scope.data);
+	}).
+	error(function (data, status, headers, config) {
+		//log error
+	});
+	console.log($scope.data);
+	/*$scope.data = [{
+	question : "Are you happy?",
+	answer : "Y"
+	}, {
+	question : "Are you sad?",
+	answer : "N"
+	}, {
+	question : "Are you bored?",
+	answer : "Y"
+	}, {
+	question : "Are you enjoying?",
+	answer : "N"
+	}, {
+	question : "Are you sleepy?",
+	answer : "Y"
+	}, {
+	question : "Are you awake?",
+	answer : "N"
+	}, {
+	question : "Are you hungry?",
+	answer : "Y"
+	}, {
+	question : "Are you thirsty?",
+	answer : "N"
+	}
 	];
+	 */
 	$scope.bonus = 'Today is hot, isn\'t it?';
 	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
@@ -170,12 +181,7 @@ angular.module('quizit.controllers', [])
 	$scope.texts = [];
 	$scope.QAindex = 0;
 	$scope.deduct = 0;
-	var question = {
-		index : $scope.QAindex,
-		type : 'question',
-		content : $scope.data[$scope.QAindex]['qns'],
-		answer : $scope.data[$scope.QAindex]['ans']
-	};
+	var question = {};
 	var readyTime = 5200;
 	//$scope.imgSrc = 'img/notloading.png' + '?v=' + Date.now();
 	$scope.showLoadingBar = false;
@@ -189,6 +195,12 @@ angular.module('quizit.controllers', [])
 			});
 		$timeout(function () {
 			myPopup.close();
+			question = {
+				index : $scope.QAindex,
+				type : 'question',
+				content : $scope.data[$scope.QAindex]['question'],
+				answer : $scope.data[$scope.QAindex]['answer']
+			};
 			$scope.texts.push(question);
 			//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
 			$scope.showLoadingBar = true;
@@ -213,15 +225,15 @@ angular.module('quizit.controllers', [])
 		// An elaborate, custom popup
 		var myPopup = $ionicPopup.show({
 				template : '',
-				title : '<div class="popup-title">'+report+'</div>',
+				title : '<div class="popup-title">' + report + '</div>',
 				subTitle : '<div class="highlight popup-subtitle">You got ' + (100 - $scope.deduct) + '/100</div>',
 				scope : $scope,
 				buttons : [{
 						text : '<b>Ask Bonus Question</b>',
 						type : 'button-energized',
 						onTap : function (e1) {
-							var titl = '<div class="popup-title">Hi, '+$scope.friend.name+' . I want to Quiz!t you. </div>';
-							var templ = '<div class="popup-subtitle">'+$scope.bonus+'</div>';
+							var titl = '<div class="popup-title">Hi, ' + $scope.friend.name + ' . I want to Quiz!t you. </div>';
+							var templ = '<div class="popup-subtitle">' + $scope.bonus + '</div>';
 							var myPopup = $ionicPopup.show({
 									template : templ,
 									title : titl,
@@ -263,7 +275,7 @@ angular.module('quizit.controllers', [])
 			var answer = {
 				index : $scope.QAindex,
 				type : 'answer',
-				content : userAns,
+				content : (userAns=='Y')?'Yes':'No',
 				correct : (userAns === question.answer)
 			};
 			$scope.texts.push(answer);
@@ -289,12 +301,12 @@ angular.module('quizit.controllers', [])
 					} else {
 						nextQnsContent = nextQnsContent + preQns[Math.floor(Math.random() * preQns.length)];
 					}
-					nextQnsContent = nextQnsContent + $scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + $scope.data[$scope.QAindex]['question'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
 						content : nextQnsContent,
-						answer : $scope.data[$scope.QAindex]['ans']
+						answer : $scope.data[$scope.QAindex]['answer']
 					};
 					$scope.texts.push(question);
 					//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
