@@ -5,17 +5,39 @@
   <div class="main">
 		<ion-content scroll="true" style="top: 15%">
 		<!-- <div class="list list-inset"> -->
- <label class="item-input search-bar">
-    <i class="ion ion-search placeholder-icon"></i>
-    <input type="text" placeholder="Search">
-  </label>
+	 	<label class="item-input search-bar">
+	    <i class="ion ion-search placeholder-icon"></i>
+	    <input type="text" ng-model="friendSearch.name" placeholder="Search">
+	 	</label>
 
 		<div class="friend-list-container">
-		<div class="row responsive-sm" ng-repeat="friend in friends track by $index" ng-if="$index%2==0">
-			<div class="col friend-item" ng-repeat="i in [$index,$index+1]" ng-if="friends[i]!=null">
-				<div class="friend-photo"><img src="{{friends[i]['image']}}" /><a>{{friends[i]['name']}}</a></div>
+<!-- 			<div class="row responsive-sm" ng-repeat="friend in friends | filter:friendSearch" ng-if="$index%2==0">
+				<div class="col friend-item" ng-repeat="i in [$index,$index+1]" ng-if="friends[i]!=null">
+					<div class="friend-photo">
+						<img src="{{friends[i]['image']}}" />
+						<a>{{friends[i]['name']}}</a>
+					</div>
+				</div>
+			</div> -->
+			<div class="row responsive-sm">
+				<div class="col">
+						<div class="row friend-item" ng-repeat="friend in friends | filter:friendSearch" ng-if="$index%2==0">
+							<div class="friend-photo">
+								<img src="{{friend.image}}" />
+								<a>{{friend.name}}</a>
+							</div>
+						</div>
+				</div>
+				<div class="col">
+						<div class="row friend-item" ng-repeat="friend in friends | filter:friendSearch" ng-if="$index%2==1">
+							<div class="friend-photo">
+								<img src="{{friend.image}}" />
+								<a>{{friend.name}}</a>
+							</div>
+						</div>
+				</div>
 			</div>
-		</div>
+
 		</div>
 	</ion-content>
 	</div>
