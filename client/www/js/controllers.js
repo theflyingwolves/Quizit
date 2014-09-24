@@ -46,8 +46,7 @@ angular.module('quizit.controllers', [])
 	$scope.activeItem = undefined;
 })
 
-.controller('FriendListCtrl', function ($scope) {
-	$scope.linkAddress = "#/app/challenge";
+.controller('FriendListCtrl', function ($scope, $location) {
 	$scope.friends = [{
 			name : "Wang Kunzhen",
 			image : "img/profile_images/user_0.jpeg"
@@ -81,7 +80,9 @@ angular.module('quizit.controllers', [])
 		}
 	];
 
-	$scope.selectFriend = function (friend) {};
+	$scope.selectFriend = function (friend) {
+		console.log(friend);
+	};
 
 })
 
@@ -134,7 +135,7 @@ angular.module('quizit.controllers', [])
 	$scope.data = [{
 			qns : "Are you happy?",
 			ans : "Yes"
-		}
+		}/*
 		, {
 		qns : "Are you sad?",
 		ans : "No"
@@ -156,9 +157,9 @@ angular.module('quizit.controllers', [])
 		}, {
 		qns : "Are you thirsty?",
 		ans : "No"
-		}
+		}*/
 	];
-	$scope.bonus = 'This is some description. Today is hot, isn\'t it?';
+	$scope.bonus = 'Today is hot, isn\'t it?';
 	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
 	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
@@ -182,8 +183,8 @@ angular.module('quizit.controllers', [])
 	var popupTemplate = '<img style="width:100%" src="' + popupImgSource + '"/>';
 	$scope.showReady = function () {
 		var myPopup = $ionicPopup.show({
-				title : 'Are you ready?',
-				subTitle : 'The faster you answer, the higher score you get',
+				title : '<div class="popup-title">Are you ready?</div>',
+				subTitle : '<div class="popup-subtitle popup-big">The faster you answer, the higher score you get</div>',
 				template : popupTemplate
 			});
 		$timeout(function () {
@@ -212,15 +213,15 @@ angular.module('quizit.controllers', [])
 		// An elaborate, custom popup
 		var myPopup = $ionicPopup.show({
 				template : '',
-				title : report,
-				subTitle : '<p class="highlight">You got ' + (100 - $scope.deduct) + '/100</p>',
+				title : '<div class="popup-title">'+report+'</div>',
+				subTitle : '<div class="highlight popup-subtitle">You got ' + (100 - $scope.deduct) + '/100</div>',
 				scope : $scope,
 				buttons : [{
 						text : '<b>Ask Bonus Question</b>',
 						type : 'button-energized',
 						onTap : function (e1) {
-							var titl = '<h1>Hi, '+$scope.friend.name+' . I want to Quiz!t you. </h1>';
-							var templ = '<h2 text-align="center">'+$scope.bonus+'</h2>';
+							var titl = '<div class="popup-title">Hi, '+$scope.friend.name+' . I want to Quiz!t you. </div>';
+							var templ = '<div class="popup-subtitle">'+$scope.bonus+'</div>';
 							var myPopup = $ionicPopup.show({
 									template : templ,
 									title : titl,
