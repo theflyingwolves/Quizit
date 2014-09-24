@@ -21,7 +21,7 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
 })
 
 .config(function($stateProvider, $urlRouterProvider){
-  $urlRouterProvider.otherwise('/app/friends')
+  $urlRouterProvider.otherwise('/app/home')
 
   $stateProvider.state('app',{
       url: "/app",
@@ -30,11 +30,22 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
       controller: 'sidebarCtrl'
   })
 
+  .state('app.loading',{
+    url:'/loading',
+    views:{
+      content:{
+        templateUrl:"templates/loading.html",
+        controller:"loadingCtrl"
+      }
+    }
+  })
+
   .state('app.home',{
     url: '/home',
     views:{
       content:{
-        templateUrl:'templates/home.html'
+        templateUrl:'templates/home.html',
+        controller:'homeCtrl'
       }
     }
   })

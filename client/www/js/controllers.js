@@ -6,6 +6,16 @@ angular.module('quizit.controllers', [])
 	};
 })
 
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
+	$scope.fb_login_callback = function(){
+		$location.path('/friends');
+	};
+
+	$scope.fblogin = function(){
+		fb_login(fb_login_callback);
+	};
+})
+
 .controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
   $scope.sidebarData = [{
     linkId:"menu-item-1",
