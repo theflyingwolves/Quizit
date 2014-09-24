@@ -196,7 +196,8 @@ angular.module('quizit.controllers', [])
 		answer : $scope.data[$scope.QAindex]['ans']
 	};
 	var readyTime = 5200;
-	$scope.imgSrc = 'img/notloading.png' + '?v=' + Date.now();
+	//$scope.imgSrc = 'img/notloading.png' + '?v=' + Date.now();
+	$scope.showLoadingBar = false;
 	var popupImgSource = 'img/countdown.gif'+'?v='+Date.now();
 	var popupTemplate = '<img style="width:100%" src="' + popupImgSource + '"/>';
 	console.log(popupTemplate);
@@ -212,7 +213,8 @@ angular.module('quizit.controllers', [])
 		$timeout(function () {
 			myPopup.close();
 			$scope.texts.push(question);
-			$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
+			//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
+			$scope.showLoadingBar = true;
 			$scope.timestamp = Date.now();
 		}, readyTime);
 	};
@@ -262,6 +264,7 @@ angular.module('quizit.controllers', [])
 		}
 		$scope.isButtonDisabled = true;
 		$scope.isIdleHidden = false;
+		$scope.showLoadingBar = false;
 		if ($scope.QAindex < $scope.data.length) {
 			var answer = {
 				index : $scope.QAindex,
@@ -273,6 +276,7 @@ angular.module('quizit.controllers', [])
 			if (!answer.correct) {
 				newDeduct = 10;
 			}
+			$scope.deduct += newDeduct;
 			var delay = 1000;
 			$timeout(function () {
 				$scope.QAindex++;
@@ -297,11 +301,26 @@ angular.module('quizit.controllers', [])
 						answer : $scope.data[$scope.QAindex]['ans']
 					};
 					$scope.texts.push(question);
-					$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
-				}
-				if ($scope.QAindex === $scope.data.length) {
+					//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
+					$scope.showLoadingBar = true;
+				} else if ($scope.QAindex === $scope.data.length) {
+					var lastResponse;
+					if (newDeduct < 10) {
+						lastResponse = correctAns[Math.floor(Math.random() * correctAns.length)];
+					} else if (newDeduct === 10 && answer.correct) {
+						lastResponse = slowAns[Math.floor(Math.random() * slowAns.length)];
+					} else {
+						lastResponse = wrongAns[Math.floor(Math.random() * wrongAns.length)];
+					}
+					lastResponse = lastResponse + 'You got ' + (10 - newDeduct) + ((newDeduct >= 9) ? ' point. ' : ' points. ');
+					var lastRes = {
+						index : $scope.QAindex,
+						type : 'question',
+						content : lastResponse
+					};
+					$scope.texts.push(lastRes);
 					$scope.showPopup();
-					$scope.isIdlehidden = true;
+					$scope.isIdlehidden = true;	
 				}
 				$ionicScrollDelegate.scrollBottom();
 			}, delay);
@@ -310,7 +329,6 @@ angular.module('quizit.controllers', [])
 		$timeout(function () {
 			$scope.isButtonDisabled = false;
 			$scope.isIdleHidden = true;
-			$scope.deduct += newDeduct;
 			$scope.timestamp = Date.now();
 		}, delay + 200);
 	};

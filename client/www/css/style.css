@@ -166,9 +166,20 @@
     left: 100%;
     /*background-color:#86A87A; */
     /*border-radius: 50%;*/
-    -webkit-animation: loading-bar 8s 5s; /* Chrome, Safari, Opera */
-    animation: loading-bar 8s 5s;
+    -webkit-animation: loading-bar 5s 2s; /* Chrome, Safari, Opera */
+    animation: loading-bar 5s 2s;
 }
+
+.dummy-bar{
+    height: 5%;
+    width: 8%;
+    position: relative;
+    top: 50%;
+    left: 100%;
+    /*background-color:#86A87A; */
+    /*border-radius: 50%;*/
+}
+
 @-webkit-keyframes loading-bar {
     0%   {background:#167641; left:100%; top:0px;border-radius: 50%;}
     15%   {background:#86A87A; }
