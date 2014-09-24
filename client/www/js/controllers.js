@@ -6,39 +6,34 @@ angular.module('quizit.controllers', [])
 	};
 })
 
-.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
-  $scope.sidebarData = [{
-    linkId:"menu-item-1",
-    imgSrc:"img/lightbulb-outline.png",
-    title:"Quiz!t",
-    linkAddress:"#/app/friends"
-  },
-  {
-    linkId:"menu-item-2",
-    imgSrc:"img/star-outline.png",
-    title:"Top Quizer",
-    linkAddress:"#/app/leaderboard"
-  },
-  {
-    linkId:"menu-item-3",
-    imgSrc:"img/glasses-outline.png",
-    title:"History",
-    linkAddress:"#/app/history"
-  },
-  
-  {
-    linkId:"menu-item-5",
-    imgSrc:"img/chatbubble-outline.png",
-    title:"Notification",
-    linkAddress:"#/app/notifications"
-  },
-
-  {
-    linkId:"menu-item-4",
-    imgSrc:"img/contact-outline.png",
-    title:"Log Out",
-    linkAddress:"#/app/challenge"
-  }];
+.controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
+	$scope.sidebarData = [{
+			linkId : "menu-item-1",
+			imgSrc : "img/lightbulb-outline.png",
+			title : "Quiz!t",
+			linkAddress : "#/app/friends"
+		}, {
+			linkId : "menu-item-2",
+			imgSrc : "img/star-outline.png",
+			title : "Top Quizer",
+			linkAddress : "#/app/leaderboard"
+		}, {
+			linkId : "menu-item-3",
+			imgSrc : "img/glasses-outline.png",
+			title : "History",
+			linkAddress : "#/app/history"
+		}, {
+			linkId : "menu-item-5",
+			imgSrc : "img/chatbubble-outline.png",
+			title : "Notification",
+			linkAddress : "#/app/notifications"
+		}, {
+			linkId : "menu-item-4",
+			imgSrc : "img/contact-outline.png",
+			title : "Log Out",
+			linkAddress : "#/app/challenge"
+		}
+	];
 	$scope.toggleSidebar = function () {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
@@ -51,134 +46,119 @@ angular.module('quizit.controllers', [])
 	$scope.activeItem = undefined;
 })
 
-.controller('FriendListCtrl',function($scope){
-  $scope.friends = [{
-    name:"Wang Kunzhen",
-    image:"img/profile_images/user_0.jpeg"
-  },
-  {
-    name:"Viet Trung Truong",
-    image:"img/profile_images/user_2.jpeg"
-  },
-  {
-    name:"Xia Yiping",
-    image:"img/profile_images/user_2.jpeg"
-  },
-  {
-    name:"Wang Yichao",
-    image:"img/profile_images/user_3.jpeg"
-  },
-  {
-    name:"Viet Trung Truong",
-    image:"img/profile_images/user_4.jpeg"
-  },
-  {
-    name:"Xia Yiping",
-    image:"img/profile_images/user_0.jpeg"
-  },
-  {
-    name:"Wang Yichao",
-    image:"img/profile_images/user_1.jpeg"
-  },
-   {
-    name:"Viet Trung Truong",
-    image:"img/profile_images/user_2.jpeg"
-  },
-  {
-    name:"Xia Yiping",
-    image:"img/profile_images/user_3.jpeg"
-  },
-  {
-    name:"Wang Yichao",
-    image:"img/profile_images/user_4.jpeg"
-  }
-  ];
+.controller('FriendListCtrl', function ($scope) {
+	$scope.linkAddress = "#/app/challenge";
+	$scope.friends = [{
+			name : "Wang Kunzhen",
+			image : "img/profile_images/user_0.jpeg"
+		}, {
+			name : "Viet Trung Truong",
+			image : "img/profile_images/user_2.jpeg"
+		}, {
+			name : "Xia Yiping",
+			image : "img/profile_images/user_2.jpeg"
+		}, {
+			name : "Wang Yichao",
+			image : "img/profile_images/user_3.jpeg"
+		}, {
+			name : "Viet Trung Truong",
+			image : "img/profile_images/user_4.jpeg"
+		}, {
+			name : "Xia Yiping",
+			image : "img/profile_images/user_0.jpeg"
+		}, {
+			name : "Wang Yichao",
+			image : "img/profile_images/user_1.jpeg"
+		}, {
+			name : "Viet Trung Truong",
+			image : "img/profile_images/user_2.jpeg"
+		}, {
+			name : "Xia Yiping",
+			image : "img/profile_images/user_3.jpeg"
+		}, {
+			name : "Wang Yichao",
+			image : "img/profile_images/user_4.jpeg"
+		}
+	];
 
-  $scope.selectFriend = function(friend){
-  };
-  
+	$scope.selectFriend = function (friend) {};
+
 })
 
-.controller('HistoryCtrl',function($scope){
-	$scope.historyData = [
-	{
-		name:"Wang Kunzhen",
-		profile_image:"img/glasses-outline.png",
-		score:65
-	},
-	{
-		name:"Wang Yichao",
-		profile_image:"img/lightbulb-outline.png",
-		score:80
-	},
-	{
-		name:"Xia Yiping",
-		profile_image:"img/contact-outline.png",
-		score:70
-	},
-	{
-		name:"Viet Trung Truong",
-		profile_image:"img/chatbubble-outline.png",
-		score:65
-	}
+.controller('HistoryCtrl', function ($scope) {
+	$scope.historyData = [{
+			name : "Wang Kunzhen",
+			profile_image : "img/glasses-outline.png",
+			score : 65
+		}, {
+			name : "Wang Yichao",
+			profile_image : "img/lightbulb-outline.png",
+			score : 80
+		}, {
+			name : "Xia Yiping",
+			profile_image : "img/contact-outline.png",
+			score : 70
+		}, {
+			name : "Viet Trung Truong",
+			profile_image : "img/chatbubble-outline.png",
+			score : 65
+		}
 	];
 })
 
-.controller('LeaderboardCtrl',function($scope){
-	$scope.leaderboardData = [
-	{
-		name:"Wang Kunzhen",
-		profile_image:"img/glasses-outline.png",
-		score:1001
-	},
-	{
-		name:"Wang Yichao",
-		profile_image:"img/lightbulb-outline.png",
-		score:800
-	},
-	{
-		name:"Xia Yiping",
-		profile_image:"img/contact-outline.png",
-		score:799
-	},
-	{
-		name:"Viet Trung Truong",
-		profile_image:"img/chatbubble-outline.png",
-		score:653
-	}
+.controller('LeaderboardCtrl', function ($scope) {
+	$scope.leaderboardData = [{
+			name : "Wang Kunzhen",
+			profile_image : "img/glasses-outline.png",
+			score : 1001
+		}, {
+			name : "Wang Yichao",
+			profile_image : "img/lightbulb-outline.png",
+			score : 800
+		}, {
+			name : "Xia Yiping",
+			profile_image : "img/contact-outline.png",
+			score : 799
+		}, {
+			name : "Viet Trung Truong",
+			profile_image : "img/chatbubble-outline.png",
+			score : 653
+		}
 	];
 })
 
-.controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate) {
+.controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate, $location) {
 	$scope.friend = {
 		name : "Trung"
 	};
 	$scope.data = [{
 			qns : "Are you happy?",
 			ans : "Yes"
+		}
+		, {
+		qns : "Are you sad?",
+		ans : "No"
 		}, {
-			qns : "Are you sad?",
-			ans : "No"
+		qns : "Are you bored?",
+		ans : "Yes"
 		}, {
-			qns : "Are you bored?",
-			ans : "Yes"
+		qns : "Are you enjoying?",
+		ans : "No"
 		}, {
-			qns : "Are you enjoying?",
-			ans : "No"
+		qns : "Are you sleepy?",
+		ans : "Yes"
 		}, {
-			qns : "Are you sleepy?",
-			ans : "Yes"
+		qns : "Are you awake?",
+		ans : "No"
 		}, {
-			qns : "Are you awake?",
-			ans : "No"
+		qns : "Are you hungry?",
+		ans : "Yes"
 		}, {
-			qns : "Are you hungry?",
-			ans : "Yes"
-		}, {
-			qns : "Are you thirsty?",
-			ans : "No"
+		qns : "Are you thirsty?",
+		ans : "No"
 		}
 	];
+	$scope.bonus = 'This is some description. Today is hot, isn\'t it?';
 	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
 	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
@@ -198,18 +178,14 @@ angular.module('quizit.controllers', [])
 	var readyTime = 5200;
 	//$scope.imgSrc = 'img/notloading.png' + '?v=' + Date.now();
 	$scope.showLoadingBar = false;
-	var popupImgSource = 'img/countdown.gif'+'?v='+Date.now();
+	var popupImgSource = 'img/countdown.gif' + '?v=' + Date.now();
 	var popupTemplate = '<img style="width:100%" src="' + popupImgSource + '"/>';
-	console.log(popupTemplate);
 	$scope.showReady = function () {
 		var myPopup = $ionicPopup.show({
 				title : 'Are you ready?',
 				subTitle : 'The faster you answer, the higher score you get',
 				template : popupTemplate
 			});
-		myPopup.then(function (res) {
-			console.log('Tapped!', res);
-		});
 		$timeout(function () {
 			myPopup.close();
 			$scope.texts.push(question);
@@ -240,17 +216,34 @@ angular.module('quizit.controllers', [])
 				subTitle : '<p class="highlight">You got ' + (100 - $scope.deduct) + '/100</p>',
 				scope : $scope,
 				buttons : [{
-						text : '<b>Leaderboard</b>',
-						type : 'button-positive',
-						onTap : function (e) {
-							alert('the top on leaderboard is me');
+						text : '<b>Ask Bonus Question</b>',
+						type : 'button-energized',
+						onTap : function (e1) {
+							var titl = '<h1>Hi, '+$scope.friend.name+' . I want to Quiz!t you. </h1>';
+							var templ = '<h2 text-align="center">'+$scope.bonus+'</h2>';
+							var myPopup = $ionicPopup.show({
+									template : templ,
+									title : titl,
+									scope : $scope,
+									buttons : [{
+											text : '<b>Send with Quiz!t!</b>',
+											type : 'button-balanced',
+											onTap : function (e) {
+												$location.url('../friendlist');
+											}
+										},
+									]
+								});
 						}
-					},
+					}, {
+						text : '<b>Back to Quiz!t</b>',
+						type : 'button-positive',
+						onTap : function (e2) {
+							$location.url('../friendlist');
+						}
+					}
 				]
 			});
-		myPopup.then(function (res) {
-			console.log('Tapped!', res);
-		});
 	};
 
 	$scope.isButtonDisabled = false;
@@ -295,7 +288,7 @@ angular.module('quizit.controllers', [])
 					} else {
 						nextQnsContent = nextQnsContent + preQns[Math.floor(Math.random() * preQns.length)];
 					}
-					nextQnsContent = nextQnsContent +$scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + $scope.data[$scope.QAindex]['qns'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
@@ -322,7 +315,7 @@ angular.module('quizit.controllers', [])
 					};
 					$scope.texts.push(lastRes);
 					$scope.showPopup();
-					$scope.isIdlehidden = true;	
+					$scope.isIdlehidden = true;
 				}
 				$ionicScrollDelegate.scrollBottom();
 			}, delay);
