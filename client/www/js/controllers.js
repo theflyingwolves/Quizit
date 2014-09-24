@@ -4,16 +4,8 @@ angular.module('quizit.controllers', [])
 	$scope.bodyBackground = {
 		background : 'url(../img/bg2.jpg)'
 	};
-})
 
-.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
-	$scope.fb_login_callback = function(){
-		$location.path('/friends');
-	};
-
-	$scope.fblogin = function(){
-		fb_login(fb_login_callback);
-	};
+	$scope.user = {};
 })
 
 .controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
@@ -59,6 +51,34 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.activeItem = undefined;
+})
+
+.controller('loadingCtrl',function($scope, $location ,$interval){
+	$scope.feedback = "";
+	$scope.loadHome = function(){
+		FB.getLoginStatus(function(response){
+			if(response.status === "connected"){
+				$location.path('/app/friends');
+			}else{
+				$location.path('/app/home');
+			}
+		});
+	};
+
+	$interval($scope.loadHome,2000, 1);
+})
+
+
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
+	$scope.fb_login_callback = function(response){
+		$scope.user = response;
+		console.log($scope.user);
+		$location.path('/friends');
+	};
+
+	$scope.fblogin = function(){
+		fb_login(fb_login_callback);
+	};
 })
 
 .controller('FriendListCtrl',function($scope){

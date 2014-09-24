@@ -44,7 +44,7 @@ function fb_login(callback){
                 }
             });
 
-            callback();
+            callback(response);
         } else {
             //user hit cancel button
             console.log('User cancelled login or did not fully authorize.');
@@ -52,7 +52,6 @@ function fb_login(callback){
         }
     }, {
         scope: 'publish_stream, email, user_birthday, user_likes, user_interests, user_tagged_places, user_friends'
-
     });
 }
 
@@ -62,15 +61,3 @@ function fb_login(callback){
     e.async = true;
     document.getElementById('fb-root').appendChild(e);
 }());
-
-function loginStatus(){
-    FB.getLoginStatus(function(response){
-        if(response.status === "connected"){
-            console.log("User Logged In");
-            return true;
-        }else{
-            console.log("User Logged Out");
-            return false;
-        }
-    });
-}
