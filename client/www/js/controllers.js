@@ -4,9 +4,14 @@ angular.module('quizit.controllers', [])
 	$scope.bodyBackground = {
 		background : 'url(../img/bg2.jpg)'
 	};
+
+	$scope.user = {};
+	$scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
+
 })
 
 .controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
+
   $scope.sidebarData = [{
     linkId:"menu-item-1",
     imgSrc:"img/lightbulb-outline.png",
@@ -32,13 +37,19 @@ angular.module('quizit.controllers', [])
     title:"Notification",
     linkAddress:"#/app/notifications"
   },
-
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"Challenge",
+    linkAddress:"#/app/challenge"
+  },
   {
     linkId:"menu-item-4",
     imgSrc:"img/contact-outline.png",
     title:"Log Out",
-    linkAddress:"#/app/challenge"
+    linkAddress:"#/app/logout"
   }];
+
 	$scope.toggleSidebar = function () {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
@@ -46,9 +57,52 @@ angular.module('quizit.controllers', [])
 	$scope.selectSideItem = function (item, index) {
 		$scope.activeItem = item;
 		$ionicSideMenuDelegate.toggleLeft(false);
+		if(index == 5){
+			console.log("Trying to log out");
+			FB.logout(function(response){
+				console.log("User Logged Out");
+			});
+		}
 	};
 
 	$scope.activeItem = undefined;
+})
+
+.controller('loadingCtrl',function($scope, $location ,$interval){
+	$scope.feedback = "";
+	$scope.loadHome = function(){
+		FB.getLoginStatus(function(response){
+			if(response.status === "connected"){
+				console.log("User Logged in");
+				$location.path('/app/friends');
+			}else{
+				console.log("User Logged Off");
+				$location.path('/app/home');
+			}
+		});
+	};
+
+	$interval($scope.loadHome,2000, 1);
+})
+
+.controller('logoutCtrl',function($scope,$location,$interval){
+	$scope.redirectToHome = function(){
+		$location.path('/app/loading');
+	};
+
+	$interval($scope.redirectToHome,2000,1);
+})
+
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
+	$scope.fb_login_callback = function(response){
+		$scope.user = response;
+		// console.log("User Logged in: "+$scope.user.name);
+		$location.path('/app/friends');
+	};
+
+	$scope.fblogin = function(){
+		fb_login($scope.fb_login_callback);
+	};
 })
 
 .controller('FriendListCtrl',function($scope){
@@ -93,92 +147,92 @@ angular.module('quizit.controllers', [])
     image:"img/profile_images/user_4.jpeg"
   }
   ];
-
-  $scope.selectFriend = function(friend){
-  };
-  
 })
 
-.controller('HistoryCtrl',function($scope){
-	$scope.historyData = [
-	{
-		name:"Wang Kunzhen",
-		profile_image:"img/glasses-outline.png",
-		score:65
-	},
-	{
-		name:"Wang Yichao",
-		profile_image:"img/lightbulb-outline.png",
-		score:80
-	},
-	{
-		name:"Xia Yiping",
-		profile_image:"img/contact-outline.png",
-		score:70
-	},
-	{
-		name:"Viet Trung Truong",
-		profile_image:"img/chatbubble-outline.png",
-		score:65
-	}
+.controller('HistoryCtrl', function ($scope) {
+	$scope.historyData = [{
+			name : "Wang Kunzhen",
+			profile_image : "img/glasses-outline.png",
+			score : 65
+		}, {
+			name : "Wang Yichao",
+			profile_image : "img/lightbulb-outline.png",
+			score : 80
+		}, {
+			name : "Xia Yiping",
+			profile_image : "img/contact-outline.png",
+			score : 70
+		}, {
+			name : "Viet Trung Truong",
+			profile_image : "img/chatbubble-outline.png",
+			score : 65
+		}
 	];
 })
 
-.controller('LeaderboardCtrl',function($scope){
-	$scope.leaderboardData = [
-	{
-		name:"Wang Kunzhen",
-		profile_image:"img/glasses-outline.png",
-		score:1001
-	},
-	{
-		name:"Wang Yichao",
-		profile_image:"img/lightbulb-outline.png",
-		score:800
-	},
-	{
-		name:"Xia Yiping",
-		profile_image:"img/contact-outline.png",
-		score:799
-	},
-	{
-		name:"Viet Trung Truong",
-		profile_image:"img/chatbubble-outline.png",
-		score:653
-	}
+.controller('LeaderboardCtrl', function ($scope) {
+	$scope.leaderboardData = [{
+			name : "Wang Kunzhen",
+			profile_image : "img/glasses-outline.png",
+			score : 1001
+		}, {
+			name : "Wang Yichao",
+			profile_image : "img/lightbulb-outline.png",
+			score : 800
+		}, {
+			name : "Xia Yiping",
+			profile_image : "img/contact-outline.png",
+			score : 799
+		}, {
+			name : "Viet Trung Truong",
+			profile_image : "img/chatbubble-outline.png",
+			score : 653
+		}
 	];
 })
 
-.controller('ChatCtrl', function ($scope, $ionicPopup, $timeout, $ionicScrollDelegate) {
+.controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location) {
 	$scope.friend = {
 		name : "Trung"
 	};
-	$scope.data = [{
-			qns : "Are you happy?",
-			ans : "Yes"
-		}, {
-			qns : "Are you sad?",
-			ans : "No"
-		}, {
-			qns : "Are you bored?",
-			ans : "Yes"
-		}, {
-			qns : "Are you enjoying?",
-			ans : "No"
-		}, {
-			qns : "Are you sleepy?",
-			ans : "Yes"
-		}, {
-			qns : "Are you awake?",
-			ans : "No"
-		}, {
-			qns : "Are you hungry?",
-			ans : "Yes"
-		}, {
-			qns : "Are you thirsty?",
-			ans : "No"
-		}
+	$http.get('http://' + $scope.serverURL + '/quiz').
+	success(function (data, status, headers, config) {
+		console.log(data);
+		$scope.data = data;
+		console.log($scope.data);
+	}).
+	error(function (data, status, headers, config) {
+		//log error
+	});
+	console.log($scope.data);
+	/*$scope.data = [{
+	question : "Are you happy?",
+	answer : "Y"
+	}, {
+	question : "Are you sad?",
+	answer : "N"
+	}, {
+	question : "Are you bored?",
+	answer : "Y"
+	}, {
+	question : "Are you enjoying?",
+	answer : "N"
+	}, {
+	question : "Are you sleepy?",
+	answer : "Y"
+	}, {
+	question : "Are you awake?",
+	answer : "N"
+	}, {
+	question : "Are you hungry?",
+	answer : "Y"
+	}, {
+	question : "Are you thirsty?",
+	answer : "N"
+	}
 	];
+	 */
+	$scope.bonus = 'Today is hot, isn\'t it?';
 	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
 	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
@@ -189,29 +243,26 @@ angular.module('quizit.controllers', [])
 	$scope.texts = [];
 	$scope.QAindex = 0;
 	$scope.deduct = 0;
-	var question = {
-		index : $scope.QAindex,
-		type : 'question',
-		content : $scope.data[$scope.QAindex]['qns'],
-		answer : $scope.data[$scope.QAindex]['ans']
-	};
+	var question = {};
 	var readyTime = 5200;
 	//$scope.imgSrc = 'img/notloading.png' + '?v=' + Date.now();
 	$scope.showLoadingBar = false;
-	var popupImgSource = 'img/countdown.gif'+'?v='+Date.now();
+	var popupImgSource = 'img/countdown.gif' + '?v=' + Date.now();
 	var popupTemplate = '<img style="width:100%" src="' + popupImgSource + '"/>';
-	console.log(popupTemplate);
 	$scope.showReady = function () {
 		var myPopup = $ionicPopup.show({
-				title : 'Are you ready?',
-				subTitle : 'The faster you answer, the higher score you get',
+				title : '<div class="popup-title">Are you ready?</div>',
+				subTitle : '<div class="popup-subtitle popup-big">The faster you answer, the higher score you get</div>',
 				template : popupTemplate
 			});
-		myPopup.then(function (res) {
-			console.log('Tapped!', res);
-		});
 		$timeout(function () {
 			myPopup.close();
+			question = {
+				index : $scope.QAindex,
+				type : 'question',
+				content : $scope.data[$scope.QAindex]['question'],
+				answer : $scope.data[$scope.QAindex]['answer']
+			};
 			$scope.texts.push(question);
 			//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
 			$scope.showLoadingBar = true;
@@ -236,21 +287,38 @@ angular.module('quizit.controllers', [])
 		// An elaborate, custom popup
 		var myPopup = $ionicPopup.show({
 				template : '',
-				title : report,
-				subTitle : '<p class="highlight">You got ' + (100 - $scope.deduct) + '/100</p>',
+				title : '<div class="popup-title">' + report + '</div>',
+				subTitle : '<div class="highlight popup-subtitle">You got ' + (100 - $scope.deduct) + '/100</div>',
 				scope : $scope,
 				buttons : [{
-						text : '<b>Leaderboard</b>',
-						type : 'button-positive',
-						onTap : function (e) {
-							alert('the top on leaderboard is me');
+						text : '<b>Ask Bonus Question</b>',
+						type : 'button-energized',
+						onTap : function (e1) {
+							var titl = '<div class="popup-title">Hi, ' + $scope.friend.name + ' . I want to Quiz!t you. </div>';
+							var templ = '<div class="popup-subtitle">' + $scope.bonus + '</div>';
+							var myPopup = $ionicPopup.show({
+									template : templ,
+									title : titl,
+									scope : $scope,
+									buttons : [{
+											text : '<b>Send with Quiz!t!</b>',
+											type : 'button-balanced',
+											onTap : function (e) {
+												$location.url('../friendlist');
+											}
+										},
+									]
+								});
 						}
-					},
+					}, {
+						text : '<b>Back to Quiz!t</b>',
+						type : 'button-positive',
+						onTap : function (e2) {
+							$location.url('../friendlist');
+						}
+					}
 				]
 			});
-		myPopup.then(function (res) {
-			console.log('Tapped!', res);
-		});
 	};
 
 	$scope.isButtonDisabled = false;
@@ -269,7 +337,7 @@ angular.module('quizit.controllers', [])
 			var answer = {
 				index : $scope.QAindex,
 				type : 'answer',
-				content : userAns,
+				content : (userAns=='Y')?'Yes':'No',
 				correct : (userAns === question.answer)
 			};
 			$scope.texts.push(answer);
@@ -295,12 +363,12 @@ angular.module('quizit.controllers', [])
 					} else {
 						nextQnsContent = nextQnsContent + preQns[Math.floor(Math.random() * preQns.length)];
 					}
-					nextQnsContent = nextQnsContent +$scope.data[$scope.QAindex]['qns'];
+					nextQnsContent = nextQnsContent + $scope.data[$scope.QAindex]['question'];
 					question = {
 						index : $scope.QAindex,
 						type : 'question',
 						content : nextQnsContent,
-						answer : $scope.data[$scope.QAindex]['ans']
+						answer : $scope.data[$scope.QAindex]['answer']
 					};
 					$scope.texts.push(question);
 					//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
@@ -322,7 +390,7 @@ angular.module('quizit.controllers', [])
 					};
 					$scope.texts.push(lastRes);
 					$scope.showPopup();
-					$scope.isIdlehidden = true;	
+					$scope.isIdlehidden = true;
 				}
 				$ionicScrollDelegate.scrollBottom();
 			}, delay);

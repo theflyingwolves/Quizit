@@ -147,6 +147,21 @@
     }
 }
 
+.popup-subtitle{
+	text-align: center;
+	font-size: 1rem;
+}
+
+.popup-big{
+	font-size: 1.5rem;
+}
+
+.popup-title{
+	font-size: 1.5rem;
+	text-align: center;
+	color: #009966;
+}
+
 .highlight{
 	font-size: 1.5rem;
 	color: red;
