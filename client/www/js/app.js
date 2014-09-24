@@ -21,7 +21,7 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
 })
 
 .config(function($stateProvider, $urlRouterProvider){
-  $urlRouterProvider.otherwise('/app/loading')
+  $urlRouterProvider.otherwise('/app/home')
 
   $stateProvider.state('app',{
       url: "/app",
@@ -36,6 +36,16 @@ angular.module('quizit', ['ionic', 'quizit.controllers'])
       content:{
         templateUrl:"templates/loading.html",
         controller:"loadingCtrl"
+      }
+    }
+  })
+
+  .state('app.logout',{
+    url:'/logout',
+    views:{
+      content:{
+        templateUrl:"templates/logout.html",
+        controller:"logoutCtrl"
       }
     }
   })

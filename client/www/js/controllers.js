@@ -34,13 +34,19 @@ angular.module('quizit.controllers', [])
     title:"Notification",
     linkAddress:"#/app/notifications"
   },
-
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"Challenge",
+    linkAddress:"#/app/challenge"
+  },
   {
     linkId:"menu-item-4",
     imgSrc:"img/contact-outline.png",
     title:"Log Out",
-    linkAddress:"#/app/challenge"
+    linkAddress:"#/app/logout"
   }];
+
 	$scope.toggleSidebar = function () {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
@@ -48,6 +54,12 @@ angular.module('quizit.controllers', [])
 	$scope.selectSideItem = function (item, index) {
 		$scope.activeItem = item;
 		$ionicSideMenuDelegate.toggleLeft(false);
+		if(index == 5){
+			console.log("Trying to log out");
+			FB.logout(function(response){
+				console.log("User Logged Out");
+			});
+		}
 	};
 
 	$scope.activeItem = undefined;
@@ -58,8 +70,10 @@ angular.module('quizit.controllers', [])
 	$scope.loadHome = function(){
 		FB.getLoginStatus(function(response){
 			if(response.status === "connected"){
+				console.log("User Logged in");
 				$location.path('/app/friends');
 			}else{
+				console.log("User Logged Off");
 				$location.path('/app/home');
 			}
 		});
@@ -68,16 +82,23 @@ angular.module('quizit.controllers', [])
 	$interval($scope.loadHome,2000, 1);
 })
 
+.controller('logoutCtrl',function($scope,$location,$interval){
+	$scope.redirectToHome = function(){
+		$location.path('/app/loading');
+	};
+
+	$interval($scope.redirectToHome,2000,1);
+})
 
 .controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
 	$scope.fb_login_callback = function(response){
 		$scope.user = response;
-		console.log($scope.user);
-		$location.path('/friends');
+		// console.log("User Logged in: "+$scope.user.name);
+		$location.path('/app/friends');
 	};
 
 	$scope.fblogin = function(){
-		fb_login(fb_login_callback);
+		fb_login($scope.fb_login_callback);
 	};
 })
 
