@@ -79,6 +79,16 @@ angular.module('quizit', ['ionic','quizit.controllers'])
     }
   })
 
+  .state('app.notifications',{
+    url:'/notification',
+    views:{
+      content:{
+        templateUrl:"templates/notification.html",
+        controller:'NotificationCtrl'
+      }
+    }
+  })
+
   .state('app.friendlist',{
     url:'/friends',
     views:{

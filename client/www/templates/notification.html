@@ -1,57 +1,25 @@
-<!DOCTYPE html>
-<html>
-<head>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
-    <title></title>
-
-    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
-    <link href="../css/try2.css" rel="stylesheet">
-    <link href="../css/try1.css" rel="stylesheet">
-
-    <link href='http://fonts.googleapis.com/css?family=Amatic+SC|Waiting+for+the+Sunrise|Reenie+Beanie|Oswald:400,700' rel='stylesheet' type='text/css'>
-    
-<meta name="viewport" content="width=device-width, initial-scale=1">
-
-<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
-<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
-<script>
-
-$(document).on("pagecreate","#pageone",function(){
-  $("p").on("swipe",function(){
-    $("p").hide();
-    $(".confirmation").text("information verified")
-  });                       
-});
-</script>
-</head>
-
-<body>
-
-<div class="header">
-    <h1>Quiz!t</h1>
-</div>
-
-<div data-role="page" id="pageone" class="verify">
-  <div data-role="header" class="title">
-    <h1>Verify Events!</h1>
+<ion-view ng-style = "bodyBackground">
+  <div class="header">
+      <h1>Quiz!t</h1>
   </div>
 
-  <div  data-role="main" class="message">
-    <p>
-    This is a dummy message.    
-    This is a dummy message.
-    This is a dummy message.
-    This is a dummy message.
-    </p>
-    <div class="confirmation"></div>
+  <div data-role="page" id="pageone" class="verify">
+    <div data-role="header" class="title">
+      <h1>Verify Events!</h1>
+    </div>
+
+    <div  data-role="main" class="message">
+      <p>
+      This is a dummy message.    
+      This is a dummy message.
+      This is a dummy message.
+      This is a dummy message.
+      </p>
+      <div class="confirmation"></div>
+    </div>
+  </div> 
+
+  <div class="footer">
+    <h1>2014 All Rights Reserved</h1>
   </div>
-</div> 
-
-<div class="footer">
-  <h1>2014 All Rights Reserved</h1>
-</div>
-
-</body>
-</html>
+</ion-view>
