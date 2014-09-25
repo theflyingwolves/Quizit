@@ -118,6 +118,7 @@ angular.module('quizit.controllers', [])
 
 .controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location, $interval, quizitService){
 	$ionicSideMenuDelegate.canDragContent(false);
+	$ionicSideMenuDelegate.toggleLeft(false);
 
 	$scope.redirectToFriends = function(){
 		$ionicSideMenuDelegate.canDragContent(true);
@@ -125,13 +126,12 @@ angular.module('quizit.controllers', [])
 	}
 
 	$scope.fb_login_callback = function(response){
-		var userdata = $scope.generateUserData(response);
+		$scope.generateUserData(response);
 		// $http.post("http://"+$scope.serverURL+"/users/init",userdata);
 		$interval($scope.redirectToFriends,1000,1);
 	};
 
 	$scope.generateUserData = function(token){
-		var user = {};
 		var access_token = token.authResponse.accessToken;
 		var user_id = token.authResponse.userID;
 
@@ -152,9 +152,9 @@ angular.module('quizit.controllers', [])
 			$scope.initFriends(response.data, new Array());
 			});
 		}
-
-		return user;
 	}
+
+	
 
 	$scope.initFriends = function(friendlist, result){
 		if(friendlist.length <= 0){
@@ -186,26 +186,6 @@ angular.module('quizit.controllers', [])
 })
 
 .controller('FriendListCtrl',function($scope,quizitService){
-
-// 	var friendList = [{
-// 			name : "Wang Kunzhen",
-// 			id : "theflyingwolves@gmail.com",
-// 			image : "img/profile_images/user_0.jpeg"
-// 		}, {
-// 			name : "Viet Trung Truong",
-// 			id : "viettrung9012@yahoo.com",
-// 			image : "img/profile_images/user_2.jpeg"
-// 		}, {
-// 			name : "Xia Yiping",
-// 			id : "xy@xy.com",
-// 			image : "img/profile_images/user_2.jpeg"
-// 		}, {
-// 			name : "Wang Yichao",
-// 			id : "wy@wy.com",
-// 			image : "img/profile_images/user_3.jpeg"
-// 		}
-// 	];
-// 	$scope.friends = quizitService.friends(friendList);
 		$scope.selectFriend = function (friend) {
 			quizitService.selectFriend(friend);
 		};
