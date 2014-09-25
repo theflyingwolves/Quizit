@@ -1,24 +1,20 @@
-<ion-view ng-style = "bodyBackground">
+<ion-view ng-style = "bodyBackground" scroll="true">
   <div class="header">
-      <h1>Quiz!t</h1>
+      <h1>Notification</h1>
   </div>
-
-  <div data-role="page" id="pageone" class="verify">
-    <div data-role="header" class="title">
-      <h1>Verify Events!</h1>
-    </div>
-
-    <div  data-role="main" class="message">
-      <p>
-      This is a dummy message.    
-      This is a dummy message.
-      This is a dummy message.
-      This is a dummy message.
-      </p>
-      <div class="confirmation"></div>
-    </div>
-  </div> 
-
+	<ion-content  class = "message" scroll="true">
+		<ul class="list list-inset">
+			<li class="item" ng-repeat="content in data">
+				<span ng-show={{content.type=='question'}}>Someone just asked: </span>
+				<span ng-show={{content.type=='answer'}}>Your friend {{content.name}} just answered your question </span>
+				"{{content.question}}"
+				<span ng-show={{content.type=='answer'}}>with "{{content.answer=='Y'&&'Yes'||'No'}}"</span>
+				<button class="button button-icon icon ion-close-circled icon-right energized right" ng-click="userResponse('{{content.question}}', 'I')"></button>
+				<button ng-show="{{content.type=='question'}}" class="button button-outline button-assertive right" ng-click="userResponse('{{content.question}}', 'Y')">No</button>
+				<button ng-show="{{content.type=='question'}}" class="button button-outline button-balanced right" ng-click="userResponse('{{content.question}}', 'Y')">Yes</button>
+			</li>
+		</ul>
+	</ion-content>
   <div class="footer">
     <h1>2014 All Rights Reserved</h1>
   </div>

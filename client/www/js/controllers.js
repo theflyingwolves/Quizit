@@ -189,11 +189,46 @@ angular.module('quizit.controllers', [])
 	};
 })
 
-.controller('NotificationCtrl', function($scope){
-
+.controller('NotificationCtrl', function($scope, quizitService){
+	// get data from server about notification: should be done when the app load - use homecontrol, then use quizitService to set data
+	/*
+	var setData = fuction(){
+		$scope.data = quizitService.getNotifications();
+	}
+	updateNotifications($scope.data);
+	setData();	
+	*/
+	$scope.data = [
+		{type: 'question',
+		question: 'Are you free on Sunday?'},
+		{type: 'question',
+		question: 'Are you free on Saturday?'},
+		{type: 'answer',
+		question: 'Are you free on Monday?',
+		name: 'Wang Kunzheng',
+		answer: 'N'},
+		{type: 'question',
+		question: 'Are you free on Tuesday?'},
+		{type: 'answer',
+		question: 'Are you free on Wednesday?',
+		name: 'Colin Tan',
+		answer: 'N'}
+	];
+	// push data back to server	and call quizitService to remove data
+	$scope.userResponse = function(question, choice){
+		for (var i = 0; i < $scope.data.length; i++){
+			if ($scope.data[i]['question']===question){
+				$scope.data.splice(i, 1);
+				/*
+					updateNotifications($scope.data);
+					setData();	
+				*/
+			}
+		}
+	}
 })
 
-.controller('FriendListCtrl',function($scope,quizitService){
+.controller('FriendListCtrl',function($scope, quizitService){
 		$scope.selectFriend = function (friend) {
 			quizitService.selectFriend(friend);
 		};
