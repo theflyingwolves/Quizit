@@ -1,28 +1,57 @@
-<ion-view ng-style="bodyBackground" scroll="true">
-  <div class="header">
-      <h1>News</h1>
+<!DOCTYPE html>
+<html>
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
+    <title></title>
+
+    <link href="lib/ionic/css/ionic.css" rel="stylesheet">
+    <link href="../css/try2.css" rel="stylesheet">
+    <link href="../css/try1.css" rel="stylesheet">
+
+    <link href='http://fonts.googleapis.com/css?family=Amatic+SC|Waiting+for+the+Sunrise|Reenie+Beanie|Oswald:400,700' rel='stylesheet' type='text/css'>
+    
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+<script src="http://code.jquery.com/mobile/1.4.2/jquery.mobile-1.4.2.min.js"></script>
+<script>
+
+$(document).on("pagecreate","#pageone",function(){
+  $("p").on("swipe",function(){
+    $("p").hide();
+    $(".confirmation").text("information verified")
+  });                       
+});
+</script>
+</head>
+
+<body>
+
+<div class="header">
+    <h1>Quiz!t</h1>
+</div>
+
+<div data-role="page" id="pageone" class="verify">
+  <div data-role="header" class="title">
+    <h1>Verify Events!</h1>
   </div>
 
-	<div class="main">
-		<ion-content scroll="true">
-		<div class="leaderboard-list-container">
-		<div class="row responsive-sm" ng-repeat="item in leaderboardData">
-			<div class="col leaderboard-item" style="border:2px solid;margin:2px;">
-				<div class="row">
-					<div class="col col-80">
-						<div class="row">
-							<img src="{{item.profile_image}}" />
-						</div>
-						<div class="row"><p>{{item.name}}</p></div>
-					</div>
-					<div class="col col-20">
-						<p>{{item.score}}</p>
-					</div>
-				</div>	
-			</div>
-		</div>
-		</div>
-		</ion-content>
-	</div>
+  <div  data-role="main" class="message">
+    <p>
+    This is a dummy message.    
+    This is a dummy message.
+    This is a dummy message.
+    This is a dummy message.
+    </p>
+    <div class="confirmation"></div>
+  </div>
+</div> 
 
-</ion-view>
+<div class="footer">
+  <h1>2014 All Rights Reserved</h1>
+</div>
+
+</body>
+</html>
