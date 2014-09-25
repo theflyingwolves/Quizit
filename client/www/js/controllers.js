@@ -37,34 +37,46 @@ angular.module('quizit.controllers', [])
 	};
 })
 
-.controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
-	$scope.sidebarData = [{
-			linkId : "menu-item-1",
-			imgSrc : "img/lightbulb-outline.png",
-			title : "Quiz!t",
-			linkAddress : "#/app/friends"
-		}, {
-			linkId : "menu-item-2",
-			imgSrc : "img/star-outline.png",
-			title : "Top Quizer",
-			linkAddress : "#/app/leaderboard"
-		}, {
-			linkId : "menu-item-3",
-			imgSrc : "img/glasses-outline.png",
-			title : "History",
-			linkAddress : "#/app/history"
-		}, {
-			linkId : "menu-item-5",
-			imgSrc : "img/chatbubble-outline.png",
-			title : "Notification",
-			linkAddress : "#/app/notifications"
-		}, {
-			linkId : "menu-item-4",
-			imgSrc : "img/contact-outline.png",
-			title : "Log Out",
-			linkAddress : "#/app/challenge"
-		}
-	];
+.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
+
+  $scope.sidebarData = [{
+    linkId:"menu-item-1",
+    imgSrc:"img/lightbulb-outline.png",
+    title:"Quiz!t",
+    linkAddress:"#/app/friends"
+  },
+  {
+    linkId:"menu-item-2",
+    imgSrc:"img/star-outline.png",
+    title:"Top Quizer",
+    linkAddress:"#/app/leaderboard"
+  },
+  {
+    linkId:"menu-item-3",
+    imgSrc:"img/glasses-outline.png",
+    title:"History",
+    linkAddress:"#/app/history"
+  },
+  
+  {
+    linkId:"menu-item-5",
+    imgSrc:"img/chatbubble-outline.png",
+    title:"Notification",
+    linkAddress:"#/app/notifications"
+  },
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"Challenge",
+    linkAddress:"#/app/challenge"
+  },
+  {
+    linkId:"menu-item-4",
+    imgSrc:"img/contact-outline.png",
+    title:"Log Out",
+    linkAddress:"#/app/logout"
+  }];
+
 	$scope.toggleSidebar = function () {
 		$ionicSideMenuDelegate.toggleLeft();
 	};
@@ -72,12 +84,55 @@ angular.module('quizit.controllers', [])
 	$scope.selectSideItem = function (item, index) {
 		$scope.activeItem = item;
 		$ionicSideMenuDelegate.toggleLeft(false);
+		if(index == 5){
+			console.log("Trying to log out");
+			FB.logout(function(response){
+				console.log("User Logged Out");
+			});
+		}
 	};
 
 	$scope.activeItem = undefined;
 })
 
-.controller('FriendListCtrl', function ($scope, $location, quizitService) {
+.controller('loadingCtrl',function($scope, $location ,$interval){
+	$scope.feedback = "";
+	$scope.loadHome = function(){
+		FB.getLoginStatus(function(response){
+			if(response.status === "connected"){
+				console.log("User Logged in");
+				$location.path('/app/friends');
+			}else{
+				console.log("User Logged Off");
+				$location.path('/app/home');
+			}
+		});
+	};
+
+	$interval($scope.loadHome,2000, 1);
+})
+
+.controller('logoutCtrl',function($scope,$location,$interval){
+	$scope.redirectToHome = function(){
+		$location.path('/app/loading');
+	};
+
+	$interval($scope.redirectToHome,2000,1);
+})
+
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
+	$scope.fb_login_callback = function(response){
+		$scope.user = response;
+		// console.log("User Logged in: "+$scope.user.name);
+		$location.path('/app/friends');
+	};
+
+	$scope.fblogin = function(){
+		fb_login($scope.fb_login_callback);
+	};
+})
+
+.controller('FriendListCtrl',function($scope, quizitService){
 	var friendList = [{
 			name : "Wang Kunzhen",
 			id : "theflyingwolves@gmail.com",

@@ -3,21 +3,23 @@
       <h1>Quzing History</h1>
   </div>
   <div class="main">
-		<ion-content scroll="true" style="top: 11%">
+		<ion-content scroll="true" style="top: 18%; bottom:5%;">
 		<div class="history-list-container">
+			<h1>Quizzing History</h1>
+
 		<div class="row responsive-sm" ng-repeat="history in historyData">
-			<div class="col friend-item" style="border:2px solid;margin:2px;">
+			<div class="history-list">
+
 				<div class="row">
-					<div class="col col-80">
-						<div class="row">
-							<img src="{{history.profile_image}}" />
-						</div>
-						<div class="row"><p>{{history.name}}</p></div>
-					</div>
-					<div class="col col-20">
-						<p>{{history.score}}</p>
-					</div>
-				</div>	
+					<img src="{{history.profile_image}}" />
+				</div>
+				<div class="name">
+					{{history.name}}
+				</div>
+				
+				<div class="score">
+					{{history.score}}
+				</div>
 			</div>
 		</div>
 		</div>

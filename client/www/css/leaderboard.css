@@ -3,28 +3,29 @@
 	margin-top: 90%;
 	margin: auto;
 	width: 80%;
-	 max-width: 400px; 
-	/*padding: 3%;
-	padding-left: 5%;
-	padding-right: 5%;*/
-	/*background-color: white;*/
+	max-width: 400px; 
 	opacity: 1;
 	-webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
 	-moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
-	box-shadow:         0px 0px 10px 0px white;
-	border-top: 50px solid yellow;
-	background: white; /* Old browsers */
-
+	box-shadow:         0px 0px 10px 0px black;
+	border: 10px solid white;
+	/*border-top: 50px solid #00BFAA;*/
+	background: #F6F6F6; /* Old browsers */
+	position: relative;
 }
 
 
 .leaderboard-list-container h1{
 	position: absolute;
-	top: 5px;
-	width: 80%;
+	top: -10px;
+	left: -20px;
+	padding: 10px;
+	/*width: 80%;*/
 	max-width: 400px;
 	font-size: 2em;
 	text-shadow: 2px 2px 0px #86A87A;
+	background-color: yellow;
+	box-shadow:         0px 0px 10px 0px black;
 }
 .leaderboard-list{
 	width: 60%;
