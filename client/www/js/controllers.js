@@ -369,6 +369,7 @@ angular.module('quizit.controllers', [])
 												.error(function (res) {
 													// log error
 												});
+												$ionicSideMenuDelegate.canDragContent(true);
 												$location.path('/app/friends');
 											}
 										},
@@ -379,6 +380,7 @@ angular.module('quizit.controllers', [])
 						text : '<b>Back to Quiz!t</b>',
 						type : 'button-positive',
 						onTap : function (e2) {
+							$ionicSideMenuDelegate.canDragContent(true);
 							$location.path('/app/friends');
 						}
 					}
