@@ -222,11 +222,11 @@ angular.module('quizit.controllers', [])
 
 	var serverURL = quizitService.serverURL();
 	// $http.get("http://"+serverURL+"/challenge?userId="+window.localStorage['user_id'])
-	$http.get("http://"+serverURL+"/challenges?userID=541b0188227d77f51afed102")
-		.success(function(response){
-			// console.log("History Log: "+JSON.stringify(response));
-			$scope.initHistoryData(response, new Array());
-	});
+	// $http.get("http://"+serverURL+"/challenges?userID=541b0188227d77f51afed102")
+	// 	.success(function(response){
+	// 		// console.log("History Log: "+JSON.stringify(response));
+	// 		$scope.initHistoryData(response, new Array());
+	// });
 
 	$scope.initHistoryData = function(response, result){
 		if(response.length <= 0){
