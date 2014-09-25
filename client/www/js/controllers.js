@@ -200,16 +200,16 @@ angular.module('quizit.controllers', [])
 		};
 })
 
-.controller('HistoryCtrl', function ($scope) {
+.controller('HistoryCtrl', function ($scope, $http, quizitService) {
 	$scope.historyData = [{
 			name : "Wang Kunzhen",
 			profile_image : "img/glasses-outline.png",
 			score : 65
-		}, {
+		},{
 			name : "Wang Yichao",
 			profile_image : "img/lightbulb-outline.png",
 			score : 80
-		}, {
+		},{
 			name : "Xia Yiping",
 			profile_image : "img/contact-outline.png",
 			score : 70
@@ -219,6 +219,26 @@ angular.module('quizit.controllers', [])
 			score : 65
 		}
 	];
+
+	var serverURL = quizitService.serverURL();
+	// $http.get("http://"+serverURL+"/challenge?userId="+window.localStorage['user_id'])
+	$http.get("http://"+serverURL+"/challenges?userID=541b0188227d77f51afed102")
+		.success(function(response){
+			// console.log("History Log: "+JSON.stringify(response));
+			$scope.initHistoryData(response, new Array());
+	});
+
+	$scope.initHistoryData = function(response, result){
+		if(response.length <= 0){
+			// do something
+		}else{
+			// var item = response.pop();
+			// $http.get("http://"+serverURL+"/users?userID="+item.id)
+			// .successs(function(response){
+			// })
+		}
+	};
+
 })
 
 .controller('LeaderboardCtrl', function ($scope) {
