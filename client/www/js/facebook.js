@@ -12,37 +12,36 @@ window.fbAsyncInit = function() {
 
 function fb_login(callback){
     FB.login(function(response) {
-
         if (response.authResponse) {
             console.log('Welcome!  Fetching your information.... ');
             //console.log(response); // dump complete info
             access_token = response.authResponse.accessToken; //get access token
             user_id = response.authResponse.userID; //get FB UID
-            FB.api('/me', function(response) {
-                user_email = response.email; 
-                user_birthday = response.birthday;
-                console.log(user_email); //get user email
-                console.log(user_birthday)
-          // you can store this data into your database             
-            });
+          //   FB.api('/me', function(response) {
+          //       user_email = response.email; 
+          //       user_birthday = response.birthday;
+          //       console.log(user_email); //get user email
+          //       console.log(user_birthday)
+          // // you can store this data into your database             
+          //   });
 
-            FB.api('/me/movies', function(response) {
-                console.log("You like the following list of movies:");
-                user_movies = response.data;
-                console.log(response);
-                for(var i = 0; i < user_movies.length; i++){
-                  console.log(user_movies[i].name);
-                }
-            });
+          //   FB.api('/me/movies', function(response) {
+          //       console.log("You like the following list of movies:");
+          //       user_movies = response.data;
+          //       console.log(response);
+          //       for(var i = 0; i < user_movies.length; i++){
+          //         console.log(user_movies[i].name);
+          //       }
+          //   });
 
-            FB.api('/me/friends', function(response) {
-                console.log("You like the following list of friends:");
-                user_movies = response.data;
-                console.log(response);
-                for(var i = 0; i < user_movies.length; i++){
-                  console.log(user_movies[i].name);
-                }
-            });
+          //   FB.api('/me/friends', function(response) {
+          //       console.log("You like the following list of friends:");
+          //       user_movies = response.data;
+          //       console.log(response);
+          //       for(var i = 0; i < user_movies.length; i++){
+          //         console.log(user_movies[i].name);
+          //       }
+          //   });
 
             callback(response);
         } else {

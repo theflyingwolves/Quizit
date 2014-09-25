@@ -7,7 +7,7 @@
   <ion-side-menu side="left" width="150">
     <ion-content scroll="false">
         <ion-list class="menu">
-            <ion-item ng-repeat="data in sidebarData" ng-click="selectSideItem(data,$index)" ng-class="{active: activeItem == undefined? $index == 0 : activeItem == data}" href="{{data.linkAddress}}">
+            <ion-item ng-repeat="data in sidebarData" ng-click="selectSideItem($index)" ng-class="{active: activeIndex == undefined? $index == 0 : activeIndex == $index}" href="{{data.linkAddress}}">
                     <img src="{{data.imgSrc}}" />
                     <div class="menuwhole"><div class="menulist">{{data.title}}</div></div>
             </ion-item>

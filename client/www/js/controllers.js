@@ -2,10 +2,10 @@ angular.module('quizit.controllers', [])
 
 .controller('bodyCtrl', function ($scope) {
 	$scope.bodyBackground = {
-		background : 'url(../img/bg2.jpg)'
+		background : 'url(img/bg2.jpg)'
 	};
 
-	$scope.user = {};
+	$scope.friends = new Array();
 	$scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 
 })
@@ -53,8 +53,8 @@ angular.module('quizit.controllers', [])
 		$ionicSideMenuDelegate.toggleLeft();
 	};
 
-	$scope.selectSideItem = function (item, index) {
-		$scope.activeItem = item;
+	$scope.selectSideItem = function (index) {
+		$scope.activeIndex = index;
 		$ionicSideMenuDelegate.toggleLeft(false);
 		if(index == 5){
 			console.log("Trying to log out");
@@ -64,7 +64,7 @@ angular.module('quizit.controllers', [])
 		}
 	};
 
-	$scope.activeItem = undefined;
+	$scope.activeIndex = undefined;
 })
 
 .controller('loadingCtrl',function($scope, $location ,$interval){
@@ -86,18 +86,24 @@ angular.module('quizit.controllers', [])
 
 .controller('logoutCtrl',function($scope,$location,$interval){
 	$scope.redirectToHome = function(){
-		$location.path('/app/loading');
+		$location.path('/app/home');
 	};
 
 	$interval($scope.redirectToHome,2000,1);
 })
 
-.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location){
-	$scope.fb_login_callback = function(response){
-		// console.log("User Logged in: "+$scope.user.name);
-		var userdata = $scope.generateUserData(response);
-		$http.post("http://"+$scope.serverURL+"/users/init",userdata);
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location, $interval){
+	$ionicSideMenuDelegate.canDragContent(false);
+
+	$scope.redirectToFriends = function(){
+		$ionicSideMenuDelegate.canDragContent(true);
 		$location.path('/app/friends');
+	}
+
+	$scope.fb_login_callback = function(response){
+		var userdata = $scope.generateUserData(response);
+		// $http.post("http://"+$scope.serverURL+"/users/init",userdata);
+		$interval($scope.redirectToFriends,10,1);
 	};
 
 	$scope.generateUserData = function(token){
@@ -105,16 +111,35 @@ angular.module('quizit.controllers', [])
 		var access_token = token.authResponse.accessToken;
 		var user_id = token.authResponse.userID;
 
+		window.localStorage['access_token'] = access_token;
+		window.localStorage['user_id'] = user_id;
+
 		FB.api('/me', function(response) {
 			user.birthday = response.birthday;
-		});
-
-		FB.api('/me/movies', function(response) {
-			user.liked_movies = response.data;
+			user.name = response.name;
+			window.localStorage['user_name'] = user.name;
 		});
 
 		FB.api('/me/friends', function(response) {
 			user.friends = response.data;
+			window.localStorage['friends'] = JSON.stringify(user.friends);
+
+			var friendList = response.data;
+
+			for(var i=0;i<friendList.length;i++){
+				var id = friendList[i].id;
+				console.log("Getting imgae for "+id);
+
+				FB.api('/'+id+'/picture',function(response){
+					var friend = {};
+					var index = friendList.length - 1;
+					friend.name = friendList[index].name;
+					friend.image = response.data.url;
+					$scope.friends.push(friend);
+					console.log("Friend Image: "+response.data.url);
+				});
+
+			}
 		});
 
 		return user;
@@ -126,47 +151,7 @@ angular.module('quizit.controllers', [])
 })
 
 .controller('FriendListCtrl',function($scope){
-  $scope.friends = [{
-    name:"Wang Kunzhen",
-    image:"img/profile_images/user_0.jpeg"
-  },
-  {
-    name:"Viet Trung Truong",
-    image:"img/profile_images/user_2.jpeg"
-  },
-  {
-    name:"Xia Yiping",
-    image:"img/profile_images/user_2.jpeg"
-  },
-  {
-    name:"Wang Yichao",
-    image:"img/profile_images/user_3.jpeg"
-  },
-  {
-    name:"Viet Trung Truong",
-    image:"img/profile_images/user_4.jpeg"
-  },
-  {
-    name:"Xia Yiping",
-    image:"img/profile_images/user_0.jpeg"
-  },
-  {
-    name:"Wang Yichao",
-    image:"img/profile_images/user_1.jpeg"
-  },
-   {
-    name:"Viet Trung Truong",
-    image:"img/profile_images/user_2.jpeg"
-  },
-  {
-    name:"Xia Yiping",
-    image:"img/profile_images/user_3.jpeg"
-  },
-  {
-    name:"Wang Yichao",
-    image:"img/profile_images/user_4.jpeg"
-  }
-  ];
+
 })
 
 .controller('HistoryCtrl', function ($scope) {
