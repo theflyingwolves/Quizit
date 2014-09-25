@@ -18,6 +18,7 @@ var userbase = require('./server/userbase');
 var dbinit = require('./server/databaseInit');
 var bonusbase = require('./server/bonusbase');
 var questionbase = require('./server/questionbase');
+var interestbase = require('./server/interestbase');
 
 var app = express();
 
@@ -47,6 +48,9 @@ app.use(function(req, res, next) {
   req.db.questionbase = db.collection('questionbase');
   req.db.challengebase = db.collection('challengebase');
   req.db.bonusbase = db.collection('bonusbase');
+  req.db.moviebase = db.collection('moviebase');
+  req.db.musicbase = db.collection('musicbase');
+  req.db.bookbase = db.collection('bookbase');
   next();
 })
 
@@ -77,7 +81,8 @@ app.post('/userlogin',userbase.login);
 app.use('/databaseinit',dbinit.init);
 app.use('/userbaseinit',userbase.init);
 app.use('/bonusbaseinit',bonusbase.init);
-app.use('/questionbaseinit',questionbase.init);
+app.use('/questionbaseinit', questionbase.init);
+app.use('/interestbaseinit', interestbase.initAll);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
