@@ -81,15 +81,21 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.selectSideItem = function (index) {
+		console.log("Item "+index+" selected");
 		$scope.activeIndex = index;
 		$ionicSideMenuDelegate.toggleLeft(false);
-		if(index == 5){
+		if(index == 4){
 			console.log("Trying to log out");
-			FB.logout(function(response){
-				console.log("User Logged Out");
-			});
+			$scope.logoutFacebook();
 		}
 	};
+
+	$scope.logoutFacebook = function(){
+		FB.logout(function(response){
+			FB.Auth.setAuthResponse(null, 'unknown');
+			console.log("User Logged Out");
+		});
+	}
 
 	$scope.activeIndex = undefined;
 })
