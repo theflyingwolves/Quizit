@@ -27,6 +27,9 @@ angular.module('quizit.controllers', [])
 				}
 			});
 			return friendr;
+		},
+		serverURL: function(){
+			return serverURL;
 		}
 	};
 })
@@ -116,7 +119,7 @@ angular.module('quizit.controllers', [])
 	$interval($scope.redirectToHome,2000,1);
 })
 
-.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location, $interval, quizitService){
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $http, $location, $interval, quizitService){
 	$ionicSideMenuDelegate.canDragContent(false);
 	$ionicSideMenuDelegate.toggleLeft(false);
 
@@ -126,35 +129,35 @@ angular.module('quizit.controllers', [])
 	}
 
 	$scope.fb_login_callback = function(response){
-		$scope.generateUserData(response);
+		$scope.initUserData(response);
 		// $http.post("http://"+$scope.serverURL+"/users/init",userdata);
 		$interval($scope.redirectToFriends,1000,1);
 	};
 
-	$scope.generateUserData = function(token){
+	$scope.initUserData = function(token){
 		var access_token = token.authResponse.accessToken;
 		var user_id = token.authResponse.userID;
+
+		var serverURL = quizitService.serverURL();
 
 		window.localStorage['access_token'] = access_token;
 		window.localStorage['user_id'] = user_id;
 
 		FB.api('/me', function(response) {
-			user.birthday = response.birthday;
-			user.name = response.name;
-			window.localStorage['user_name'] = user.name;
+			// $http.post("http://"+serverURL+"/users/userInit", response);
+			window.localStorage['user_name'] = response.name;
 		});
+
+		FB.api('/me', function(response){
+			// $http.post("http://"+serverURL+"/users/interestInit", response);
+		})
 
 		if($scope.friends.length <= 0){
 			FB.api('/me/friends', function(response) {
-			user.friends = response.data;
-			window.localStorage['friends'] = JSON.stringify(user.friends);
-
-			$scope.initFriends(response.data, new Array());
+				$scope.initFriends(response.data, new Array());
 			});
 		}
 	}
-
-	
 
 	$scope.initFriends = function(friendlist, result){
 		if(friendlist.length <= 0){
