@@ -1,13 +1,43 @@
 angular.module('quizit.controllers', [])
 
+.service('quizitService', function () {
+	var friendID;
+	var friends = [];
+	var serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
+	return {
+		friends : function (list) {
+			friends = list
+				return friends;
+		},
+		getFriends : function () {
+			return friends;
+		},
+		selectFriend : function (friendId) {
+			friendID = friendId;
+			return friendID;
+		},
+		getFriendID : function(){
+			return friendID;
+		},
+		friend : function () {
+			var friendr;
+			friends.forEach(function(afriend){
+				if (afriend.id === friendID){
+					friendr = afriend;
+				}
+			});
+			return friendr;
+		}
+	};
+})
+
 .controller('bodyCtrl', function ($scope) {
 	$scope.bodyBackground = {
 		background : 'url(img/bg2.jpg)'
 	};
 
 	$scope.friends = new Array();
-	$scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
-
+	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
 .controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
@@ -152,6 +182,31 @@ angular.module('quizit.controllers', [])
 
 .controller('FriendListCtrl',function($scope){
 
+// =======
+// .controller('FriendListCtrl',function($scope, quizitService){
+// 	var friendList = [{
+// 			name : "Wang Kunzhen",
+// 			id : "theflyingwolves@gmail.com",
+// 			image : "img/profile_images/user_0.jpeg"
+// 		}, {
+// 			name : "Viet Trung Truong",
+// 			id : "viettrung9012@yahoo.com",
+// 			image : "img/profile_images/user_2.jpeg"
+// 		}, {
+// 			name : "Xia Yiping",
+// 			id : "xy@xy.com",
+// 			image : "img/profile_images/user_2.jpeg"
+// 		}, {
+// 			name : "Wang Yichao",
+// 			id : "wy@wy.com",
+// 			image : "img/profile_images/user_3.jpeg"
+// 		}
+// 	];
+// 	$scope.friends = quizitService.friends(friendList);
+// 	$scope.selectFriend = function (friend) {
+// 		quizitService.selectFriend(friend);
+// 	};
+// >>>>>>> 94bb9f61039bc0476ab61862a579e94012cf70c2
 })
 
 .controller('HistoryCtrl', function ($scope) {
@@ -196,47 +251,7 @@ angular.module('quizit.controllers', [])
 	];
 })
 
-.controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location) {
-	$scope.friend = {
-		name : "Trung"
-	};
-	$http.get('http://' + $scope.serverURL + '/quiz').
-	success(function (data, status, headers, config) {
-		console.log(data);
-		$scope.data = data;
-		console.log($scope.data);
-	}).
-	error(function (data, status, headers, config) {
-		//log error
-	});
-	console.log($scope.data);
-	/*$scope.data = [{
-	question : "Are you happy?",
-	answer : "Y"
-	}, {
-	question : "Are you sad?",
-	answer : "N"
-	}, {
-	question : "Are you bored?",
-	answer : "Y"
-	}, {
-	question : "Are you enjoying?",
-	answer : "N"
-	}, {
-	question : "Are you sleepy?",
-	answer : "Y"
-	}, {
-	question : "Are you awake?",
-	answer : "N"
-	}, {
-	question : "Are you hungry?",
-	answer : "Y"
-	}, {
-	question : "Are you thirsty?",
-	answer : "N"
-	}
-	];
-	 */
+.controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService) {
 	$scope.bonus = 'Today is hot, isn\'t it?';
 	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
@@ -274,7 +289,22 @@ angular.module('quizit.controllers', [])
 			$scope.timestamp = Date.now();
 		}, readyTime);
 	};
-	$scope.showReady();
+	$scope.getData = function () {
+		console.log('1');
+		console.log(quizitService.friend());
+		$scope.friend = quizitService.friend();
+		console.log($scope.friend);
+		var serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
+		$http.get('http://' + serverURL + '/quiz?fb_account=' + $scope.friend.id).
+		success(function (data, status, headers, config) {
+			$scope.data = data;
+			$scope.showReady();
+		}).
+		error(function (data, status, headers, config) {
+			//log error
+		});
+	}
+	$scope.getData();
 	$scope.showPopup = function () {
 		$scope.data = {}
 		var report;
@@ -342,7 +372,7 @@ angular.module('quizit.controllers', [])
 			var answer = {
 				index : $scope.QAindex,
 				type : 'answer',
-				content : (userAns=='Y')?'Yes':'No',
+				content : (userAns == 'Y') ? 'Yes' : 'No',
 				correct : (userAns === question.answer)
 			};
 			$scope.texts.push(answer);
