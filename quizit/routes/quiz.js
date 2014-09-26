@@ -5,5 +5,7 @@ var userbase = require('../server/userbase');
 
 router.get('/',userbase.getQuestions);
 router.post('/contribute',questionbase.contributeQuestion);
+router.get('/bonus',questionbase.getBonus);
+
 
 module.exports = router;

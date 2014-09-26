@@ -2,22 +2,43 @@ var challengebase = {};
 
 var challengeDummyData = [
 	{ 
-		"challengerID" : "541b0188227d77f51afed102", 
-		"challengeeID" : "541c3562e85200620d9fdef9", 
-		"result" : "80", 
+		"player_id" : "767253243336231", 
+		"target_id" : "745105835527392", 
+    "bonus" : [{
+      "score" : 80,
+      "time" : Date()
+    }],
+    "score_max":80
 	},
 
 	{ 
-		"challengerID" : "541b0188227d77f51afed102", 
-		"challengeeID" : "541c3562e85200620d9fdef8",
-		"result" : "50",
+		"player_id" : "745105835527392", 
+		"target_id" : "770989079621315",
+    "bonus" : [{
+      "score" : 50,
+      "time" : Date()
+    }],
+    "score_max":50
 	},
 
 	{
-		"challengerID" : "541c3562e85200620d9fdef8", 
-		"challengeeID" : "541b0188227d77f51afed102", 
-		"result" : "60", 
-	}
+		"player_id" : "767253243336231", 
+		"target_id" : "770989079621315", 
+    "bonus" : [{
+      "score" : 60,
+      "time" : Date()
+    }],
+    "score_max":60
+	},
+    {
+    "target_id" : "770989079621315", 
+    "player_id" : "767253243336231", 
+    "bonus" : [{
+      "score" : 40,
+      "time" : Date()
+    }],
+    "score_max":60
+  }
 ];
 
 challengebase.init = function(req,res,next){
@@ -30,26 +51,71 @@ challengebase.init = function(req,res,next){
 }
 
 challengebase.recordChallenge = function(req, res, next){
-  if(!req.body || !req.body.challengerID || !req.body.challengeeID || !req.body.result) 
+  if(!req.body || !req.body.player_id || !req.body.target_id || !req.body.score) 
     return next(new Error('No challenges data provided'));
-  req.db.challengebase.save({
-    challengerID: req.body.challengerID,
-    challengeeID: req.body.challengeeID,
-    result: req.body.result
-  }, function(error, challenge) {
+  newScore = parseInt(req.body.score);
+  req.db.challengebase.update({
+    player_id: req.body.player_id,
+    target_id: req.body.target_id
+  },{
+      $push:{
+        bonus:{
+          score: newScore,
+          time: Date()
+        }
+      },
+  },{
+    upsert:true
+  },
+   function(error, challenge) {
       if (error) return next(error);
       if (!challenge) return next(new Error('Failed to save challenges.'));
       res.send("added challenges");
-      console.info('Added %s with id=%s', challenge.result, challenge._id);
-  })
+      console.info('Added %s with id=%s', challenge.score, challenge._id);
+  });
+
+  req.db.challengebase.update({
+    player_id: req.body.player_id,
+    target_id: req.body.target_id,
+    score_max: {$lt: newScore}
+  },{
+      $set:{
+        score_max: newScore
+      }
+  },function(err, challenge) {
+
+  });
 };
+
+challengebase.listLeaderboard = function(req, res, next){
+  var allChallenges = [];
+
+  req.db.challengebase.aggregate(
+  {
+    $group: {
+      _id: "$player_id",
+      total_maxscore:{$sum: "$score_max"},
+      total_quiz: {$sum:1}
+    }
+  },
+  {
+    $sort:{total_maxscore:-1},
+  },
+  {
+    $limit: 10
+  }, function(error, leaderboard){
+    if(error) return next(error);
+    res.send(leaderboard);      
+  });
+}
+
 
 challengebase.getYouKnowBest = function(req, res, next) {
   var url = require('url');
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  req.db.challengebase.find({challengerID: query.challengerID}).
-    sort({"result": -1}).limit(1).toArray(function(error, challengebase){
+  req.db.challengebase.find({player_id: query.player_id}).
+    sort({"score": -1}).limit(1).toArray(function(error, challengebase){
     if (error) return next(error);
     res.send(challengebase);
   })
@@ -59,11 +125,21 @@ challengebase.getKnowYouBest = function(req, res, next) {
   var url = require('url');
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  req.db.challengebase.find({challengeeID: query.challengeeID}).
-    sort({"result": -1}).limit(1).toArray(function(error, challengebase){
+  req.db.challengebase.find({target_id: query.target_id}).
+    sort({"score": -1}).limit(1).toArray(function(error, challengebase){
     if (error) return next(error);
     res.send(challengebase);
   })
+}
+
+challengebase.listHistory = function(req, res, next) {
+  var url = require('url');
+  var url_parts = url.parse(req.url, true);
+  var query = url_parts.query;
+  req.db.challengebase.find({player_id: query.userID}).toArray(function(error, challengebase){
+    if (error) return next(error);
+    res.send(challengebase);
+  }) 
 }
 
 module.exports = challengebase;
