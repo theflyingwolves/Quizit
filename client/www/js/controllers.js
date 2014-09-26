@@ -40,6 +40,7 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.friends = new Array();
+	$scope.leaderboardData = new Array();
 	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
@@ -162,6 +163,33 @@ angular.module('quizit.controllers', [])
 				$scope.initFriends(response.data, new Array());
 			});
 		}
+
+		if($scope.leaderboardData.length <= 0){
+			$http.get('http://'+serverURL+"/challenges/leaderBoard")
+			.success(function(response){
+				$scope.initLeaderboardData(response, new Array());
+			});
+		}
+
+	}
+
+	$scope.initLeaderboardData = function(leaderboard, result){
+		if(leaderboard.length <= 0){
+			console.log("Finished Leaderboard: "+JSON.stringify(result));
+			for(var i=0; i<result.length; i++){
+				$scope.leaderboardData.push(result[i]);
+			}
+		}else{
+			var item = leaderboard.pop();
+			var id = item._id;
+			FB.api('/'+id+'/picture', function(response){
+				item.profile_image = response.data.url;
+				item.name = "name";
+				item.score = item.total_maxscore;
+				result.push(item);
+				$scope.initLeaderboardData(leaderboard,result);
+			});
+		}
 	}
 
 	$scope.initFriends = function(friendlist, result){
@@ -276,24 +304,24 @@ angular.module('quizit.controllers', [])
 })
 
 .controller('LeaderboardCtrl', function ($scope) {
-	$scope.leaderboardData = [{
-			name : "Wang Kunzhen",
-			profile_image : "img/glasses-outline.png",
-			score : 1001
-		}, {
-			name : "Wang Yichao",
-			profile_image : "img/lightbulb-outline.png",
-			score : 800
-		}, {
-			name : "Xia Yiping",
-			profile_image : "img/contact-outline.png",
-			score : 799
-		}, {
-			name : "Viet Trung Truong",
-			profile_image : "img/chatbubble-outline.png",
-			score : 653
-		}
-	];
+	// $scope.leaderboardData = [{
+	// 		name : "Wang Kunzhen",
+	// 		profile_image : "img/glasses-outline.png",
+	// 		score : 1001
+	// 	}, {
+	// 		name : "Wang Yichao",
+	// 		profile_image : "img/lightbulb-outline.png",
+	// 		score : 800
+	// 	}, {
+	// 		name : "Xia Yiping",
+	// 		profile_image : "img/contact-outline.png",
+	// 		score : 799
+	// 	}, {
+	// 		name : "Viet Trung Truong",
+	// 		profile_image : "img/chatbubble-outline.png",
+	// 		score : 653
+	// 	}
+	// ];
 })
 
 .controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService, $ionicSideMenuDelegate) {
