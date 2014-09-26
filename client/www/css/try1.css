@@ -239,7 +239,7 @@ a#Facebook{
 height: 100%;
 }
 .menu img{
-	margin-left: 10%;
+	/*margin-left: 0%;*/
 	display: -webkit-flex; /* Safari */
     -webkit-align-items: center; /* Safari 7.0+ */
     display: flex;
@@ -260,7 +260,7 @@ left: 0%;
 .menuwhole .menulist{
 	position: absolute;
 	text-align: center;
-	/*left: 5%; */
+
 	top: 80%;
-	width: 50%;
+	width: 30%;
 }
