@@ -22,7 +22,7 @@ interestbase.initMovies = function(req, res, next){
 }
 
 interestbase.initMusic = function(req, res, next){
-	fs.readFile(movieJson, 'utf8', function (err, data) {
+	fs.readFile(musicJson, 'utf8', function (err, data) {
 		if (err) {
     		console.log('Error: ' + err);
     		return;
@@ -30,7 +30,6 @@ interestbase.initMusic = function(req, res, next){
   		req.db.musicbase.drop();
 
     	JSON.parse(data, function(k,v){
-    		console.log(k);
     		if(k=="title"){
     			var musicTitle = {title: v};
     			req.db.musicbase.insert(musicTitle,function(error, movie){

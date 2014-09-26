@@ -19,6 +19,7 @@ var dbinit = require('./server/databaseInit');
 var bonusbase = require('./server/bonusbase');
 var questionbase = require('./server/questionbase');
 var interestbase = require('./server/interestbase');
+var challengebase = require('./server/challengebase');
 
 var app = express();
 
@@ -83,6 +84,7 @@ app.use('/userbaseinit',userbase.init);
 app.use('/bonusbaseinit',bonusbase.init);
 app.use('/questionbaseinit', questionbase.init);
 app.use('/interestbaseinit', interestbase.initAll);
+app.use('/challengebaseinit', challengebase.init);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -117,6 +119,7 @@ app.use(function(err, req, res, next) {
 });
 
 http.createServer(app).listen(app.get('port'), function(){
+    process.setMaxListeners(0);
   console.log('Express server listening on port ' + app.get('port'));
 });
 
