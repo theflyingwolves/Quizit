@@ -202,11 +202,15 @@ angular.module('quizit.controllers', [])
 			console.log("Freinsadafsdddbbb: "+JSON.stringify(result));
 			quizitService.friends(result);
 
-			for(var i=0; i<result.length;i++){
-				$scope.friends.push(result[i]);
+			if($scope.friends.length <= 0){
+				for(var i=0; i<result.length;i++){
+					$scope.friends.push(result[i]);
+				}
 			}
 
-			window.localStorage["friends"] = JSON.stringify(result);
+			if(window.localStorage["friends"]){
+				window.localStorage["friends"] = JSON.stringify(result);
+			}
 
 			return ;
 		}else{
@@ -268,8 +272,10 @@ angular.module('quizit.controllers', [])
 		$scope.selectFriend = function (friend) {
 			quizitService.selectFriend(friend);
 		};
+		$scope.isClickable = true;
 
 		if(!navigator.onLine){
+			$scope.isClickable = false;
 			if($scope.friends.length <= 0){
 				var friendsDataStore = window.localStorage['friends'];
 				if(friendsDataStore){

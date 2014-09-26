@@ -22,10 +22,8 @@ angular.module('quizit', ['ionic','quizit.controllers'])
 
 .config(function($stateProvider, $urlRouterProvider){
   if(navigator.onLine){
-    console.log("Onnnnnline");
     $urlRouterProvider.otherwise('/app/home');
   }else{
-    console.log("Offffff Line");
     $urlRouterProvider.otherwise('/app/friends');
   }
   
