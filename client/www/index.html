@@ -36,10 +36,7 @@
 
         window.applicationCache.addEventListener('updateready', function(e){
           if(window.applicationCache.status ==  window.applicationCache.UPDATEREADY){
-            if(confirm("A new version of this state is ready to update. Would you like to update?")){
-              window.
-              window.location.reload();
-            }
+            window.location.reload();
           }
         }, false);
 

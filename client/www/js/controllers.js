@@ -151,18 +151,23 @@ angular.module('quizit.controllers', [])
 
 .controller('loadingCtrl', function ($scope, $location, $interval) {
 	$scope.feedback = "";
-	$scope.loadHome = function () {
-		FB.getLoginStatus(function (response) {
-			if (response.status === "connected") {
-				console.log("User Logged in");
-				$location.path('/app/friends');
-			} else {
-				console.log("User Logged Off");
-				$location.path('/app/home');
-			}
-		});
-	};
 
+	$scope.loadHome = function () {
+		if(navigator.onLine){
+			FB.getLoginStatus(function (response) {
+				if (response.status === "connected") {
+					console.log("User Logged in");
+					$location.path('/app/friends');
+				} else {
+					console.log("User Logged Off");
+					$location.path('/app/home');
+				}
+			});
+		}else{
+			$location.path('/app/friends');
+		}
+	};
+	
 	$interval($scope.loadHome, 2000, 1);
 })
 
