@@ -176,6 +176,8 @@ angular.module('quizit.controllers', [])
 	$scope.initLeaderboardData = function(leaderboard, result){
 		if(leaderboard.length <= 0){
 			console.log("Finished Leaderboard: "+JSON.stringify(result));
+			result = result.reverse();
+			
 			for(var i=0; i<result.length; i++){
 				$scope.leaderboardData.push(result[i]);
 			}
@@ -200,6 +202,7 @@ angular.module('quizit.controllers', [])
 			for(var i=0; i<result.length;i++){
 				$scope.friends.push(result[i]);
 			}
+
 			return ;
 		}else{
 			var friend = friendlist.pop();
