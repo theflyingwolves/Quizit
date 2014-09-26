@@ -1,49 +1,41 @@
 /*For the login, intro and other windows*/
 .friend-list-container{
 	margin-top: 90%;
-	/*height: 50%;*/
 	margin: auto;
 	width: 100%;
-	 /*max-width: 600px; */
+	max-width: 800px; 
 	padding: 3%;
 	padding-left: 15%;
 	padding-right: 15%;
-	/*background-color: white;*/
 	opacity: 0.90;
 }
 
 .friend-photo{
-	width: 100%;
+	width: 90%;
+	background-color: none;
 }
 .friend-photo img{
 	width: 20%;
-	margin: auto;
 	float: left;
 	border-radius: 50%;
-	border:2px solid #00BFAA;
+	border: 1px solid yellow;
+	padding: 1%;
+	margin-top: 10%;
 }
-.friend-photo a{
-	text-align: left;
-	color: white;
-	float: right;
+.friend-photo h1{
+	text-align: right;
 	width: 70%;
 	margin-right: 10%;
 	font-size: 1.5em;
-	/*background-color: white;*/
-	padding: 5%;
-	/*border-top-left-radius: 70%;
-	border-bottom-right-radius: 70%;*/
-	border-right: 5px dotted yellow;
+	color: #00BFAA;
+	float: right;
 }
-.friend-photo a:active{
+.friend-photo h1:active{
 	color: yellow;
 }
 .search-bar{
 	opacity: 0.7;
-	/*border-radius: 10px;*/
 	height: 5%;
-	/*background-color: white;*/
 	width: 80%;
 	margin: auto;
-	/*text-align: center;*/
 }

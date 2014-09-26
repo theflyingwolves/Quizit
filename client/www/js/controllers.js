@@ -11,6 +11,7 @@ angular.module('quizit.controllers', [])
 	var slowAns = ["You should answer faster. ", "Correct, but too slow. ", "You could've got some points if you answered faster. ", "Slow! "];
 	var preQns = ["Ok here is the next question: ", "Next question: ", "Next: ", "Ok here is the next one: ", "Let's move on: ", "This is the next question: "];
 	var lastQns = ["Ok this is the last question. ", "This is the last one: ", "Good work. Here is the last question: "];
+	var isLoggedIn = true;
 	return {
 		friends : function (list) {
 			friends = list
@@ -61,6 +62,12 @@ angular.module('quizit.controllers', [])
 		},
 		getLastQns : function () {
 			return lastQns;
+		},
+		toggleLoggedIn: function(){
+			isLoggedIn = !isLoggedIn;
+		},
+		getLoggedIn: function(){
+			return isLoggedIn;
 		}
 	};
 })
@@ -127,15 +134,15 @@ angular.module('quizit.controllers', [])
 		$scope.activeIndex = index;
 		$ionicSideMenuDelegate.toggleLeft(false);
 		if (index == 4) {
-			console.log("Trying to log out");
 			$scope.logoutFacebook();
 		}
 	};
 
 	$scope.logoutFacebook = function () {
-		FB.logout(function (response) {
+		FB.logout(function(response) {
+			console.log("Trying to log out");
 			FB.Auth.setAuthResponse(null, 'unknown');
-			console.log("User Logged Out");
+			console.log('loggedOut');// user is now logged out
 		});
 	}
 
@@ -302,13 +309,15 @@ angular.module('quizit.controllers', [])
 	};
 })
 
-.controller('NotificationCtrl', function ($scope, quizitService, $location, $ionicPopup, $http) {
+.controller('NotificationCtrl', function ($scope, quizitService, $location, $ionicPopup, $http, $ionicSideMenuDelegate) {
 	// get data from server about notification: should be done when the app load - use homecontrol, then use quizitService to set data
+	$ionicSideMenuDelegate.canDragContent(false);
 	var serverURL = quizitService.serverURL();
 	$scope.data = [];
 	$scope.getData = function () {
 		$http.get(serverURL + '/bonus?user_id=' + window.localStorage['user_id']).
 		success(function (data, status, headers, config) {
+			$ionicSideMenuDelegate.canDragContent(true);
 			$scope.toSend = data;
 			window.localStorage['notificationToSend'] = JSON.stringify($scope.toSend);
 			for (var i = 0; i < data.length; i++) {
@@ -330,6 +339,7 @@ angular.module('quizit.controllers', [])
 				}
 			}
 			if ($scope.data.length === 0) {
+				$scope.activeIndex = 0;
 				$ionicPopup.show({
 					title : '<div class="popup-title">It seems like you have no new notification.</div>',
 					scope : $scope,
@@ -342,9 +352,11 @@ angular.module('quizit.controllers', [])
 						},
 					]
 				});
+				$ionicSideMenuDelegate.canDragContent(true);
 			}
 		}).
 		error(function (data, status, headers, config) {
+			$scope.activeIndex = 0;
 			$ionicPopup.show({
 				title : '<div class="popup-title">It seems like you have no new notification.</div>',
 				scope : $scope,
@@ -357,6 +369,7 @@ angular.module('quizit.controllers', [])
 					},
 				]
 			}); //log error
+			$ionicSideMenuDelegate.canDragContent(true);
 		});
 	}
 	$scope.getData();
@@ -389,6 +402,7 @@ angular.module('quizit.controllers', [])
 					.error(function (res) {
 						// log error
 					});
+					$scope.activeIndex = 0;
 					$location.path('/app/friends');
 				}
 			}
