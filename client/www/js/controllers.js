@@ -150,28 +150,23 @@ angular.module('quizit.controllers', [])
 })
 
 .controller('loadingCtrl', function ($scope, $location, $interval) {
-	$scope.feedback = "";
 
 	$scope.loadHome = function () {
+
 		if(navigator.standalone){
-			console.log("Standing Alone");
-		}else{
-			console.log("In Browser");
-		}
-		
-		if(!navigator.standalone && navigator.onLine){
+			$location.path('/app/friends');
+		}else if(navigator.onLine){
 			FB.getLoginStatus(function (response) {
 				if (response.status === "connected") {
-					console.log("User Logged in");
 					$location.path('/app/friends');
 				} else {
-					console.log("User Logged Off");
 					$location.path('/app/home');
 				}
 			});
 		}else{
 			$location.path('/app/friends');
 		}
+
 	};
 
 	$interval($scope.loadHome, 2000, 1);
@@ -220,9 +215,11 @@ angular.module('quizit.controllers', [])
 
 		if ($scope.friends.length <= 0) {
 			FB.api('/me/friends', function (response) {
+				quizitService.friends(response.data);
 				$scope.initFriends(response.data, new Array());
 			});
 		}
+
 		if($scope.leaderboardData.length <= 0){
 			$http.get(serverURL+"/challenges/leaderBoard")
 			.success(function(response){
@@ -242,7 +239,6 @@ angular.module('quizit.controllers', [])
 		var serverURL = quizitService.serverURL();
 
 		if(history.length <= 0){
-			console.log("Historyrrrrryyy Finished: "+JSON.stringify(result));
 
 			result = result.reverse();
 
@@ -266,7 +262,6 @@ angular.module('quizit.controllers', [])
 
 	$scope.initLeaderboardData = function (leaderboard, result) {
 		if (leaderboard.length <= 0) {
-			console.log("Finished Leaderboard: " + JSON.stringify(result));
 			result = result.reverse();
 
 			for (var i = 0; i < result.length; i++) {
@@ -290,7 +285,6 @@ angular.module('quizit.controllers', [])
 
 	$scope.initFriends = function (friendlist, result) {
 		if (friendlist.length <= 0) {
-			console.log("Freinsadafsdddbbb: " + JSON.stringify(result));
 			quizitService.friends(result);
 
 			if ($scope.friends.length <= 0) {
