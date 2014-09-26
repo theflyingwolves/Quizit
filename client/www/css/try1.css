@@ -1,10 +1,8 @@
 
 body{
-/*background-image: url('../img/bg2.jpg');*/
 font-family: 'Shadows Into Light', cursive;
 }
-h1, h2, h3, h4, h5, h6, a
-{
+h1, h2, h3, h4, h5, h6, a{
 	font-family: 'Amatic SC', cursive;
 }
 h1{
@@ -40,7 +38,6 @@ a{
 }
 
 .header h1 {
-	/*font-family: 'Oswald', sans-serif;*/
 	font-weight: bold;
 	top: -80%;
 	left: -50px;
@@ -51,70 +48,37 @@ a{
 	width: 100px;
 }
 
-/*Home Page Home Page Home Page*/
-/*Splashpage Splashpage*/
-@-webkit-keyframes Splash {
-    0%   {opacity: 0.5; visibility: visible;}
-   	60%   {opacity: 1; visibility: visible;}
-    100% {opacity: 0;}
-}
-@keyframes Splash {
-    0%   {opacity: 0.5; visibility: visible;}
-   	60%   {opacity: 1; visibility: visible;}
-    100% {opacity: 0;}
-}
-#splash{
-	width: 100%;
-	height: 100%;
-	position: relative;
-	-webkit-animation: Splash 3s ease-out; /* Chrome, Safari, Opera */
-    animation: Splash 3s ease-out; /* Standard syntax */
-    visibility: hidden;
-}
-#splash img{
-	width: 100%;
-	margin: auto;
-	margin-top: -40%;
-}
+
 /*The animated header in welcome page (home page) */
 @-webkit-keyframes Welcome {
     0%   {border-width: 0px 200px 200px 0px; visibility: hidden;}
-    50%   {border-width: 0px 200px 200px 0px; visibility: visible;}
-
+    40%   {border-width: 0px 200px 200px 0px; visibility: visible;}
     75%   {border-width: 0px 200px 200px 0px;}
-
     80%   {border-width: 0px 200px 200px 0px;}
     100% {border-width: 150px 150px 0 150px;}
 }
 
-/* Standard syntax */
 @keyframes Welcome {
     0%   {border-width: 0px 200px 200px 0px; visibility: hidden;}
-    50%   {border-width: 0px 200px 200px 0px; visibility: visible;}
-
+    40%   {border-width: 0px 200px 200px 0px; visibility: visible;}
     75%   {border-width: 0px 200px 200px 0px;}
-
     80%   {border-width: 0px 200px 200px 0px;}
     100% {border-width: 150px 150px 0 150px;}
 }
 
 @-webkit-keyframes quizit {
     0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:40px;position: fixed; opacity: 0;}
-    40%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:40px;position: fixed; opacity: 0;}
-    60%   {font-size: 4em;color: white; top: 80%;left:40px;}
-    75%   {font-size: 4em;color: white; top: 80%;left:40px;}
-    80%   {font-size: 4em;color: white; top: 84%;left:40px;}
+    50%   {font-size: 4em;color: white; top: 80%;left:40px;}
+    65%   {font-size: 4em;color: white; top: 80%;left:40px;}
+    80%   {font-size: 4em;color: white; top: 90%;left:40px;}
     100% {font-size: 3em;color: white;top: -80%;}
 }
-
-/* Standard syntax */
 @keyframes quizit {
-    0%   {border-width: 0px 200px 200px 0px; visibility: hidden;}
-    50%   {border-width: 0px 200px 200px 0px; visibility: visible;}
-
-    75%   {border-width: 0px 200px 200px 0px;}
-    80%   {border-width: 0px 200px 200px 0px;}
-    100% {border-width: 150px 150px 0 150px;}
+    0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:40px;position: fixed; opacity: 0;}
+    50%   {font-size: 4em;color: white; top: 80%;left:40px;}
+    65%   {font-size: 4em;color: white; top: 80%;left:40px;}
+    80%   {font-size: 4em;color: white; top: 90%;left:40px;}
+    100% {font-size: 3em;color: white;top: -80%;}
 }
 
 /*Welcome Page*/
@@ -126,6 +90,8 @@ a{
 	border-style: solid;
 	border-width: 150px 150px 0 150px;
 	border-color: #111 transparent transparent transparent;
+	-webkit-animation: Welcome 4s linear; /* Chrome, Safari, Opera */
+    animation: Welcome 4s linear; /* Standard syntax */
 }
 #welcome-header h1{
 	margin:auto;
@@ -136,17 +102,11 @@ a{
 	position: relative;
 	color: white;
 	font-size: 3em;
-/*	z-index: 1000;
-*/}
-
-#welcome-header {
-    -webkit-animation: Welcome 4s linear; /* Chrome, Safari, Opera */
-    animation: Welcome 4s linear; /* Standard syntax */
-}
-#welcome-header h1{
 	-webkit-animation: quizit 4s linear; /* Chrome, Safari, Opera */
     animation: quizit 4s linear; /* Standard syntax */
 }
+
+
 /*login window*/
 
 @-webkit-keyframes Login {
@@ -166,10 +126,7 @@ a{
 #login{
 	-webkit-animation: Login 6s linear; /* Chrome, Safari, Opera */
     animation: Login 6s linear; /* Standard syntax */
-    margin-top: -40%;
 }
-/*Home Page Home Page Home Page*/
-
 
 
 /*For the login, intro and other windows*/
@@ -197,6 +154,7 @@ a{
 	font-size: 2em;
 }
 
+/*For Login Page*/
 #Facebook, #Google,#Cancel,#Verify{
 	padding-top: 10%;
 	color: #00BFAA;
@@ -237,18 +195,7 @@ a{
 	margin-top: 200px;
 	opacity: 0.9;
 }
-/*Loading*/
-#loading{
-	padding: 10px;
-	background-color: yellow;
-	border-radius: 5px;
-	border: grey;
-	opacity: 0.6;
-	width: 35px;
-	height: 35px;
-	margin-left: auto;
-	margin-right: auto;
-}
+
 
 /*Question page*/
 #Verify-Question{
@@ -281,7 +228,6 @@ a{
 /*Sidemenu page*/
 .menu{
 height: 100%;
-
 }
 .menu img{
 	margin-left: 10%;
@@ -293,16 +239,11 @@ height: 100%;
     width: 30%;
 }
 
-/*<<<<<<< HEAD
-#menu-item-1, #menu-item-2,#menu-item-3, #menu-item-4, #menu-item-5{
-=======*/
-
 .menuwhole{
 opacity: 1;
 text-align: center;
 position: relative;
 margin-bottom: 5%;
-/*width: 30%;*/
 left: 0%;
 }
 
@@ -312,21 +253,5 @@ left: 0%;
 	text-align: center;
 	/*left: 5%; */
 	top: 80%;
-/*<<<<<<< HEAD
-	width: 70%;
-	margin-left: 10%;
-}
-
-#menu-item-1{
-
-}
-
-#menu-item-2{
-=======*/
 	width: 50%;
 }
-
-
-
-
-}*/
