@@ -188,14 +188,14 @@ angular.module('quizit.controllers', [])
 		}
 
 		if($scope.leaderboardData.length <= 0){
-			$http.get('http://'+serverURL+"/challenges/leaderBoard")
+			$http.get(serverURL+"/challenges/leaderBoard")
 			.success(function(response){
 				$scope.initLeaderboardData(response, new Array());
 			});
 		}
 
 		if($scope.historyData.length <= 0){
-			$http.get('http://'+serverURL+'/challenges?userID='+user_id)
+			$http.get(serverURL+'/challenges?userID='+user_id)
 			.success(function(response){
 				$scope.initHistoryData(response, new Array());
 			});
