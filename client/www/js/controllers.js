@@ -26,6 +26,15 @@ angular.module('quizit.controllers', [])
 		getFriendID : function () {
 			return friendID;
 		},
+		getFriendName: function(id){
+			var name;
+			friends.forEach(function(afriend){
+				if(afriend.id === id){
+					name = afriend.name;
+				}
+			});
+			return name;
+		},
 		friend : function () {
 			var friendr;
 			friends.forEach(function (afriend) {
@@ -251,7 +260,7 @@ angular.module('quizit.controllers', [])
 	};
 })
 
-.controller('NotificationCtrl', function($scope, quizitService){
+.controller('NotificationCtrl', function($scope, quizitService, $location, $ionicPopup, $http){
 	// get data from server about notification: should be done when the app load - use homecontrol, then use quizitService to set data
 	/*
 	var setData = fuction(){
@@ -260,31 +269,94 @@ angular.module('quizit.controllers', [])
 	updateNotifications($scope.data);
 	setData();	
 	*/
-	$scope.data = [
-		{type: 'question',
-		question: 'Are you free on Sunday?'},
-		{type: 'question',
-		question: 'Are you free on Saturday?'},
-		{type: 'answer',
-		question: 'Are you free on Monday?',
-		name: 'Wang Kunzheng',
-		answer: 'N'},
-		{type: 'question',
-		question: 'Are you free on Tuesday?'},
-		{type: 'answer',
-		question: 'Are you free on Wednesday?',
-		name: 'Colin Tan',
-		answer: 'N'}
-	];
+	var serverURL = quizitService.serverURL();
+	$scope.data = [];
+	$scope.getData = function () {
+		$http.get(serverURL + '/bonus?user_id=' + window.localStorage['user_id']).
+		success(function (data, status, headers, config) {
+			$scope.toSend = data;
+			window.localStorage['notificationToSend']=JSON.stringify($scope.toSend);
+			for (var i=0; i<data.length; i++){
+				if (data[i]['tag']!=='ignore'   // notification is not ignored
+				&&(!((data[i]['player_id']===window.localStorage['user_id']) // do not get question sent by player
+				&&(data[i]['answer']===undefined)))							 // that has no answer yet
+				&&(!((data[i]['target_id']===window.localStorage['user_id']) // do not get question answered by player
+				&&(data[i]['answer']!==undefined))))							
+				{
+					var obj = {
+						player_id: data[i]['player_id'],
+						target_id: data[i]['target_id'],
+						type: data[i]['player_id']===window.localStorage['user_id']?'answer':'question',
+						question: data[i]['question'],
+						answer: data[i]['answer'],
+						name: quizitService.getFriendName(data[i]['target_id'])
+					}
+					$scope.data.push(obj);
+					window.localStorage['notificationPending']=JSON.stringify($scope.data);
+				}
+			}
+			if ($scope.data.length === 0) {
+				$ionicPopup.show({
+					title : '<div class="popup-title">It seems like you have no new notification.</div>',
+					scope : $scope,
+					buttons : [{
+							text : '<b>Back to friendlist!</b>',
+							type : 'button-positive',
+							onTap : function (e) {
+								$location.path('/app/friends');
+							}
+						},
+					]
+				});
+			}
+		}).
+		error(function (data, status, headers, config) {
+			$ionicPopup.show({
+				title : '<div class="popup-title">It seems like you have no new notification.</div>',
+				scope : $scope,
+				buttons : [{
+						text : '<b>Back to friendlist!</b>',
+						type : 'button-positive',
+						onTap : function (e) {
+							$location.path('/app/friends');
+						}
+					},
+				]
+			}); //log error
+		});
+	}
+	$scope.getData();
 	// push data back to server	and call quizitService to remove data
 	$scope.userResponse = function(question, choice){
 		for (var i = 0; i < $scope.data.length; i++){
 			if ($scope.data[i]['question']===question){
+				for (var j = 0; j < $scope.toSend.length; j++){
+					if ($scope.data[i]['player_id']===$scope.toSend[j]['player_id']&&
+					$scope.data[i]['target_id']===$scope.toSend[j]['target_id']&&
+					$scope.data[i]['question']===$scope.toSend[j]['question']){
+						if (choice === 'I'){
+							$scope.toSend[j]['tag']=choice;
+						} else {
+							$scope.toSend[j]['answer']=choice;
+						}
+					}
+					window.localStorage['notificationToSend']=JSON.stringify($scope.toSend);
+					console.log(JSON.parse(window.localStorage['notificationPending']));
+					console.log(JSON.parse(window.localStorage['notificationToSend']));
+				}
 				$scope.data.splice(i, 1);
-				/*
-					updateNotifications($scope.data);
-					setData();	
-				*/
+				window.localStorage['notificationPending']=JSON.stringify($scope.data);
+				if ($scope.data.length === 0) {
+					$http.post(serverURL + '/bonus/response', JSON.parse(window.localStorage['notificationToSend']))
+					.success(function (res) {
+						console.log(JSON.parse(window.localStorage['notificationToSend']));
+						console.log(res);
+					})
+					.error(function (res) {
+						// log error
+					});
+					$location.path('/app/friends');
+				}
 			}
 		}
 	}
@@ -294,10 +366,8 @@ angular.module('quizit.controllers', [])
 		$scope.selectFriend = function (friend) {
 			quizitService.selectFriend(friend);
 		};
-		$scope.isClickable = true;
 
 		if(!navigator.onLine){
-			$scope.isClickable = false;
 			if($scope.friends.length <= 0){
 				var friendsDataStore = window.localStorage['friends'];
 				if(friendsDataStore){
@@ -430,16 +500,14 @@ angular.module('quizit.controllers', [])
 					text : '<b>Back to friendlist!</b>',
 					type : 'button-positive',
 					onTap : function (e) {
+						$ionicSideMenuDelegate.canDragContent(true);
 						$location.path('/app/friends');
 					}
 				},
 			]
 		});
 	$scope.getData = function () {
-		console.log('1');
-		console.log(quizitService.friend());
 		$scope.friend = quizitService.friend();
-		console.log($scope.friend);
 		$http.get(serverURL + '/quiz?fb_account=' + $scope.friend.id).
 		success(function (data, status, headers, config) {
 			$scope.data = data;
@@ -500,7 +568,7 @@ angular.module('quizit.controllers', [])
 													target_id : $scope.friend.id,
 													bonus : [{question: $scope.bonus}]
 												}												
-												$http.post(serverURL + '/bonus/', sendData)
+												$http.post(serverURL + '/bonus/question', sendData)
 												.success(function (res) {
 													console.log(res);
 												})
