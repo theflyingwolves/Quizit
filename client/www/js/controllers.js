@@ -153,7 +153,13 @@ angular.module('quizit.controllers', [])
 	$scope.feedback = "";
 
 	$scope.loadHome = function () {
-		if(navigator.onLine){
+		if(navigator.standalone){
+			console.log("Standing Alone");
+		}else{
+			console.log("In Browser");
+		}
+		
+		if(!navigator.standalone && navigator.onLine){
 			FB.getLoginStatus(function (response) {
 				if (response.status === "connected") {
 					console.log("User Logged in");
@@ -167,7 +173,7 @@ angular.module('quizit.controllers', [])
 			$location.path('/app/friends');
 		}
 	};
-	
+
 	$interval($scope.loadHome, 2000, 1);
 })
 
