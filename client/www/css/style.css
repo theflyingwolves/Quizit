@@ -13,13 +13,6 @@
 	margin: 1% 0% 1% 0%;
 }
 
-/*.chat-area{
-    width: 90%;
-    position: relative;
-    margin-top: 30%;
-    height: 100%;
-}
-*/
 .answer{
     float: right;
     clear: both;
@@ -33,7 +26,6 @@
     border-color: yellow;
     font-size: 1.5em;
     margin: 0% 8% 5% 0%;/*top-right-bottom-left*/
-
 }
 .answer:after{
     content: '';
@@ -75,11 +67,9 @@
     top: 30%;
 }
 
-
 .has-footer{
     top: 20%;
 	bottom: 17%;
-    /*background-color: #444242;*/
 }
 
 .tall-footer{
@@ -179,8 +169,6 @@
     position: relative;
     top: 50%;
     left: 100%;
-    /*background-color:#86A87A; */
-    /*border-radius: 50%;*/
     -webkit-animation: loading-bar 5s 2s; /* Chrome, Safari, Opera */
     animation: loading-bar 5s 2s;
 }
@@ -191,8 +179,6 @@
     position: relative;
     top: 50%;
     left: 100%;
-    /*background-color:#86A87A; */
-    /*border-radius: 50%;*/
 }
 
 @-webkit-keyframes loading-bar {

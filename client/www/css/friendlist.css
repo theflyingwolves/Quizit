@@ -13,7 +13,6 @@
 .friend-photo{
 	width: 90%;
 	background-color: none;
-	font-size: 1.5em;
 }
 .friend-photo img{
 	width: 20%;
@@ -34,11 +33,9 @@
 .friend-photo h1:active{
 	color: yellow;
 }
-
 .search-bar{
 	opacity: 0.7;
 	height: 5%;
 	width: 80%;
 	margin: auto;
-	/*text-align: center;*/
 }
