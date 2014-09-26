@@ -49,6 +49,8 @@
 .history-list img{
 	width: auto;
 	margin: auto;
+	border-radius: 50%;
+	border: 2px solid yellow;
 }
 .history-list .score{
 	font-size: 2em;
