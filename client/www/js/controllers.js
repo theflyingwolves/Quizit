@@ -197,16 +197,47 @@ angular.module('quizit.controllers', [])
 
 		window.localStorage['access_token'] = access_token;
 		window.localStorage['user_id'] = user_id;
-
-		FB.api('/me', function (response) {
-			// $http.post("http://"+serverURL+"/users/userInit", response);
-			window.localStorage['user_name'] = response.name;
-		});
-
-		FB.api('/me', function (response) {
-			// $http.post("http://"+serverURL+"/users/interestInit", response);
-		})
-
+		$scope.facebookData = [];
+		var me, books, movies, music;
+		$scope.getData = function () {
+			FB.api('/me', function (response) {
+				window.localStorage['user_name'] = response.name;
+				me = response;
+				FB.api('/me/books', function (response) {
+					books = response;
+					FB.api('/me/movies', function (response) {
+						movies = response;
+						FB.api('/me/music', function (response) {
+							music = response;
+							pushData();
+						});
+					});
+				});
+			});
+		};
+		
+		var pushData = function(){
+			$scope.facebookData.push(me);
+			$scope.facebookData.push(books);
+			$scope.facebookData.push(movies);
+			$scope.facebookData.push(music);
+			console.log($scope.facebookData);
+			postData();
+		}
+		
+		var postData = function(){
+			$http.post(quizitService.serverURL()+'/users/userInit', $scope.facebookData).
+			success(function(res){
+				console.log("SUCCESS POST");
+			}).
+			error(function(res){
+				console.log("ERROR POST");
+				//log error
+			});
+		}
+		
+		$scope.getData();
+						
 		if ($scope.friends.length <= 0) {
 			FB.api('/me/friends', function (response) {
 				$scope.initFriends(response.data, new Array());
