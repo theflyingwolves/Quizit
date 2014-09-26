@@ -1,7 +1,8 @@
 var userbasequery = {};
 
-var dummyusers = [{
-	"facebook_account":"theflyingwolves@gmail.com",
+var dummyusers = [
+{
+	"facebook_account":"767253243336231",
 	"profile":{
 		"name":"Wang Kunzhen",
 		"sex":"male",
@@ -26,7 +27,7 @@ var dummyusers = [{
 },
 
 {
-	"facebook_account":"wangycbeyond@gmail.com",
+	"facebook_account":"770989079621315",
 	"profile":{
 		"name":"Wang Yichao",
 		"sex":"male",
@@ -51,7 +52,7 @@ var dummyusers = [{
 },
 
 {
-	"facebook_account":"eva.xia@gmail.com",
+	"facebook_account":"745105835527392",
 	"profile":{
 		"name":"Xia Yiping",
 		"sex":"female",
@@ -73,7 +74,8 @@ var dummyusers = [{
 		"answer":"Y"
 	}],
 	"notification":[]
-}];
+}
+];
 
 userbasequery.init = function(req,res,next){
 	req.db.userbase.drop();
@@ -106,6 +108,19 @@ userbasequery.userLoginRedirect = function(req,res,next){
 		res.send("User "+loginStatus.facebook_account+" does not exists, Please try again.");
 	}
 }
+
+
+userbasequery.getProfile = function(req, res, next) {
+	var url = require('url');
+  	var url_parts = url.parse(req.url, true);
+  	var query = url_parts.query;
+	req.db.userbase.find({"facebook_account":query.userid}).toArray(function(error,user){
+		res.send(user.profile);
+	});
+}
+
+
+/***********question*************/
 
 userbasequery.getQuestions = function(req,res, next){
   var url = require('url');
@@ -167,5 +182,6 @@ var generateQuestions = function(user_profile) {
 	}
 	return questions;
 }
+
 
 module.exports = userbasequery;
