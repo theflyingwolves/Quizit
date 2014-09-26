@@ -63,10 +63,10 @@ angular.module('quizit.controllers', [])
 		getLastQns : function () {
 			return lastQns;
 		},
-		toggleLoggedIn : function () {
+		toggleLoggedIn: function(){
 			isLoggedIn = !isLoggedIn;
 		},
-		getLoggedIn : function () {
+		getLoggedIn: function(){
 			return isLoggedIn;
 		}
 	};
@@ -81,17 +81,19 @@ angular.module('quizit.controllers', [])
 	$scope.leaderboardData = new Array();
 	$scope.historyData = new Array();
 
-	window.applicationCache.addEventListener('updateready', function (e) {
-		if (window.applicationCache.status == window.applicationCache.UPDATEREADY) {
-			if (confirm("A new version of this state is ready to update. Would you like to update?")) {
-				window.location.reload();
-			} else {}
-		}
-	}, false);
+	window.applicationCache.addEventListener('updateready', function(e){
+    if(window.applicationCache.status ==  window.applicationCache.UPDATEREADY){
+      if(confirm("A new version of this state is ready to update. Would you like to update?")){
+        window.location.reload();
+      }else{
 
-	window.applicationCache.addEventListener('cached', function (e) {
-		console.log("Application Fully Cached!!!!");
-	});
+      }
+    }
+  }, false);
+
+  window.applicationCache.addEventListener('cached', function(e){
+    console.log("Application Fully Cached!!!!");
+  });
 	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
@@ -137,10 +139,10 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.logoutFacebook = function () {
-		FB.logout(function (response) {
+		FB.logout(function(response) {
 			console.log("Trying to log out");
 			FB.Auth.setAuthResponse(null, 'unknown');
-			console.log('loggedOut'); // user is now logged out
+			console.log('loggedOut');// user is now logged out
 		});
 	}
 
@@ -151,9 +153,9 @@ angular.module('quizit.controllers', [])
 
 	$scope.loadHome = function () {
 
-		if (navigator.standalone) {
+		if(navigator.standalone){
 			$location.path('/app/friends');
-		} else if (navigator.onLine) {
+		}else if(navigator.onLine){
 			FB.getLoginStatus(function (response) {
 				if (response.status === "connected") {
 					$location.path('/app/friends');
@@ -161,7 +163,7 @@ angular.module('quizit.controllers', [])
 					$location.path('/app/home');
 				}
 			});
-		} else {
+		}else{
 			$location.path('/app/friends');
 		}
 
@@ -202,10 +204,7 @@ angular.module('quizit.controllers', [])
 		window.localStorage['access_token'] = access_token;
 		window.localStorage['user_id'] = user_id;
 		$scope.facebookData = [];
-		var me,
-		books,
-		movies,
-		music;
+		var me, books, movies, music;
 		$scope.getData = function () {
 			FB.api('/me', function (response) {
 				window.localStorage['user_name'] = response.name;
@@ -222,8 +221,8 @@ angular.module('quizit.controllers', [])
 				});
 			});
 		};
-
-		var pushData = function () {
+		
+		var pushData = function(){
 			$scope.facebookData.push(me);
 			$scope.facebookData.push(books);
 			$scope.facebookData.push(movies);
@@ -231,74 +230,65 @@ angular.module('quizit.controllers', [])
 			console.log($scope.facebookData);
 			postData();
 		}
-
-		var postData = function () {
-			$http.post(quizitService.serverURL() + '/users/userInit', $scope.facebookData).
-			success(function (res) {
+		
+		var postData = function(){
+			$http.post(quizitService.serverURL()+'/users/userInit', $scope.facebookData).
+			success(function(res){
 				console.log("SUCCESS POST");
 			}).
-			error(function (res) {
+			error(function(res){
 				console.log("ERROR POST");
 				//log error
 			});
 		}
-
+		
 		$scope.getData();
-		/*
+						
 		if ($scope.friends.length <= 0) {
-		FB.api('/me/friends', function (response) {
-		quizitService.friends(response.data);
-		$scope.initFriends(response.data, new Array());
-		});
-		}
-		 */
-		function one(callback) {
-			if ($scope.friends.length <= 0) {
-				FB.api('/me/friends', function (response) {
-					quizitService.friends(response.data);
-					$scope.initFriends(response.data, new Array(), callback);
-				});
-			}
+			FB.api('/me/friends', function (response) {
+				quizitService.friends(response.data);
+				$scope.initFriends(response.data, new Array());
+			});
 		}
 
-		one(function () {
-			if ($scope.leaderboardData.length <= 0) {
-				$http.get(serverURL + "/challenges/leaderBoard")
-				.success(function (response) {
-					$scope.initLeaderboardData(response, new Array());
-				});
-			}
+		if($scope.leaderboardData.length <= 0){
+			$http.get(serverURL+"/challenges/leaderBoard")
+			.success(function(response){
+				$scope.initLeaderboardData(response, new Array());
+			});
+		}
 
-			if ($scope.historyData.length <= 0) {
-				$http.get(serverURL + '/challenges?userID=' + user_id)
-				.success(function (response) {
-					$scope.initHistoryData(response, new Array());
-				});
-			}
-		});
+		if($scope.historyData.length <= 0){
+			$http.get(serverURL+'/challenges?userID='+user_id)
+			.success(function(response){
+				$scope.initHistoryData(response, new Array());
+			});
+		}
 	}
 
-	$scope.initHistoryData = function (history, result) {
+	$scope.initHistoryData = function(history, result){
 		var serverURL = quizitService.serverURL();
 
-		if (history.length <= 0) {
+		if(history.length <= 0){
 
 			result = result.reverse();
 
-			for (var i = 0; i < result.length; i++) {
+			for(var i=0; i<result.length; i++){
 				$scope.historyData.push(result[i]);
 			}
 
 			window.localStorage["history"] = JSON.stringify(result);
-		} else {
+		}else{
 			var item = history.pop();
 			var id = item.target_id;
-			FB.api('/' + id + '/picture', function (response) {
+			FB.api('/'+id+'/picture',function(response){
 				item.profile_image = response.data.url;
-				item.name = quizitService.getFriendName(id);
-				item.score = item.score_max;
-				result.push(item);
-				$scope.initHistoryData(history, result);
+				FB.api('/'+id+'?fields=name',function(response){
+					item.name = response.name;
+					item.score = item.score_max;
+					result.push(item);
+					$scope.initHistoryData(history,result);
+				});
 			});
 		}
 	}
@@ -317,20 +307,21 @@ angular.module('quizit.controllers', [])
 			var item = leaderboard.pop();
 			var id = item._id;
 			FB.api('/' + id + '/picture', function (response) {
-				if (quizitService.getFriendName(id) !== undefined) {
-					item.profile_image = response.data.url;
-					item.name = quizitService.getFriendName(id);
+				item.profile_image = response.data.url;
+				FB.api('/'+id+'?fields=name',function(response){
+					item.name = response.name;
 					item.score = item.total_maxscore;
 					result.push(item);
 					$scope.initLeaderboardData(leaderboard, result);
-				}
+				});
 			});
 		}
 	}
 
-	$scope.initFriends = function (friendlist, result, callback) {
+	$scope.initFriends = function (friendlist, result) {
 		if (friendlist.length <= 0) {
 			quizitService.friends(result);
+
 			if ($scope.friends.length <= 0) {
 				for (var i = 0; i < result.length; i++) {
 					$scope.friends.push(result[i]);
@@ -339,7 +330,6 @@ angular.module('quizit.controllers', [])
 
 			if (window.localStorage["friends"]) {
 				window.localStorage["friends"] = JSON.stringify(result);
-				callback();
 			}
 
 			return;
@@ -349,7 +339,7 @@ angular.module('quizit.controllers', [])
 			FB.api('/' + id + '/picture', function (response) {
 				friend.image = response.data.url;
 				result.push(friend);
-				$scope.initFriends(friendlist, result, callback);
+				$scope.initFriends(friendlist, result);
 			})
 		}
 	};
@@ -479,7 +469,8 @@ angular.module('quizit.controllers', [])
 	}
 })
 
-.controller('HistoryCtrl', function ($scope, $http, quizitService) {})
+.controller('HistoryCtrl', function ($scope, $http, quizitService) {
+})
 
 .controller('LeaderboardCtrl', function ($scope) {
 	if (!navigator.onLine) {
@@ -497,6 +488,7 @@ angular.module('quizit.controllers', [])
 
 .controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService, $ionicSideMenuDelegate) {
 	$ionicSideMenuDelegate.canDragContent(false);
+	$scope.isButtonDisabled = true;
 	var serverURL = quizitService.serverURL();
 	var wrongAns = quizitService.getWrongAns();
 	var correctAns = quizitService.getCorrectAns();
@@ -528,6 +520,7 @@ angular.module('quizit.controllers', [])
 				answer : $scope.data[$scope.QAindex]['answer']
 			};
 			$scope.texts.push(question);
+			$scope.isButtonDisabled = false;
 			//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
 			$scope.showLoadingBar = true;
 			$scope.timestamp = Date.now();
@@ -646,7 +639,6 @@ angular.module('quizit.controllers', [])
 			});
 	};
 
-	$scope.isButtonDisabled = false;
 	$scope.isIdleHidden = true;
 	$scope.addAnswer = function (userAns) {
 		var newDeduct = Math.floor((Date.now() - $scope.timestamp) / 1000) * 2 - 3;
