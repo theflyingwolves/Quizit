@@ -1,18 +1,18 @@
 var questionbase = {};
 
 var quizArray = [
-	{qid: 1, question: "Do you wear slippers to school or work?"},
-	{qid: 2, question: "Do you like Sushi?"},
-	{qid: 3, question: "Do you play basketball?"},
-	{qid: 4, question: "Can you swim?"},
-	{qid: 5, question: "Are you a vegeterian?"},
-	{qid: 6, question: "Do you know Calculas?"},
-	{qid: 7, question: "Do you take two showers everyday?"},
-	{qid: 8, question: "Do you watch World Cup?"},
-	{qid: 9, question: "Do you prefer PC games to mobile games?"},
-	{qid: 10, question: "Do you play Candy Crush?"},
-	{qid: 11, question: "Do you often wear jeans?"},
-	{qid: 12, question: "Do you sleep more than 7 hours per day?"}
+	{qid: 1, question: "Do I wear slippers to school or work?"},
+	{qid: 2, question: "Do I like Sushi?"},
+	{qid: 3, question: "Do I play basketball?"},
+	{qid: 4, question: "Can I swim?"},
+	{qid: 5, question: "Am I a vegeterian?"},
+	{qid: 6, question: "Do I know Calculas?"},
+	{qid: 7, question: "Do I take two showers everyday?"},
+	{qid: 8, question: "Do I watch World Cup?"},
+	{qid: 9, question: "Do I prefer PC games to mobile games?"},
+	{qid: 10, question: "Do I play Candy Crush?"},
+	{qid: 11, question: "Do I often wear jeans?"},
+	{qid: 12, question: "Do I sleep more than 7 hours per day?"}
 ];
 
 questionbase.init = function(req,res,next){

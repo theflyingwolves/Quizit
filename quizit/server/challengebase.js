@@ -70,21 +70,22 @@ challengebase.recordChallenge = function(req, res, next){
    function(error, challenge) {
       if (error) return next(error);
       if (!challenge) return next(new Error('Failed to save challenges.'));
+        req.db.challengebase.update({
+        player_id: req.body.player_id,
+        target_id: req.body.target_id,
+        $or: [{score_max: {$lt: newScore}},
+        {score_max: {$exists: false}}]
+      },{
+        $set:{
+          score_max: newScore
+        }
+    },function(err, challenge) {
+  });
       res.send("added challenges");
       console.info('Added %s with id=%s', challenge.score, challenge._id);
   });
 
-  req.db.challengebase.update({
-    player_id: req.body.player_id,
-    target_id: req.body.target_id,
-    score_max: {$lt: newScore}
-  },{
-      $set:{
-        score_max: newScore
-      }
-  },function(err, challenge) {
 
-  });
 };
 
 challengebase.listLeaderboard = function(req, res, next){
@@ -99,7 +100,7 @@ challengebase.listLeaderboard = function(req, res, next){
     }
   },
   {
-    $sort:{total_maxscore:-1}
+    $sort:{total_maxscore:-1},
   },
   {
     $limit: 10
@@ -136,7 +137,7 @@ challengebase.listHistory = function(req, res, next) {
   var url = require('url');
   var url_parts = url.parse(req.url, true);
   var query = url_parts.query;
-  req.db.challengebase.find({player_id: query.userID}).toArray(function(error, challengebase){
+  req.db.challengebase.find({player_id: query.userID}).sort({"score": -1}).toArray(function(error, challengebase){
     if (error) return next(error);
     res.send(challengebase);
   }) 

@@ -21,7 +21,7 @@ var dummybonusdata = [
 	}
 ];
 
-bonusbasequery.init = function(req,res,next){
+bonusbasequery.init = function(req,res,nwext){
 	req.db.bonusbase.drop();
 	req.db.bonusbase.insert(dummybonusdata,function(error,bonus){
 		if (error) return next(error);
@@ -38,8 +38,8 @@ bonusbasequery.getbonusForUser = function(req,res,next){
 
 	db.find({
 		$or: [
-		{"player_id":query.user_id},
-		{"target_id":query.user_id}
+			{"player_id":query.user_id},
+			{"target_id":query.user_id}
 		],
 		tag: {$ne:"I"}
 	}).toArray(function(error,data){
