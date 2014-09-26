@@ -331,6 +331,7 @@ angular.module('quizit.controllers', [])
 				}
 			}
 			if ($scope.data.length === 0) {
+				$scope.activeIndex = 0;
 				$ionicPopup.show({
 					title : '<div class="popup-title">It seems like you have no new notification.</div>',
 					scope : $scope,
@@ -347,6 +348,7 @@ angular.module('quizit.controllers', [])
 			}
 		}).
 		error(function (data, status, headers, config) {
+			$scope.activeIndex = 0;
 			$ionicPopup.show({
 				title : '<div class="popup-title">It seems like you have no new notification.</div>',
 				scope : $scope,
@@ -392,6 +394,7 @@ angular.module('quizit.controllers', [])
 					.error(function (res) {
 						// log error
 					});
+					$scope.activeIndex = 0;
 					$location.path('/app/friends');
 				}
 			}
