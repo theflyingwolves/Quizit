@@ -77,6 +77,7 @@ var dummyusers = [
 }
 ];
 
+
 userbasequery.init = function(req,res,next){
 	req.db.userbase.drop();
 	req.db.userbase.insert(dummyusers,function(error,users){
@@ -89,15 +90,45 @@ userbasequery.init = function(req,res,next){
 userbasequery.login = function(req,res,next){
 	var facebook_account = req.body.facebook_account;
 	var password = req.body.password;
-	req.db.userbase.find({"facebook_account":facebook_account,"password":password}).toArray(function(error,data){
+	req.db.userbase.find({"facebook_account":facebook_account, "password":password}).toArray(function(error,data){
 		if(data.length == 0){
 			res.cookie('user',{'status':'failed','facebook_account':facebook_account});
 		}else{
 			res.cookie('user',{'status':'successful','facebook_account':facebook_account});
 		}
-
 		res.redirect('/userLoginRedirect');
 	});
+}
+
+userbasequery.postProfile = function(req, res, next){
+	var userData = {};
+	var req_profile = req.body[0];
+	var req_book = req.body[1];
+	var req_movie = req.body[2];
+	var req_music = req.body[3];
+	var interestList = [];
+	req_book.foreach(function(book){
+		interests.push(book.name);
+	})
+	req_movie.foreach(function(movie){
+		interests.push(movie.name);
+	})
+	req_music.foreach(function(music){
+		interests.push(music.name);
+	})
+	req.update({facebook_account:req_profile.id}, {
+		$set:{
+			profile:{
+				name: req_profile.name,
+				sex: req_profile.sex,
+				birthday: req_profile.birthday,
+				marital_status: req_profile.marital_status,
+				genre: req_profile.genre,
+				interest: interestList
+			}
+		}
+
+	})
 }
 
 userbasequery.userLoginRedirect = function(req,res,next){
@@ -115,7 +146,7 @@ userbasequery.getProfile = function(req, res, next) {
   	var url_parts = url.parse(req.url, true);
   	var query = url_parts.query;
 	req.db.userbase.find({"facebook_account":query.userid}).toArray(function(error,user){
-		res.send(user.profile);
+		res.send(user[0].profile);
 	});
 }
 

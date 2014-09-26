@@ -99,7 +99,7 @@ challengebase.listLeaderboard = function(req, res, next){
     }
   },
   {
-    $sort:{total_maxscore:-1},
+    $sort:{total_maxscore:-1}
   },
   {
     $limit: 10
