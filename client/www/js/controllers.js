@@ -41,6 +41,7 @@ angular.module('quizit.controllers', [])
 
 	$scope.friends = new Array();
 	$scope.leaderboardData = new Array();
+	$scope.historyData = new Array();
 	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
@@ -171,6 +172,36 @@ angular.module('quizit.controllers', [])
 			});
 		}
 
+		if($scope.historyData.length <= 0){
+			$http.get('http://'+serverURL+'/challenges?userID='+user_id)
+			.success(function(response){
+				$scope.initHistoryData(response, new Array());
+			});
+		}
+	}
+
+	$scope.initHistoryData = function(history, result){
+		if(history.length <= 0){
+			console.log("Historyrrrrryyy Finished: "+JSON.stringify(result));
+
+			result = result.reverse();
+
+			for(var i=0; i<result.length; i++){
+				$scope.historyData.push(result[i]);
+			}
+
+			window.localStorage["history"] = JSON.stringify(result);
+		}else{
+			var item = history.pop();
+			var id = item.target_id;
+			FB.api('/'+id+'/picture',function(response){
+				item.profile_image = response.data.url;
+				item.name = "name";
+				item.score = item.score_max;
+				result.push(item);
+				$scope.initHistoryData(history,result);
+			});
+		}
 	}
 
 	$scope.initLeaderboardData = function(leaderboard, result){
@@ -290,24 +321,24 @@ angular.module('quizit.controllers', [])
 })
 
 .controller('HistoryCtrl', function ($scope, $http, quizitService) {
-	$scope.historyData = [{
-			name : "Wang Kunzhen",
-			profile_image : "img/glasses-outline.png",
-			score : 65
-		},{
-			name : "Wang Yichao",
-			profile_image : "img/lightbulb-outline.png",
-			score : 80
-		},{
-			name : "Xia Yiping",
-			profile_image : "img/contact-outline.png",
-			score : 70
-		}, {
-			name : "Viet Trung Truong",
-			profile_image : "img/chatbubble-outline.png",
-			score : 65
-		}
-	];
+	// $scope.historyData = [{
+	// 		name : "Wang Kunzhen",
+	// 		profile_image : "img/glasses-outline.png",
+	// 		score : 65
+	// 	},{
+	// 		name : "Wang Yichao",
+	// 		profile_image : "img/lightbulb-outline.png",
+	// 		score : 80
+	// 	},{
+	// 		name : "Xia Yiping",
+	// 		profile_image : "img/contact-outline.png",
+	// 		score : 70
+	// 	}, {
+	// 		name : "Viet Trung Truong",
+	// 		profile_image : "img/chatbubble-outline.png",
+	// 		score : 65
+	// 	}
+	// ];
 
 	var serverURL = quizitService.serverURL();
 	// $http.get("http://"+serverURL+"/challenge?userId="+window.localStorage['user_id'])
