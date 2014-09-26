@@ -317,11 +317,13 @@ angular.module('quizit.controllers', [])
 			var item = leaderboard.pop();
 			var id = item._id;
 			FB.api('/' + id + '/picture', function (response) {
-				item.profile_image = response.data.url;
-				item.name = quizitService.getFriendName(id);
-				item.score = item.total_maxscore;
-				result.push(item);
-				$scope.initLeaderboardData(leaderboard, result);
+				if (quizitService.getFriendName(id) !== undefined) {
+					item.profile_image = response.data.url;
+					item.name = quizitService.getFriendName(id);
+					item.score = item.total_maxscore;
+					result.push(item);
+					$scope.initLeaderboardData(leaderboard, result);
+				}
 			});
 		}
 	}
