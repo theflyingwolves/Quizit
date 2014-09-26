@@ -40,13 +40,24 @@ questionbase.listQuestions = function(req, res, next){
 questionbase.contributeQuestion = function(req, res, next){
   if (!req.body || !req.body.name) return next(new Error('No question data provided.'));
   req.db.questionbase.save({
-    question: req.body.name,
+    question: req.body.name
   }, function(error, quiz){
     if (error) return next(error);
     if (!quiz) return next(new Error('Failed to save.'));
     console.info('Added %s with id=%s', quiz.question, quiz._id);
     res.redirect('/');
   })
+}
+
+questionbase.getBonus = function(req, res, next){
+	req.db.questionbase.count(function(err, count){
+		var randNum = Math.floor(Math.random()*count);
+		console.log("count "+count+"rand: "+randNum);
+		
+		req.db.questionbase.find().limit(1).skip(randNum).next(function(error, data){
+			res.send(data);
+		});
+  });
 }
 
 module.exports = questionbase;

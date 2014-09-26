@@ -62,6 +62,7 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.friends = new Array();
+	$scope.leaderboardData = new Array();
 	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
@@ -184,6 +185,38 @@ angular.module('quizit.controllers', [])
 				$scope.initFriends(response.data, new Array());
 			});
 		}
+
+		if($scope.leaderboardData.length <= 0){
+			$http.get('http://'+serverURL+"/challenges/leaderBoard")
+			.success(function(response){
+				$scope.initLeaderboardData(response, new Array());
+			});
+		}
+
+	}
+
+	$scope.initLeaderboardData = function(leaderboard, result){
+		if(leaderboard.length <= 0){
+			console.log("Finished Leaderboard: "+JSON.stringify(result));
+			result = result.reverse();
+
+			for(var i=0; i<result.length; i++){
+				$scope.leaderboardData.push(result[i]);
+			}
+
+			window.localStorage["leaderboard"] = JSON.stringify(result);
+
+		}else{
+			var item = leaderboard.pop();
+			var id = item._id;
+			FB.api('/'+id+'/picture', function(response){
+				item.profile_image = response.data.url;
+				item.name = "name";
+				item.score = item.total_maxscore;
+				result.push(item);
+				$scope.initLeaderboardData(leaderboard,result);
+			});
+		}
 	}
 
 	$scope.initFriends = function(friendlist, result){
@@ -191,9 +224,16 @@ angular.module('quizit.controllers', [])
 			console.log("Freinsadafsdddbbb: "+JSON.stringify(result));
 			quizitService.friends(result);
 
-			for(var i=0; i<result.length;i++){
-				$scope.friends.push(result[i]);
+			if($scope.friends.length <= 0){
+				for(var i=0; i<result.length;i++){
+					$scope.friends.push(result[i]);
+				}
 			}
+
+			if(window.localStorage["friends"]){
+				window.localStorage["friends"] = JSON.stringify(result);
+			}
+
 			return ;
 		}else{
 			var friend = friendlist.pop();
@@ -254,6 +294,21 @@ angular.module('quizit.controllers', [])
 		$scope.selectFriend = function (friend) {
 			quizitService.selectFriend(friend);
 		};
+		$scope.isClickable = true;
+
+		if(!navigator.onLine){
+			$scope.isClickable = false;
+			if($scope.friends.length <= 0){
+				var friendsDataStore = window.localStorage['friends'];
+				if(friendsDataStore){
+					var friendsData = JSON.parse(friendsDataStore);
+					for(var i=0; i<friendsData.length; i++){
+						$scope.friends.push(friendsData[i]);
+					}
+					quizitService.friends(friendsData);
+				}
+			}
+		}
 })
 
 .controller('HistoryCtrl', function ($scope, $http, quizitService) {
@@ -298,24 +353,36 @@ angular.module('quizit.controllers', [])
 })
 
 .controller('LeaderboardCtrl', function ($scope) {
-	$scope.leaderboardData = [{
-			name : "Wang Kunzhen",
-			profile_image : "img/glasses-outline.png",
-			score : 1001
-		}, {
-			name : "Wang Yichao",
-			profile_image : "img/lightbulb-outline.png",
-			score : 800
-		}, {
-			name : "Xia Yiping",
-			profile_image : "img/contact-outline.png",
-			score : 799
-		}, {
-			name : "Viet Trung Truong",
-			profile_image : "img/chatbubble-outline.png",
-			score : 653
+	// $scope.leaderboardData = [{
+	// 		name : "Wang Kunzhen",
+	// 		profile_image : "img/glasses-outline.png",
+	// 		score : 1001
+	// 	}, {
+	// 		name : "Wang Yichao",
+	// 		profile_image : "img/lightbulb-outline.png",
+	// 		score : 800
+	// 	}, {
+	// 		name : "Xia Yiping",
+	// 		profile_image : "img/contact-outline.png",
+	// 		score : 799
+	// 	}, {
+	// 		name : "Viet Trung Truong",
+	// 		profile_image : "img/chatbubble-outline.png",
+	// 		score : 653
+	// 	}
+	// ];
+
+	if(!navigator.onLine){
+		if($scope.leaderboardData.length <= 0){
+			var leaderboardDataStore = window.localStorage['leaderboard'];
+			if(leaderboardDataStore){
+				var leaderboard = JSON.parse(leaderboardDataStore);
+				for(var i=0; i<leaderboard.length; i++){
+					$scope.leaderboardData.push(leaderboard[i]);
+				}
+			}
 		}
-	];
+	}
 })
 
 .controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService, $ionicSideMenuDelegate) {
