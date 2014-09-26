@@ -26,7 +26,6 @@ angular.module('quizit', ['ionic','quizit.controllers'])
   }else{
     $urlRouterProvider.otherwise('/app/friends');
   }
-  
 
   $stateProvider.state('app',{
       url: "/app",

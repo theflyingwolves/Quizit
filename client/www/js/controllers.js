@@ -73,6 +73,20 @@ angular.module('quizit.controllers', [])
 	$scope.friends = new Array();
 	$scope.leaderboardData = new Array();
 	$scope.historyData = new Array();
+
+	window.applicationCache.addEventListener('updateready', function(e){
+    if(window.applicationCache.status ==  window.applicationCache.UPDATEREADY){
+      if(confirm("A new version of this state is ready to update. Would you like to update?")){
+        window.location.reload();
+      }else{
+
+      }
+    }
+  }, false);
+
+  window.applicationCache.addEventListener('cached', function(e){
+    console.log("Application Fully Cached!!!!");
+  });
 	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
@@ -110,7 +124,6 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.selectSideItem = function (index) {
-		console.log("Item " + index + " selected");
 		$scope.activeIndex = index;
 		$ionicSideMenuDelegate.toggleLeft(false);
 		if (index == 4) {
@@ -166,7 +179,7 @@ angular.module('quizit.controllers', [])
 	$scope.fb_login_callback = function (response) {
 		$scope.initUserData(response);
 		// $http.post("http://"+$scope.serverURL+"/users/init",userdata);
-		$interval($scope.redirectToFriends, 1000, 1);
+		$interval($scope.redirectToFriends, 3000, 1);
 	};
 
 	$scope.initUserData = function (token) {
@@ -208,6 +221,8 @@ angular.module('quizit.controllers', [])
 	}
 
 	$scope.initHistoryData = function(history, result){
+		var serverURL = quizitService.serverURL();
+
 		if(history.length <= 0){
 			console.log("Historyrrrrryyy Finished: "+JSON.stringify(result));
 
