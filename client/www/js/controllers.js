@@ -3,7 +3,14 @@ angular.module('quizit.controllers', [])
 .service('quizitService', function () {
 	var friendID;
 	var friends = [];
-	var serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
+	var serverURL = 'http://ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
+	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
+		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
+	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
+		"You seem to be good with this. "];
+	var slowAns = ["You should answer faster. ", "Correct, but too slow. ", "You could've got some points if you answered faster. ", "Slow! "];
+	var preQns = ["Ok here is the next question: ", "Next question: ", "Next: ", "Ok here is the next one: ", "Let's move on: ", "This is the next question: "];
+	var lastQns = ["Ok this is the last question. ", "This is the last one: ", "Good work. Here is the last question: "];
 	return {
 		friends : function (list) {
 			friends = list
@@ -30,6 +37,21 @@ angular.module('quizit.controllers', [])
 		},
 		serverURL: function(){
 			return serverURL;
+		},
+		getWrongAns: function(){
+			return wrongAns;
+		},
+		getCorrectAns: function(){
+			return correctAns;
+		},
+		getSlowAns: function(){
+			return slowAns;
+		},
+		getPreQns: function(){
+			return preQns;
+		},
+		getLastQns: function(){
+			return lastQns;
 		}
 	};
 })
@@ -298,14 +320,12 @@ angular.module('quizit.controllers', [])
 
 .controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService, $ionicSideMenuDelegate) {
 	$ionicSideMenuDelegate.canDragContent(false);
-	var serverURL = 'http://ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
-	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
-		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
-	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
-		"You seem to be good with this. "];
-	var slowAns = ["You should answer faster. ", "Correct, but too slow. ", "You could've got some points if you answered faster. ", "Slow! "];
-	var preQns = ["Ok here is the next question: ", "Next question: ", "Next: ", "Ok here is the next one: ", "Let's move on: ", "This is the next question: "]
-	var lastQns = ["Ok this is the last question. ", "This is the last one: ", "Good work. Here is the last question: "];
+	var serverURL = quizitService.serverURL();
+	var wrongAns = quizitService.getWrongAns();
+	var correctAns = quizitService.getCorrectAns();
+	var slowAns = quizitService.getSlowAns();
+	var preQns = quizitService.getPreQns();
+	var lastQns = quizitService.getLastQns();
 	$scope.texts = [];
 	$scope.QAindex = 0;
 	$scope.deduct = 0;
@@ -336,6 +356,18 @@ angular.module('quizit.controllers', [])
 			$scope.timestamp = Date.now();
 		}, readyTime);
 	};
+	$scope.noDataPopup = $ionicPopup.show({
+			title : '<div class="popup-title">It seems like your friend has no question to Quiz!t you.</div>',
+			scope : $scope,
+			buttons : [{
+					text : '<b>Back to friendlist!</b>',
+					type : 'button-positive',
+					onTap : function (e) {
+						$location.path('/app/friends');
+					}
+				},
+			]
+		});
 	$scope.getData = function () {
 		console.log('1');
 		console.log(quizitService.friend());
@@ -344,6 +376,9 @@ angular.module('quizit.controllers', [])
 		$http.get(serverURL + '/quiz?fb_account=' + $scope.friend.id).
 		success(function (data, status, headers, config) {
 			$scope.data = data;
+			if ($scope.data.length===0){
+				$scope.noDataPopup();
+			}
 			$http.get(serverURL + '/quiz/bonus').
 			success(function (data, status, headers, config) {
 				$scope.bonus = data;
@@ -354,6 +389,7 @@ angular.module('quizit.controllers', [])
 			});
 		}).
 		error(function (data, status, headers, config) {
+			$scope.noDataPopup();
 			//log error
 		});
 	}
