@@ -1,5 +1,7 @@
 /*Chatting or question window display*/
-
+.chat-background{
+    background-color: #777;
+}
   .chatbubble {
     position: absolute;
     width: 50%;
