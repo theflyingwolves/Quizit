@@ -283,10 +283,12 @@ angular.module('quizit.controllers', [])
 			var id = item.target_id;
 			FB.api('/'+id+'/picture',function(response){
 				item.profile_image = response.data.url;
-				item.name = "name";
-				item.score = item.score_max;
-				result.push(item);
-				$scope.initHistoryData(history,result);
+				FB.api('/'+id+'?fields=name',function(response){
+					item.name = response.name;
+					item.score = item.score_max;
+					result.push(item);
+					$scope.initHistoryData(history,result);
+				});
 			});
 		}
 	}
@@ -306,10 +308,12 @@ angular.module('quizit.controllers', [])
 			var id = item._id;
 			FB.api('/' + id + '/picture', function (response) {
 				item.profile_image = response.data.url;
-				item.name = "name";
-				item.score = item.total_maxscore;
-				result.push(item);
-				$scope.initLeaderboardData(leaderboard, result);
+				FB.api('/'+id+'?fields=name',function(response){
+					item.name = response.name;
+					item.score = item.total_maxscore;
+					result.push(item);
+					$scope.initLeaderboardData(leaderboard, result);
+				});
 			});
 		}
 	}
@@ -484,6 +488,7 @@ angular.module('quizit.controllers', [])
 
 .controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService, $ionicSideMenuDelegate) {
 	$ionicSideMenuDelegate.canDragContent(false);
+	$scope.isButtonDisabled = true;
 	var serverURL = quizitService.serverURL();
 	var wrongAns = quizitService.getWrongAns();
 	var correctAns = quizitService.getCorrectAns();
@@ -515,6 +520,7 @@ angular.module('quizit.controllers', [])
 				answer : $scope.data[$scope.QAindex]['answer']
 			};
 			$scope.texts.push(question);
+			$scope.isButtonDisabled = false;
 			//$scope.imgSrc = 'img/loading.gif' + '?v=' + Date.now();
 			$scope.showLoadingBar = true;
 			$scope.timestamp = Date.now();
@@ -633,7 +639,6 @@ angular.module('quizit.controllers', [])
 			});
 	};
 
-	$scope.isButtonDisabled = false;
 	$scope.isIdleHidden = true;
 	$scope.addAnswer = function (userAns) {
 		var newDeduct = Math.floor((Date.now() - $scope.timestamp) / 1000) * 2 - 3;
