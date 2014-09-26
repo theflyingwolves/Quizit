@@ -4,8 +4,8 @@
     <ion-nav-view name="content" animation="fade-in"></ion-nav-view>
   </ion-pane>
 
-  <ion-side-menu side="left" width="150">
-    <ion-content scroll="false">
+  <ion-side-menu side="left" width="100">
+    <ion-content overflow-scroll="true">
         <ion-list class="menu">
             <ion-item ng-repeat="data in sidebarData" ng-click="selectSideItem($index)" ng-class="{active: activeIndex == undefined? $index == 0 : activeIndex == $index}" href="{{data.linkAddress}}">
                     <img src="{{data.imgSrc}}" />
