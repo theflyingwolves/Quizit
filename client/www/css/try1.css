@@ -1,6 +1,6 @@
 
 body{
-font-family: 'Shadows Into Light', cursive;
+font-family: 'Questrial', cursive;
 }
 h1, h2, h3, h4, h5, h6, a{
 	font-family: 'Amatic SC', cursive;
@@ -51,7 +51,7 @@ a{
 /*The animated header in welcome page (home page) */
 @-webkit-keyframes Welcome {
     0%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
-    40%   {border-width: 0px 150px 150px 0px; visibility: visible;}
+    40%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
     75%   {border-width: 0px 150px 150px 0px;}
     80%   {border-width: 0px 150px 150px 0px;}
     100% {border-width: 130px 130px 0 130px;}
@@ -59,7 +59,7 @@ a{
 
 @keyframes Welcome {
     0%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
-    40%   {border-width: 0px 150px 150px 0px; visibility: visible;}
+    40%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
     75%   {border-width: 0px 150px 150px 0px;}
     80%   {border-width: 0px 150px 150px 0px;}
     100% {border-width: 150px 150px 0 150px;}
@@ -67,14 +67,14 @@ a{
 
 @-webkit-keyframes quizit {
     0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:35px;position: fixed; opacity: 0;}
-    50%   {font-size: 4em;color: white; top: 80%;left:35px;}
+    40%   {font-size: 4em;color: white; top: 80%;left:35px;opacity: 0;}
     65%   {font-size: 4em;color: white; top: 80%;left:35px;}
     80%   {font-size: 4em;color: white; top: 90%;left:35px;}
     100% {font-size: 2.5em;color: white;top: -80%;}
 }
 @keyframes quizit {
     0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:35px;position: fixed; opacity: 0;}
-    50%   {font-size: 4em;color: white; top: 80%;left:35px;}
+    40%   {font-size: 4em;color: white; top: 80%;left:35px;opacity: 0;}
     65%   {font-size: 4em;color: white; top: 80%;left:35px;}
     80%   {font-size: 4em;color: white; top: 90%;left:35px;}
     100% {font-size: 2.5em;color: white;top: -80%;}
@@ -101,7 +101,32 @@ a{
     animation: quizit 4s linear; /* Standard syntax */
 }
 
+/*Splash*/
+@-webkit-keyframes Splash {
+    0%   {opacity: 0.5; visibility: visible;}
+   	60%   {opacity: 1; visibility: visible;}
+    100% {opacity: 0;}
+}
+@keyframes Splash {
+    0%   {opacity: 0.5; visibility: visible;}
+   	60%   {opacity: 1; visibility: visible;}
+    100% {opacity: 0;}
+}
+#splash{
+	width: 100%;
+	max-width: 600px;
 
+	/*height: 100%;*/
+	position: relative;
+	-webkit-animation: Splash 3s ease-out; /* Chrome, Safari, Opera */
+    animation: Splash 3s ease-out; /* Standard syntax */
+    visibility: hidden;
+}
+#splash img{
+	width: 100%;
+	margin: auto;
+	margin-top: -30%;
+}
 /*login window*/
 
 @-webkit-keyframes Login {
@@ -121,7 +146,7 @@ a{
 #login{
 	-webkit-animation: Login 6s linear; /* Chrome, Safari, Opera */
     animation: Login 6s linear; /* Standard syntax */
-    margin-top: 10%;
+    margin-top: -50%;
 }
 
 
@@ -198,7 +223,6 @@ a#Facebook{
 .main{
 	font-family: 'Waiting for the Sunrise', cursive;
 }
-
 .card
 {
 	margin-top: 200px;
@@ -239,13 +263,13 @@ a#Facebook{
 height: 100%;
 }
 .menu img{
-	/*margin-left: 0%;*/
 	display: -webkit-flex; /* Safari */
     -webkit-align-items: center; /* Safari 7.0+ */
     display: flex;
     align-items: center;
     position: relative;
-    width: 30%;
+    width: 25%;
+    left: 3%;
 }
 
 .menuwhole{
