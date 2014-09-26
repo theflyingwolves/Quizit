@@ -51,7 +51,6 @@ index.html
 ./lib/ionic/version.json
 
 
-
 NETWORK:
 *
 
@@ -61,10 +60,10 @@ CACHE:
 ./img/contact-outline.png
 ./img/countdown.gif
 ./img/glasses-outline.png
-./img/ionic.png
+png./img/ionic.png
 ./img/lightbulb-outline.png
 ./img/loading.gif
 ./img/notloading.png
 ./img/quizit-icon.png
 ./img/splashpage.png
-./img/star-outline.png
+./img/star-outline.

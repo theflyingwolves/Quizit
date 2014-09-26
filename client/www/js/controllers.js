@@ -304,13 +304,6 @@ angular.module('quizit.controllers', [])
 
 .controller('NotificationCtrl', function ($scope, quizitService, $location, $ionicPopup, $http) {
 	// get data from server about notification: should be done when the app load - use homecontrol, then use quizitService to set data
-	/*
-	var setData = fuction(){
-	$scope.data = quizitService.getNotifications();
-	}
-	updateNotifications($scope.data);
-	setData();
-	 */
 	var serverURL = quizitService.serverURL();
 	$scope.data = [];
 	$scope.getData = function () {
