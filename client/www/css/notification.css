@@ -1,50 +1,40 @@
 /* Empty. Add your own CSS if you like */
 
 
-.verify{
+.message{
 	width: 80%;
+	top: 18%;
+	bottom: 8%;
 	margin: auto;
-	box-shadow: 0px 0px 10px 0px black;
-	background-color: #F6F6F6;
-	border: 10px solid white;
-	position: relative;
-/*	padding-top: 3%;
-*/	/*padding-left: 5%;
-	padding-right: 5%;*/
-	opacity: 1;
-/*	-webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
-	-moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);*/
+	-webkit-box-shadow: 0px 0px 10px 0px rgba(50, 50, 50, 0.75);
+	-moz-box-shadow:    0px 0px 10px 0px rgba(50, 50, 50, 0.75);
 	box-shadow:         0px 0px 10px 0px black;
 	border: 10px solid white;
-	/*border-top: 50px solid #00BFAA;*/
+	background-color: #F6F6F6;
+	max-width: 500px;
 }
 
-.verify h1{
-	font-size: 2em;
-	margin-top: 5%;
-}
-
-.message{
-	width: 90%;
-	top: 15%;
-	bottom: 10%;
+.message-item{
+	padding: 3%;
+	padding-bottom: 3%;
+	width: 100%;
 	margin: auto;
-	border-radius: 5px;
-	background-color: white;
-	box-shadow: 0px 0px 10px 0px #eee;
-	padding: 5%;
-	font-size: 1.5em;
+	border-bottom: 2px solid white;
 }
-.confirmation{
-	color: #00BFAA;
-	text-align: center;
-	width: 90%;
-	margin: auto;
-	font-size: 1em;
-	text-shadow: 2px 2px 0px yellow;
+.message-item h1{
+	width: 100%;
+	text-align: left;
 }
-
 .right{
 	float: right;
-	margin: 0% 1% 0% 1%;
+}
+.verify{
+	width: 50%;
+	max-width: 200px;
+	margin: auto;
+	margin-bottom: -3%;
+}
+.verify-hide{
+	margin-left: 35%;
+
 }

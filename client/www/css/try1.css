@@ -1,10 +1,9 @@
 
 body{
-/*background-image: url('../img/bg2.jpg');*/
 font-family: 'Shadows Into Light', cursive;
+font-size: 1em;
 }
-h1, h2, h3, h4, h5, h6, a
-{
+h1, h2, h3, h4, h5, h6, a{
 	font-family: 'Amatic SC', cursive;
 }
 h1{
@@ -32,7 +31,6 @@ a{
 	width: 0;
 	height: 0;
 	margin:auto;
-	/*top: 0;*/
 	margin-bottom: 5%;
 	border-style: solid;
 	border-width: 100px 100px 0 100px;
@@ -40,7 +38,6 @@ a{
 }
 
 .header h1 {
-	/*font-family: 'Oswald', sans-serif;*/
 	font-weight: bold;
 	top: -80%;
 	left: -50px;
@@ -51,8 +48,61 @@ a{
 	width: 100px;
 }
 
-/*Home Page Home Page Home Page*/
-/*Splashpage Splashpage*/
+
+/*The animated header in welcome page (home page) */
+@-webkit-keyframes Welcome {
+    0%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
+    40%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
+    75%   {border-width: 0px 150px 150px 0px;}
+    80%   {border-width: 0px 150px 150px 0px;}
+    100% {border-width: 130px 130px 0 130px;}
+}
+
+@keyframes Welcome {
+    0%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
+    40%   {border-width: 0px 150px 150px 0px; visibility: hidden;}
+    75%   {border-width: 0px 150px 150px 0px;}
+    80%   {border-width: 0px 150px 150px 0px;}
+    100% {border-width: 150px 150px 0 150px;}
+}
+
+@-webkit-keyframes quizit {
+    0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:35px;position: fixed; opacity: 0;}
+    40%   {font-size: 3em;color: white; top: 80%;left:35px;opacity: 0;}
+    65%   {font-size: 3em;color: white; top: 80%;left:35px;}
+    80%   {font-size: 3em;color: white; top: 90%;left:35px;}
+    100% {font-size: 2em;color: white;top: -80%;}
+}
+@keyframes quizit {
+    0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:35px;position: fixed; opacity: 0;}
+    40%   {font-size: 3em;color: white; top: 80%;left:35px;opacity: 0;}
+    65%   {font-size: 3em;color: white; top: 80%;left:35px;}
+    80%   {font-size: 3em;color: white; top: 90%;left:35px;}
+    100% {font-size: 2em;color: white;top: -80%;}
+}
+
+/*Welcome Page*/
+#welcome-header{
+	width: 0;
+	height: 0;
+	margin:auto;
+	margin-bottom: 5%;
+	border-style: solid;
+	border-width: 130px 130px 0 130px;
+	border-color: #111 transparent transparent transparent;
+	-webkit-animation: Welcome 4s linear; /* Chrome, Safari, Opera */
+    animation: Welcome 4s linear; /* Standard syntax */
+}
+#welcome-header h1{
+	margin:auto;
+	margin-bottom: 5%;
+	font-weight: bold;
+	font-size: 2em;
+	-webkit-animation: quizit 4s linear; /* Chrome, Safari, Opera */
+    animation: quizit 4s linear; /* Standard syntax */
+}
+
+/*Splash*/
 @-webkit-keyframes Splash {
     0%   {opacity: 0.5; visibility: visible;}
    	60%   {opacity: 1; visibility: visible;}
@@ -65,7 +115,9 @@ a{
 }
 #splash{
 	width: 100%;
-	height: 100%;
+	max-width: 600px;
+
+	/*height: 100%;*/
 	position: relative;
 	-webkit-animation: Splash 3s ease-out; /* Chrome, Safari, Opera */
     animation: Splash 3s ease-out; /* Standard syntax */
@@ -74,78 +126,7 @@ a{
 #splash img{
 	width: 100%;
 	margin: auto;
-	margin-top: -40%;
-}
-/*The animated header in welcome page (home page) */
-@-webkit-keyframes Welcome {
-    0%   {border-width: 0px 200px 200px 0px; visibility: hidden;}
-    50%   {border-width: 0px 200px 200px 0px; visibility: visible;}
-
-    75%   {border-width: 0px 200px 200px 0px;}
-
-    80%   {border-width: 0px 200px 200px 0px;}
-    100% {border-width: 150px 150px 0 150px;}
-}
-
-/* Standard syntax */
-@keyframes Welcome {
-    0%   {border-width: 0px 200px 200px 0px; visibility: hidden;}
-    50%   {border-width: 0px 200px 200px 0px; visibility: visible;}
-
-    75%   {border-width: 0px 200px 200px 0px;}
-
-    80%   {border-width: 0px 200px 200px 0px;}
-    100% {border-width: 150px 150px 0 150px;}
-}
-
-@-webkit-keyframes quizit {
-    0%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:40px;position: fixed; opacity: 0;}
-    40%   {font-size: 4em; font-weight: strong; color: white; top: 80%;left:40px;position: fixed; opacity: 0;}
-    60%   {font-size: 4em;color: white; top: 80%;left:40px;}
-    75%   {font-size: 4em;color: white; top: 80%;left:40px;}
-    80%   {font-size: 4em;color: white; top: 84%;left:40px;}
-    100% {font-size: 3em;color: white;top: -80%;}
-}
-
-/* Standard syntax */
-@keyframes quizit {
-    0%   {border-width: 0px 200px 200px 0px; visibility: hidden;}
-    50%   {border-width: 0px 200px 200px 0px; visibility: visible;}
-
-    75%   {border-width: 0px 200px 200px 0px;}
-    80%   {border-width: 0px 200px 200px 0px;}
-    100% {border-width: 150px 150px 0 150px;}
-}
-
-/*Welcome Page*/
-#welcome-header{
-	width: 0;
-	height: 0;
-	margin:auto;
-	margin-bottom: 5%;
-	border-style: solid;
-	border-width: 150px 150px 0 150px;
-	border-color: #111 transparent transparent transparent;
-}
-#welcome-header h1{
-	margin:auto;
-	margin-bottom: 5%;
-	top: -80%;
-	left: -50px;
-	width: 100px;
-	position: relative;
-	color: white;
-	font-size: 3em;
-/*	z-index: 1000;
-*/}
-
-#welcome-header {
-    -webkit-animation: Welcome 4s linear; /* Chrome, Safari, Opera */
-    animation: Welcome 4s linear; /* Standard syntax */
-}
-#welcome-header h1{
-	-webkit-animation: quizit 4s linear; /* Chrome, Safari, Opera */
-    animation: quizit 4s linear; /* Standard syntax */
+	margin-top: -30%;
 }
 /*login window*/
 
@@ -166,10 +147,8 @@ a{
 #login{
 	-webkit-animation: Login 6s linear; /* Chrome, Safari, Opera */
     animation: Login 6s linear; /* Standard syntax */
-    margin-top: -40%;
+    margin-top: -50%;
 }
-/*Home Page Home Page Home Page*/
-
 
 
 /*For the login, intro and other windows*/
@@ -197,22 +176,36 @@ a{
 	font-size: 2em;
 }
 
-#Facebook, #Google,#Cancel,#Verify{
+/*For Login Page*/
+#Cancel,#Verify{
 	padding-top: 10%;
 	color: #00BFAA;
 	font-size: 2em;
 	width: 40%;
 	text-decoration: none;
 }
-#Facebook:active, #Google:active,#Cancel:active, #Verify:active{
+
+a#Facebook{
+	text-align: center;
+	padding-top: 10%;
+	color: #00BFAA;
+	font-size: 2.5em;
+	width: 100%;
+	text-decoration: none;
+	position: absolute;
+}
+
+#Facebook:active, #Cancel:active, #Verify:active{
 	color: yellow;
 }
-#Facebook, #Cancel{
+
+
+ #Cancel{
 	text-align: right;
 	float: left;
 }
 
-#Google, #Verify{
+#Verify{
 	float: right;
 	text-align: left;
 }
@@ -229,26 +222,14 @@ a{
 
 /*Verify+login*/
 .main{
-	font-family: 'Waiting for the Sunrise', cursive;
-}
-
+/*	font-family: 'Waiting for the Sunrise', cursive;
+*/}
 .card
 {
 	margin-top: 200px;
 	opacity: 0.9;
 }
-/*Loading*/
-#loading{
-	padding: 10px;
-	background-color: yellow;
-	border-radius: 5px;
-	border: grey;
-	opacity: 0.6;
-	width: 35px;
-	height: 35px;
-	margin-left: auto;
-	margin-right: auto;
-}
+
 
 /*Question page*/
 #Verify-Question{
@@ -281,28 +262,22 @@ a{
 /*Sidemenu page*/
 .menu{
 height: 100%;
-
 }
 .menu img{
-	margin-left: 10%;
 	display: -webkit-flex; /* Safari */
     -webkit-align-items: center; /* Safari 7.0+ */
     display: flex;
     align-items: center;
     position: relative;
-    width: 30%;
+    width: 25%;
+    left: 3%;
 }
-
-/*<<<<<<< HEAD
-#menu-item-1, #menu-item-2,#menu-item-3, #menu-item-4, #menu-item-5{
-=======*/
 
 .menuwhole{
 opacity: 1;
 text-align: center;
 position: relative;
 margin-bottom: 5%;
-/*width: 30%;*/
 left: 0%;
 }
 
@@ -310,23 +285,7 @@ left: 0%;
 .menuwhole .menulist{
 	position: absolute;
 	text-align: center;
-	/*left: 5%; */
+
 	top: 80%;
-/*<<<<<<< HEAD
-	width: 70%;
-	margin-left: 10%;
+	width: 30%;
 }
-
-#menu-item-1{
-
-}
-
-#menu-item-2{
-=======*/
-	width: 50%;
-}
-
-
-
-
-}*/
