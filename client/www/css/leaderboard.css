@@ -10,7 +10,7 @@
 	box-shadow:         0px 0px 10px 0px black;
 	border: 10px solid white;
 	/*border-top: 50px solid #00BFAA;*/
-	background: #F6F6F6; /* Old browsers */
+	background-color: #F6F6F6;
 	position: relative;
 }
 
@@ -23,7 +23,7 @@
 	/*width: 80%;*/
 	max-width: 400px;
 	font-size: 2em;
-	text-shadow: 2px 2px 0px #86A87A;
+	text-shadow: 2px 2px 0px #aaa;
 	background-color: yellow;
 	box-shadow:         0px 0px 10px 0px black;
 }

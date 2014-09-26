@@ -16,17 +16,20 @@ angular.module('quizit.controllers', [])
 			friendID = friendId;
 			return friendID;
 		},
-		getFriendID : function(){
+		getFriendID : function () {
 			return friendID;
 		},
 		friend : function () {
 			var friendr;
-			friends.forEach(function(afriend){
-				if (afriend.id === friendID){
+			friends.forEach(function (afriend) {
+				if (afriend.id === friendID) {
 					friendr = afriend;
 				}
 			});
 			return friendr;
+		},
+		serverURL: function(){
+			return serverURL;
 		}
 	};
 })
@@ -40,8 +43,7 @@ angular.module('quizit.controllers', [])
 	// $scope.serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 })
 
-.controller('sidebarCtrl',function($scope, $ionicSideMenuDelegate){
-
+.controller('sidebarCtrl', function ($scope, $ionicSideMenuDelegate) {
   $scope.sidebarData = [{
     linkId:"menu-item-1",
     imgSrc:"img/lightbulb-outline.png",
@@ -64,13 +66,7 @@ angular.module('quizit.controllers', [])
     linkId:"menu-item-5",
     imgSrc:"img/chatbubble-outline.png",
     title:"Notification",
-    linkAddress:"#/app/notifications"
-  },
-  {
-    linkId:"menu-item-4",
-    imgSrc:"img/contact-outline.png",
-    title:"Challenge",
-    linkAddress:"#/app/challenge"
+    linkAddress:"#/app/notification"
   },
   {
     linkId:"menu-item-4",
@@ -84,141 +80,170 @@ angular.module('quizit.controllers', [])
 	};
 
 	$scope.selectSideItem = function (index) {
+		console.log("Item "+index+" selected");
 		$scope.activeIndex = index;
 		$ionicSideMenuDelegate.toggleLeft(false);
-		if(index == 5){
+		if(index == 4){
 			console.log("Trying to log out");
-			FB.logout(function(response){
-				console.log("User Logged Out");
-			});
+			$scope.logoutFacebook();
 		}
 	};
+
+	$scope.logoutFacebook = function(){
+		FB.logout(function(response){
+			FB.Auth.setAuthResponse(null, 'unknown');
+			console.log("User Logged Out");
+		});
+	}
 
 	$scope.activeIndex = undefined;
 })
 
-.controller('loadingCtrl',function($scope, $location ,$interval){
+.controller('loadingCtrl', function ($scope, $location, $interval) {
 	$scope.feedback = "";
-	$scope.loadHome = function(){
-		FB.getLoginStatus(function(response){
-			if(response.status === "connected"){
+	$scope.loadHome = function () {
+		FB.getLoginStatus(function (response) {
+			if (response.status === "connected") {
 				console.log("User Logged in");
 				$location.path('/app/friends');
-			}else{
+			} else {
 				console.log("User Logged Off");
 				$location.path('/app/home');
 			}
 		});
 	};
 
-	$interval($scope.loadHome,2000, 1);
+	$interval($scope.loadHome, 2000, 1);
 })
 
-.controller('logoutCtrl',function($scope,$location,$interval){
-	$scope.redirectToHome = function(){
+.controller('logoutCtrl', function ($scope, $location, $interval) {
+	$scope.redirectToHome = function () {
 		$location.path('/app/home');
 	};
 
-	$interval($scope.redirectToHome,2000,1);
+	$interval($scope.redirectToHome, 2000, 1);
 })
 
-.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $location, $interval){
+.controller('homeCtrl',function($scope, $ionicSideMenuDelegate, $http, $location, $interval, quizitService){
 	$ionicSideMenuDelegate.canDragContent(false);
+	$ionicSideMenuDelegate.toggleLeft(false);
 
-	$scope.redirectToFriends = function(){
+	$scope.redirectToFriends = function () {
 		$ionicSideMenuDelegate.canDragContent(true);
 		$location.path('/app/friends');
 	}
 
 	$scope.fb_login_callback = function(response){
-		var userdata = $scope.generateUserData(response);
+		$scope.initUserData(response);
 		// $http.post("http://"+$scope.serverURL+"/users/init",userdata);
-		$interval($scope.redirectToFriends,10,1);
+		$interval($scope.redirectToFriends,1000,1);
 	};
 
-	$scope.generateUserData = function(token){
-		var user = {};
+	$scope.initUserData = function(token){
 		var access_token = token.authResponse.accessToken;
 		var user_id = token.authResponse.userID;
+
+		var serverURL = quizitService.serverURL();
 
 		window.localStorage['access_token'] = access_token;
 		window.localStorage['user_id'] = user_id;
 
 		FB.api('/me', function(response) {
-			user.birthday = response.birthday;
-			user.name = response.name;
-			window.localStorage['user_name'] = user.name;
+			// $http.post("http://"+serverURL+"/users/userInit", response);
+			window.localStorage['user_name'] = response.name;
 		});
 
-		FB.api('/me/friends', function(response) {
-			user.friends = response.data;
-			window.localStorage['friends'] = JSON.stringify(user.friends);
+		FB.api('/me', function(response){
+			// $http.post("http://"+serverURL+"/users/interestInit", response);
+		})
 
-			var friendList = response.data;
-
-			for(var i=0;i<friendList.length;i++){
-				var id = friendList[i].id;
-				console.log("Getting imgae for "+id);
-
-				FB.api('/'+id+'/picture',function(response){
-					var friend = {};
-					var index = friendList.length - 1;
-					friend.name = friendList[index].name;
-					friend.image = response.data.url;
-					$scope.friends.push(friend);
-					console.log("Friend Image: "+response.data.url);
-				});
-
-			}
-		});
-
-		return user;
+		if($scope.friends.length <= 0){
+			FB.api('/me/friends', function(response) {
+				$scope.initFriends(response.data, new Array());
+			});
+		}
 	}
 
-	$scope.fblogin = function(){
+	$scope.initFriends = function(friendlist, result){
+		if(friendlist.length <= 0){
+			console.log("Freinsadafsdddbbb: "+JSON.stringify(result));
+			quizitService.friends(result);
+
+			for(var i=0; i<result.length;i++){
+				$scope.friends.push(result[i]);
+			}
+			return ;
+		}else{
+			var friend = friendlist.pop();
+			var id = friend.id;
+			FB.api('/'+id+'/picture',function(response){
+				friend.image = response.data.url;
+				result.push(friend);
+				$scope.initFriends(friendlist, result);
+			})
+		}
+	};
+
+	$scope.fblogin = function () {
 		fb_login($scope.fb_login_callback);
 	};
 })
 
-.controller('FriendListCtrl',function($scope){
-
-// =======
-// .controller('FriendListCtrl',function($scope, quizitService){
-// 	var friendList = [{
-// 			name : "Wang Kunzhen",
-// 			id : "theflyingwolves@gmail.com",
-// 			image : "img/profile_images/user_0.jpeg"
-// 		}, {
-// 			name : "Viet Trung Truong",
-// 			id : "viettrung9012@yahoo.com",
-// 			image : "img/profile_images/user_2.jpeg"
-// 		}, {
-// 			name : "Xia Yiping",
-// 			id : "xy@xy.com",
-// 			image : "img/profile_images/user_2.jpeg"
-// 		}, {
-// 			name : "Wang Yichao",
-// 			id : "wy@wy.com",
-// 			image : "img/profile_images/user_3.jpeg"
-// 		}
-// 	];
-// 	$scope.friends = quizitService.friends(friendList);
-// 	$scope.selectFriend = function (friend) {
-// 		quizitService.selectFriend(friend);
-// 	};
-// >>>>>>> 94bb9f61039bc0476ab61862a579e94012cf70c2
+.controller('NotificationCtrl', function($scope, quizitService){
+	// get data from server about notification: should be done when the app load - use homecontrol, then use quizitService to set data
+	/*
+	var setData = fuction(){
+		$scope.data = quizitService.getNotifications();
+	}
+	updateNotifications($scope.data);
+	setData();	
+	*/
+	$scope.data = [
+		{type: 'question',
+		question: 'Are you free on Sunday?'},
+		{type: 'question',
+		question: 'Are you free on Saturday?'},
+		{type: 'answer',
+		question: 'Are you free on Monday?',
+		name: 'Wang Kunzheng',
+		answer: 'N'},
+		{type: 'question',
+		question: 'Are you free on Tuesday?'},
+		{type: 'answer',
+		question: 'Are you free on Wednesday?',
+		name: 'Colin Tan',
+		answer: 'N'}
+	];
+	// push data back to server	and call quizitService to remove data
+	$scope.userResponse = function(question, choice){
+		for (var i = 0; i < $scope.data.length; i++){
+			if ($scope.data[i]['question']===question){
+				$scope.data.splice(i, 1);
+				/*
+					updateNotifications($scope.data);
+					setData();	
+				*/
+			}
+		}
+	}
 })
 
-.controller('HistoryCtrl', function ($scope) {
+.controller('FriendListCtrl',function($scope, quizitService){
+		$scope.selectFriend = function (friend) {
+			quizitService.selectFriend(friend);
+		};
+})
+
+.controller('HistoryCtrl', function ($scope, $http, quizitService) {
 	$scope.historyData = [{
 			name : "Wang Kunzhen",
 			profile_image : "img/glasses-outline.png",
 			score : 65
-		}, {
+		},{
 			name : "Wang Yichao",
 			profile_image : "img/lightbulb-outline.png",
 			score : 80
-		}, {
+		},{
 			name : "Xia Yiping",
 			profile_image : "img/contact-outline.png",
 			score : 70
@@ -228,6 +253,26 @@ angular.module('quizit.controllers', [])
 			score : 65
 		}
 	];
+
+	var serverURL = quizitService.serverURL();
+	// $http.get("http://"+serverURL+"/challenge?userId="+window.localStorage['user_id'])
+	// $http.get("http://"+serverURL+"/challenges?userID=541b0188227d77f51afed102")
+	// 	.success(function(response){
+	// 		// console.log("History Log: "+JSON.stringify(response));
+	// 		$scope.initHistoryData(response, new Array());
+	// });
+
+	$scope.initHistoryData = function(response, result){
+		if(response.length <= 0){
+			// do something
+		}else{
+			// var item = response.pop();
+			// $http.get("http://"+serverURL+"/users?userID="+item.id)
+			// .successs(function(response){
+			// })
+		}
+	};
+
 })
 
 .controller('LeaderboardCtrl', function ($scope) {
@@ -251,8 +296,9 @@ angular.module('quizit.controllers', [])
 	];
 })
 
-.controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService) {
-	$scope.bonus = 'Today is hot, isn\'t it?';
+.controller('ChatCtrl', function ($scope, $http, $ionicPopup, $timeout, $ionicScrollDelegate, $location, quizitService, $ionicSideMenuDelegate) {
+	$ionicSideMenuDelegate.canDragContent(false);
+	var serverURL = 'http://ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
 	var wrongAns = ["Hmm wrong. ", "No you should try again. ", "I don't usually say this, but you're wrong. ", "Everyone made mistake. ",
 		"Oh well...", "I can't believe you can't get this correct. ", "I'm sad :( ", "This one you should be able to get correct, but why? ", "Life is hard, right?"];
 	var correctAns = ["Correct. ", "Oh you know about this. ", "Good. ", "Well done! ", "That's right. ", "Very good. ", "Spectacular. ",
@@ -263,6 +309,7 @@ angular.module('quizit.controllers', [])
 	$scope.texts = [];
 	$scope.QAindex = 0;
 	$scope.deduct = 0;
+	$scope.total = 0;
 	var question = {};
 	var readyTime = 5200;
 	//$scope.imgSrc = 'img/notloading.png' + '?v=' + Date.now();
@@ -294,11 +341,17 @@ angular.module('quizit.controllers', [])
 		console.log(quizitService.friend());
 		$scope.friend = quizitService.friend();
 		console.log($scope.friend);
-		var serverURL = 'ec2-54-169-65-45.ap-southeast-1.compute.amazonaws.com:3000';
-		$http.get('http://' + serverURL + '/quiz?fb_account=' + $scope.friend.id).
+		$http.get(serverURL + '/quiz?fb_account=' + $scope.friend.id).
 		success(function (data, status, headers, config) {
 			$scope.data = data;
-			$scope.showReady();
+			$http.get(serverURL + '/quiz/bonus').
+			success(function (data, status, headers, config) {
+				$scope.bonus = data;
+				$scope.showReady();
+			}).
+			error(function (data, status, headers, config) {
+				//log error
+			});
 		}).
 		error(function (data, status, headers, config) {
 			//log error
@@ -308,13 +361,13 @@ angular.module('quizit.controllers', [])
 	$scope.showPopup = function () {
 		$scope.data = {}
 		var report;
-		if ($scope.deduct >= 75) {
+		if ($scope.deduct / $scope.total >= 0.75) {
 			report = 'Are you really my friend?';
-		} else if ($scope.deduct >= 50) {
+		} else if ($scope.deduct / $scope.total >= 0.50) {
 			report = 'We should see each other more often';
-		} else if ($scope.deduct >= 25) {
+		} else if ($scope.deduct / $scope.total >= 0.25) {
 			report = 'You seem to know a number of things about me';
-		} else if ($scope.deduct >= 10) {
+		} else if ($scope.deduct / $scope.total >= 0.10) {
 			report = 'You know a lot about me!';
 		} else {
 			report = 'I think we are good friends :)';
@@ -323,7 +376,7 @@ angular.module('quizit.controllers', [])
 		var myPopup = $ionicPopup.show({
 				template : '',
 				title : '<div class="popup-title">' + report + '</div>',
-				subTitle : '<div class="highlight popup-subtitle">You got ' + (100 - $scope.deduct) + '/100</div>',
+				subTitle : '<div class="highlight popup-subtitle">You got ' + (100 - Math.floor(($scope.deduct / $scope.total) * 100)) + '% correct</div>',
 				scope : $scope,
 				buttons : [{
 						text : '<b>Ask Bonus Question</b>',
@@ -339,7 +392,20 @@ angular.module('quizit.controllers', [])
 											text : '<b>Send with Quiz!t!</b>',
 											type : 'button-balanced',
 											onTap : function (e) {
-												$location.url('../friendlist');
+												var sendData = {
+													player_id : window.localStorage['user_id'],
+													target_id : $scope.friend.id,
+													bonus : [{question: $scope.bonus}]
+												}												
+												$http.post(serverURL + '/bonus/', sendData)
+												.success(function (res) {
+													console.log(res);
+												})
+												.error(function (res) {
+													// log error
+												});
+												$ionicSideMenuDelegate.canDragContent(true);
+												$location.path('/app/friends');
 											}
 										},
 									]
@@ -349,7 +415,8 @@ angular.module('quizit.controllers', [])
 						text : '<b>Back to Quiz!t</b>',
 						type : 'button-positive',
 						onTap : function (e2) {
-							$location.url('../friendlist');
+							$ionicSideMenuDelegate.canDragContent(true);
+							$location.path('/app/friends');
 						}
 					}
 				]
@@ -380,6 +447,7 @@ angular.module('quizit.controllers', [])
 				newDeduct = 10;
 			}
 			$scope.deduct += newDeduct;
+			$scope.total += 10;
 			var delay = 1000;
 			$timeout(function () {
 				$scope.QAindex++;
@@ -424,6 +492,18 @@ angular.module('quizit.controllers', [])
 						content : lastResponse
 					};
 					$scope.texts.push(lastRes);
+					var sendData = {
+						player_id : window.localStorage['user_id'],
+						target_id : $scope.friend.id,
+						score : (100 - Math.floor(($scope.deduct / $scope.total) * 100))
+					}
+					$http.post(serverURL + '/challenges', sendData)
+					.success(function (res) {
+						console.log(res);
+					})
+					.error(function (res) {
+						// log error
+					});
 					$scope.showPopup();
 					$scope.isIdlehidden = true;
 				}

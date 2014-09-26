@@ -1,28 +1,21 @@
-<ion-view ng-style="bodyBackground" scroll="true">
+<ion-view ng-style = "bodyBackground" scroll="true">
   <div class="header">
-      <h1>News</h1>
+      <h1>Notification</h1>
   </div>
-
-	<div class="main">
-		<ion-content scroll="true">
-		<div class="leaderboard-list-container">
-		<div class="row responsive-sm" ng-repeat="item in leaderboardData">
-			<div class="col leaderboard-item" style="border:2px solid;margin:2px;">
-				<div class="row">
-					<div class="col col-80">
-						<div class="row">
-							<img src="{{item.profile_image}}" />
-						</div>
-						<div class="row"><p>{{item.name}}</p></div>
-					</div>
-					<div class="col col-20">
-						<p>{{item.score}}</p>
-					</div>
-				</div>	
-			</div>
-		</div>
-		</div>
-		</ion-content>
-	</div>
-
+	<ion-content  class = "message" scroll="true">
+		<ul class="list list-inset">
+			<li class="item" ng-repeat="content in data">
+				<span ng-show={{content.type=='question'}}>Someone just asked: </span>
+				<span ng-show={{content.type=='answer'}}>Your friend {{content.name}} just answered your question </span>
+				"{{content.question}}"
+				<span ng-show={{content.type=='answer'}}>with "{{content.answer=='Y'&&'Yes'||'No'}}"</span>
+				<button class="button button-icon icon ion-close-circled icon-right energized right" ng-click="userResponse('{{content.question}}', 'I')"></button>
+				<button ng-show="{{content.type=='question'}}" class="button button-outline button-assertive right" ng-click="userResponse('{{content.question}}', 'Y')">No</button>
+				<button ng-show="{{content.type=='question'}}" class="button button-outline button-balanced right" ng-click="userResponse('{{content.question}}', 'Y')">Yes</button>
+			</li>
+		</ul>
+	</ion-content>
+  <div class="footer">
+    <h1>2014 All Rights Reserved</h1>
+  </div>
 </ion-view>
